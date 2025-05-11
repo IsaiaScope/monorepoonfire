@@ -1,3 +1,10 @@
 {
-  "extends": "@package/config/typescript/backend-hono.json"
+  "extends": "@package/config/typescript/backend-hono.json",
+  //   add those line to backend-json when its time
+  //   "compilerOptions": {
+  //   "types": [
+  //     "workers-types/2023-07-01",
+  //     "vitest-pool-workers"
+  //   ]
+  // }
 }
