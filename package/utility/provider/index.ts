@@ -1,1 +1,1 @@
-export { default as TanstackQueryProvider } from "./tanstack-query-provider.tsx";
+export { default as TanstackQueryProvider } from "./tanstack-query-provider.tsx"
