@@ -1,11 +1,12 @@
 {
-  "name": "@app/hono",
+  "name": "@/hono",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",
@@ -14,7 +15,9 @@
   "devDependencies": {
     "@package/config": "workspace:*",
     "@types/node": "^20.11.17",
+    "eslint-plugin-drizzle": "^0.2.3",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
+
   }
 }

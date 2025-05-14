@@ -1,8 +1,8 @@
+import createConfig from "@package/config/eslint/create-config";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 
-import createConfig from "./base.js";
-
 export default createConfig({
+  ignores: ["**/routeTree.gen.ts"],
   react: true,
 }, {
   plugins: {
@@ -13,7 +13,7 @@ export default createConfig({
     "@tanstack/query/exhaustive-deps": "error",
     "unicorn/filename-case": ["error", {
       case: "kebabCase",
-      ignore: ["README.md", "~__root.tsx"],
+      ignore: ["README.md", "reportWebVitals.ts"],
     }],
   },
 });

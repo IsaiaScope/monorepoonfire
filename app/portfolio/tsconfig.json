@@ -1,0 +1,13 @@
+{
+  "extends": "@package/config/typescript/react-vite"
+  /*
+  To handle the following error: include prop should be specified here because tsconfig.json cannot find the specific files to include.
+  */
+  // No inputs were found in config file '/home/isaia/LinuxWorkspace/monorepoonfire/app/portfolio-vite/tsconfig.json'. Specified 'include' paths were '["../../package/config/typescript/**/*.ts","../../package/config/typescript/**/*.tsx","../../package/config/typescript/eslint.config.js","../../package/config/typescript/prettier.config.js","../../package/config/typescript/vite.config.js"]' and 'exclude' paths were '[]'.ts
+  // "include": [
+  //   "**/*.ts",
+  //   "**/*.tsx",
+  //   "eslint.config.mjs",
+  //   "vite.config.js"
+  // ]
+}

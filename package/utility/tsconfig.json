@@ -1,0 +1,9 @@
+{
+  "extends": "@package/config/typescript/react",
+  // "include": [
+  //   "**/*.ts",
+  //   "**/*.tsx",
+  //   "eslint.config.mjs",
+  //   "vite.config.js"
+  // ]
+}

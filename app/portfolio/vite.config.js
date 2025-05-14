@@ -1,0 +1,30 @@
+import tailwindcss from "@tailwindcss/vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig, loadEnv } from "vite";
+
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  const envDir = "./src/environment";
+  const env = loadEnv(mode, envDir);
+  return {
+    envDir,
+    ...(mode === "production" && {
+      esbuild: {
+        drop: ["console", "debugger"],
+      },
+    }),
+    server: {
+      port: env.VITE_SERVER_PORT,
+    },
+    plugins: [TanStackRouterVite({ target: "react", autoCodeSplitting: true, routesDirectory: "src/routes", generatedRouteTree: "src/provider/routeTree.gen.ts" }), viteReact(), tailwindcss()],
+    test: {
+      globals: true,
+      environment: "jsdom",
+    },
+    build: {
+      sourcemap: mode !== "production",
+      minify: mode === "production" ? "esbuild" : false,
+    },
+  };
+});

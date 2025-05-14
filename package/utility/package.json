@@ -1,0 +1,27 @@
+{
+  "name": "@package/utility",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./provider": {
+      "import": "./provider/index.ts"
+    }
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.66.5",
+    "@tanstack/react-query-devtools": "^5.66.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint-react/eslint-plugin": "^1.49.0",
+    "@package/config": "workspace:*",
+    "@tanstack/eslint-plugin-query": "^5.74.7",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "typescript": "^5.8.2"
+  }
+}
