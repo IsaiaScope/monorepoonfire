@@ -4,9 +4,12 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./typescript/base.json": "./typescript/base.json",
-    "./typescript/backend-hono.json": "./typescript/backend-hono.json",
-    "./typescript/frontend-vite.json": "./typescript/frontend-vite.json"
+    "./typescript/base": "./typescript/base.json",
+    "./typescript/backend-hono": "./typescript/backend-hono.json",
+    "./typescript/frontend-vite": "./typescript/frontend-vite.json",
+    "./eslint/base": "./eslint/base.js",
+    "./eslint/backend-hono": "./eslint/backend-hono.js",
+    "./eslint/frontend-vite": "./eslint/frontend-vite.js"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",

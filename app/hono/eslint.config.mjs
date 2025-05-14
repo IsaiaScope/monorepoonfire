@@ -1,3 +1,3 @@
-import createConfig from "./package/config/eslint/backend-hono.js";
+import config from "@package/config/eslint/backend-hono";
 
-export default createConfig()
+export default config;

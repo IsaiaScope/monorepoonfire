@@ -1,10 +1,10 @@
 {
   "name": "web",
-  "version": "0.1.0",
   "type": "module",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
- 
+
   },
   "dependencies": {
     "next": "^15.3.0",

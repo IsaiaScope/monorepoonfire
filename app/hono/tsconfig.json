@@ -1,5 +1,5 @@
 {
-  "extends": "@package/config/typescript/backend-hono.json",
+  "extends": "@package/config/typescript/backend-hono"
   //   add those line to backend-json when its time
   //   "compilerOptions": {
   //   "types": [

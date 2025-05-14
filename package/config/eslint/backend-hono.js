@@ -5,7 +5,7 @@
 */
 import drizzle from "eslint-plugin-drizzle";
 
-import createConfig from "./base";
+import createConfig from "./base.js";
 
 export default createConfig({
   ignores: ["src/db/migrations/*", "public/*"],
