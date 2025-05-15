@@ -1,2 +1,5 @@
-@import "@package/config/tailwind/global";
-@import "@package/config/tailwind/shadcn";
+@import "tailwindcss";
+
+@import "@package/shadcn/css";
+
+@source '../node_modules/@package/shadcn';

@@ -7,8 +7,8 @@
     "./provider": {
       "import": "./provider/index.ts"
     },
-    "./tailwindcss": {
-      "import": "./tailwindcss/index.ts"
+    "./tailwind": {
+      "import": "./tailwind/index.ts"
     }
   },
   "scripts": {

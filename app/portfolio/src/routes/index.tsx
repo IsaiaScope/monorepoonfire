@@ -1,4 +1,5 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { Button } from "@package/shadcn";
+import { createFileRoute } from "@tanstack/react-router";
 
 import logo from "../logo.svg";
 
@@ -9,6 +10,15 @@ export const Route = createFileRoute("/")({
 function App() {
   return (
     <div className="text-center">
+      <Button
+        onClick={() => {
+          // console.log("TEST");
+        }}
+        className="mt-4 animate-in fade-in zoom-in"
+        variant="link"
+      >
+        TEST
+      </Button>
       <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
         <img
           src={logo}
@@ -37,7 +47,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn TanStack
-          <Navigate to="/demo/tanstack-query" />
+          {/* <Navigate to="/demo/tanstack-query" /> */}
         </a>
       </header>
     </div>

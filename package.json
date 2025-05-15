@@ -10,7 +10,7 @@
     "dev": "turbo run dev",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
-    "pre-commit": "lint-staged --concurrent=false --allow-empty",
+    "pre-commit": "lint-staged --allow-empty",
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
     "prepare": "husky"

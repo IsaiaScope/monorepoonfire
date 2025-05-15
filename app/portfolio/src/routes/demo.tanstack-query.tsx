@@ -21,9 +21,7 @@ function TanStackQueryDemo() {
           <li key={person.name}>{person.name}</li>
         ))}
       </ul>
-      <button type="button">
-        Ciao
-      </button>
+
     </div>
   );
 }
