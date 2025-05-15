@@ -8,8 +8,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
     "pre-commit": "lint-staged --concurrent=false --allow-empty",
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
@@ -32,12 +32,6 @@
       "scope-case": [2, "always", ["lower-case", "upper-case"]],
       "scope-empty": [2, "never"]
     }
-  },
-  "lint-staged": {
-    "*": [
-      "pnpm lint:fix",
-      "pnpm lint"
-    ]
   },
   "volta": {
     "node": "22.14.0"
