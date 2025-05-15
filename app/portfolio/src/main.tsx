@@ -13,6 +13,11 @@ console.warn("ENV", Object.entries(env).reduce((acc: Record<string, string | boo
   return acc;
 }, {}));
 
+console.warn("ENV", Object.entries(env).reduce((acc: Record<string, string | boolean>, [key, value]) => {
+  acc[key] = value;
+  return acc;
+}, {}));
+
 // Render the app
 const rootElement = document.getElementById("app");
 if (rootElement && !rootElement.innerHTML) {
