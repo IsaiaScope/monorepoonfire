@@ -1,9 +1,10 @@
 import type { QueryClient } from "@tanstack/react-query";
 
+import { TanstackRouterDevtoolsProvider } from "@package/utility/provider";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import Header from "../components/header.tsx";
+import { env } from "../environment/env.ts";
 
 type RouterContext = {
   queryClient: QueryClient;
@@ -11,12 +12,12 @@ type RouterContext = {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <>
+    <TanstackRouterDevtoolsProvider showDevtool={env.VITE_SHOW_TANSTACK_DEVTOOLS}>
+
       <Header />
 
       <Outlet />
-      <TanStackRouterDevtools />
 
-    </>
+    </TanstackRouterDevtoolsProvider>
   ),
 });

@@ -2,7 +2,7 @@ import { TanstackQueryProvider } from "@package/utility/provider";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
-import "./styles.css";
+import "./global.css";
 import { APP_PORTFOLIO_VITE } from "./constant/index.ts";
 import { env } from "./environment/env.ts";
 import TanstackRouterProvider from "./provider/tanstack-router-provider.tsx";

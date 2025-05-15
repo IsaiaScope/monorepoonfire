@@ -1,0 +1,29 @@
+{
+  "name": "@package/shadcn",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "shadcn": {
+      "import": "./index.ts"
+    }
+
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@package/utility": "workspace:*"
+  },
+  "devDependencies": {
+    "@package/config": "workspace:*",
+    "typescript": "^5.8.2"
+  },
+  "lint-staged": {
+    "*": [
+      "pnpm lint:fix",
+      "pnpm lint"
+    ]
+  }
+}

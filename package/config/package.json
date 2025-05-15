@@ -8,11 +8,20 @@
     "./typescript/hono": "./typescript/hono.json",
     "./typescript/react": "./typescript/react.json",
     "./typescript/react-vite": "./typescript/react-vite.json",
-    "./eslint/create-config": "./eslint/create-config.js"
+    "./eslint/create-config": "./eslint/create-config.js",
+    "./tailwind/global":
+     "./tailwind/global.css",
+    "./tailwind/shadcn":
+     "./tailwind/shadcn.css"
+
   },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.0.6",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",
