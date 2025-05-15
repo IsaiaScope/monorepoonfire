@@ -1,5 +1,5 @@
 {
-  "extends": "@package/config/typescript/react",
+  "extends": "@package/config/typescript/react"
   // "include": [
   //   "**/*.ts",
   //   "**/*.tsx",

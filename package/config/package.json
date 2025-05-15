@@ -10,10 +10,20 @@
     "./typescript/react-vite": "./typescript/react-vite.json",
     "./eslint/create-config": "./eslint/create-config.js"
   },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",
     "eslint": "^9.26.0",
     "eslint-plugin-format": "^1.0.1",
     "typescript": "^5.8.2"
+  },
+  "lint-staged": {
+    "*": [
+      "pnpm lint:fix",
+      "pnpm lint"
+    ]
   }
 }
