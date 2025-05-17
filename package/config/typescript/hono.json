@@ -4,6 +4,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": "./",
-    "typeRoots": ["./node_modules/@types", "./node_modules/@cloudflare"]
+    "types": [
+      "node"
+    ]
   }
 }
