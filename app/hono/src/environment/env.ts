@@ -14,7 +14,7 @@ It lets you reference other environment variables inside your .env file, like th
 HOST=localhost
 PORT=3000
 URL=http://${HOST}:${PORT}
- */
+*/
 
 function getDotEnvFileName() {
   switch (process.env.NODE_ENV) {
@@ -39,7 +39,6 @@ expand(config({
 }));
 
 export const env = createEnv({
-
   server: {
     // coerce explanation: https://www.youtube.com/watch?v=9Ab1f0MaZc8
     PORT: z
@@ -49,12 +48,10 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
     ENV: z.enum(["development", "test", "production"]),
     LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatsl", "trace"]).default("info"),
+    DATABASE_URL: z.string().url(),
   },
-
   runtimeEnv: process.env,
-
   emptyStringAsUndefined: true,
-  extends: [],
 });
 
 export default env;

@@ -1,46 +1,28 @@
-import type { PinoLogger } from "hono-pino";
+import { configureOpenApi } from "./library/configure-open-api";
+import { initApp } from "./library/create-app";
+import index from "./routes/index.routes";
+import skills from "./routes/skills/skills.index";
 
-import { OpenAPIHono } from "@hono/zod-openapi";
-import { pinoLogger } from "hono-pino";
-import { requestId } from "hono/request-id";
-import pino from "pino";
-import pretty from "pino-pretty";
-import { notFound, onError } from "stoker/middlewares";
+const app = initApp();
 
-import env from "./environment/env";
+const routes = [
+  index,
+  skills,
+];
 
-type AppBindings = {
-  Variables: {
-    logger: PinoLogger;
-  };
-};
+configureOpenApi(app);
 
-const app = new OpenAPIHono<AppBindings>();
-
-app.use(
-  // https://hono.dev/docs/middleware/builtin/request-id
-  requestId(),
-).use(
-  // https://www.npmjs.com/package/hono-pino?activeTab=code
-  pinoLogger({
-    // https://www.npmjs.com/package/pino
-    // https://github.com/pinojs/pino-pretty
-    pino: pino({
-      level: env.LOG_LEVEL,
-    }, env.NODE_ENV === "production" ? undefined : pretty()),
-  }),
-);
-
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+routes.forEach((route) => {
+  app.route("/", route);
 });
 
-app.get("/error", (c) => {
-  c.var.logger.info("Hello Hono!");
+// app.get("/", (c) => {
+//   return c.text("Hello Hono!");
+// });
+
+app.get("/error", () => {
+  // c.var.logger.info("Hello Hono!");
   throw new Error("This is an error");
 });
-
-app.notFound(notFound);
-app.onError(onError);
 
 export default app;

@@ -8,7 +8,7 @@ import drizzle from "eslint-plugin-drizzle";
 
 export default createConfig({
   node: true,
-  ignores: ["src/db/migrations/*", "public/*"],
+  ignores: ["src/database/migrations/*", "public/*"],
   plugins: { drizzle },
   rules: {
     ...drizzle.configs.recommended.rules,
