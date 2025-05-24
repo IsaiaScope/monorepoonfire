@@ -7,9 +7,10 @@ import env from "./src/environment/env";
 export default defineConfig({
   schema: "./src/database/schema/*.ts",
   out: "./src/database/migrations",
-  dialect: "postgresql",
+  dialect: "turso",
   dbCredentials: {
     url: env.DATABASE_URL,
+    authToken: env.DATABASE_AUTH_TOKEN,
   },
   verbose: true,
 });

@@ -47,8 +47,9 @@ export const env = createEnv({
       .int(),
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
     ENV: z.enum(["development", "test", "production"]),
-    LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatsl", "trace"]).default("info"),
+    LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("info"),
     DATABASE_URL: z.string().url(),
+    DATABASE_AUTH_TOKEN: z.string().optional(),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
@@ -57,7 +58,7 @@ export const env = createEnv({
 export default env;
 
 // eslint-disable-next-line no-console
-console.log("Env [INFO]", {
+console.log("[Env]", {
   path: path.resolve(
     process.cwd(),
     "src",

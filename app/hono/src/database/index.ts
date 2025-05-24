@@ -1,23 +1,15 @@
-// Make sure to install the 'pg' package
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 
 import { env } from "../environment/env";
 import * as skillsSchema from "./schema/skills-schema";
 
-export function getConnection(connectionString: string) {
-  if (env.NODE_ENV === "test") {
-    return new Pool({
-      connectionString,
-    });
-  }
-}
+const client = createClient({
+  url: env.DATABASE_URL,
+  authToken: env.DATABASE_AUTH_TOKEN,
+});
 
-export function connect(connectionString: string) {
-  return new Pool({ connectionString });
-}
-
-const database = drizzle(connect(env.DATABASE_URL), {
+const database = drizzle(client, {
   schema: { ...skillsSchema },
 });
 

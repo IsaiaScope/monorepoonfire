@@ -1,64 +1,64 @@
 {
-  "id": "c530157c-243d-4363-a6e1-6999555acaec",
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "d4e8a29b-dc70-41f9-968d-82aa04bf204a",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "7",
-  "dialect": "postgresql",
   "tables": {
-    "public.skills": {
+    "skills": {
       "name": "skills",
-      "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "integer",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "text(100)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "createdAt": {
           "name": "createdAt",
-          "type": "integer",
+          "type": "text(50)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         },
         "updatedAt": {
           "name": "updatedAt",
-          "type": "integer",
+          "type": "text(50)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "autoincrement": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
+      "indexes": {
         "skills_name_unique": {
           "name": "skills_name_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ]
+          ],
+          "isUnique": true
         }
       },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
-  "enums": {},
-  "schemas": {},
-  "sequences": {},
-  "roles": {},
-  "policies": {},
   "views": {},
+  "enums": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
   }
 }

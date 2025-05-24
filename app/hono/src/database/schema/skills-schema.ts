@@ -1,13 +1,14 @@
 import { z } from "@hono/zod-openapi";
-import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const skills = pgTable("skills", {
-  id: serial("id").primaryKey().notNull(),
-  name: varchar("name", { length: 100 }).notNull().unique(),
-  createdAt: varchar("createdAt", {
+export const skills = sqliteTable("skills", {
+  id: integer("id", { mode: "number" })
+    .primaryKey({ autoIncrement: true }),
+  name: text("name", { length: 100 }).notNull().unique(),
+  createdAt: text("createdAt", {
     length: 50,
   }).notNull(),
-  updatedAt: varchar("updatedAt", {
+  updatedAt: text("updatedAt", {
     length: 50,
   }).notNull(),
 });

@@ -76,7 +76,7 @@ export const patchSkillsRoute = createRoute({
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      insertSkillsSchema,
+      selectSkillsSchema,
       "The updated skill",
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(

@@ -48,5 +48,5 @@ export function initApp() {
 }
 
 export function createTestApp<S extends Schema>(router: AppOpenAPIHono<S>) {
-  return createApp().route("/", router);
+  return initApp().route("/", router);
 }

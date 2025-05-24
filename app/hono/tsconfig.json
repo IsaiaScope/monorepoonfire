@@ -1,3 +1,6 @@
 {
-  "extends": "@package/config/typescript/hono"
+  "extends": "@package/config/typescript/hono",
+  "compilerOptions": {
+    "outDir": "./dist"
+  }
 }

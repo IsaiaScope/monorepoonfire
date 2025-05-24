@@ -10,7 +10,6 @@ import { skills } from "../../database/schema/skills-schema";
 
 export const getSkillsHandler: AppRouterHandler<typeof getSkillsRoute> = async (c) => {
   const skills = await database.query.skills.findMany();
-  c.var.logger.info("getSkills", skills);
   return c.json(skills);
 };
 
@@ -22,7 +21,6 @@ export const postSkillsHandler: AppRouterHandler<typeof postSkillsRoute> = async
     updatedAt: Date.now().toString(),
   };
   const [createdSkill] = await database.insert(skills).values(skillWithTimestamp).returning();
-  c.var.logger.info("createdSkill", createdSkill);
   return c.json(createdSkill, HttpStatusCodes.OK);
 };
 
@@ -41,7 +39,6 @@ export const getOneSkillsHandler: AppRouterHandler<typeof getOneSkillsRoute> = a
       HttpStatusCodes.NOT_FOUND,
     );
   }
-  c.var.logger.info("getOneSkill", skill);
   return c.json(skill, HttpStatusCodes.OK);
 };
 
@@ -88,7 +85,7 @@ export const deleteSkillsHandler: AppRouterHandler<typeof deleteSkillsRoute> = a
   const { id } = c.req.valid("param");
   const result = await database.delete(skills)
     .where(eq(skills.id, id));
-  if (!result.rowCount) {
+  if (!result.rowsAffected) {
     return c.json(
       {
         message: HttpStatusPhases.NOT_FOUND,

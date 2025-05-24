@@ -3,18 +3,24 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "update:database": "drizzle-kit push",
+    "update:database": "cross-env NODE_ENV=development drizzle-kit generate && drizzle-kit push",
+    "update:database:test": "cross-env NODE_ENV=test drizzle-kit generate && drizzle-kit push",
+    "update:database:production": "cross-env NODE_ENV=production drizzle-kit generate && drizzle-kit push",
     "dev": "cross-env tsx watch src/index.ts",
     "dev:test": "cross-env NODE_ENV=test tsx watch src/index.ts",
     "dev:production": "cross-env NODE_ENV=production tsx watch src/index.ts",
+    "test:watch": "cross-env NODE_ENV=development vitest --watch",
+    "test": "cross-env NODE_ENV=development vitest run",
+    "test:test": "cross-env NODE_ENV=test pnpm update:database:test && vitest run",
     "build": "tsc"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",
     "@hono/zod-openapi": "^0.19.6",
+    "@libsql/client": "^0.15.7",
     "@scalar/hono-api-reference": "^0.8.10",
     "@t3-oss/env-core": "^0.12.0",
     "cross-env": "^7.0.3",
@@ -23,7 +29,6 @@
     "drizzle-orm": "^0.43.1",
     "hono": "^4.7.9",
     "hono-pino": "^0.8.0",
-    "pg": "^8.16.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
     "stoker": "^1.4.2",
@@ -32,11 +37,11 @@
   "devDependencies": {
     "@package/config": "workspace:*",
     "@types/node": "^20.17.46",
-    "@types/pg": "^8.15.2",
     "drizzle-kit": "^0.31.1",
     "eslint-plugin-drizzle": "^0.2.3",
     "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.0.5"
   },
   "lint-staged": {
     "*": [
