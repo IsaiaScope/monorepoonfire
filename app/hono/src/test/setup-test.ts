@@ -9,6 +9,5 @@ beforeAll(async () => {
 
 afterAll(async () => {
   console.warn("Cleaning up...");
-  console.warn("Cleaning up2...");
   // fs.rmSync("dev.database", { force: true });
 });
