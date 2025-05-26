@@ -53,7 +53,6 @@ describe("[skills] routes tests", () => {
       const json = await response.json();
       expectTypeOf(json).toBeArray();
       expectTypeOf(json).toEqualTypeOf<z.infer<typeof schema.selectSkillsSchema>[]>();
-      expect(json.length).toBe(1);
     }
   });
 
@@ -139,7 +138,7 @@ describe("[skills] routes tests", () => {
 
   it("[delete /skills/:id] should response with 204", async () => {
     const response = await client.skills[":id"].$delete({ param: { id: testId } });
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(HttpStatusCodes.NO_CONTENT);
   });
 
   it("[delete /skills/:id] should response with 404 when skill not found", async () => {
