@@ -39,6 +39,8 @@ jobs:
           echo "PORT: $PORT"
           echo "LOG_LEVEL: $LOG_LEVEL"
           echo "DATABASE_URL: $DATABASE_URL"
+          echo "TURBO_TOKEN: $TURBO_TOKEN"
+          echo "TURBO_TEAM: $TURBO_TEAM"
 
       - name: Run tests
         run: pnpm run test
