@@ -1,8 +1,9 @@
+import { APP_HONO } from "../../constant";
 import { createApp } from "../../library/create-app";
 import * as handlers from "./skills.handlers";
 import * as routes from "./skills.routes";
 
-const router = createApp().openapi(
+const router = createApp().basePath(APP_HONO.BASE_PATH).openapi(
   routes.getSkillsRoute,
   handlers.getSkillsHandler,
 ).openapi(

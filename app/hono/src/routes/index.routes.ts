@@ -3,9 +3,11 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 import { createMessageObjectSchema } from "stoker/openapi/schemas";
 
+import { APP_HONO } from "../constant";
 import { createApp } from "../library/create-app";
 
 const router = createApp()
+  .basePath(APP_HONO.BASE_PATH)
   .openapi(
     createRoute({
       tags: ["index"],

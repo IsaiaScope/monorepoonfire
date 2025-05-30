@@ -19,7 +19,7 @@ describe("[skills] routes tests", () => {
   let testId: number;
 
   it("[post /skills] should response 422 when body type is invalid ", async () => {
-    const response = await client.skills.$post({
+    const response = await client.api.skills.$post({
       json: {
         // @ts-expect-error: intentionally passing wrong type to test validation (name should not be a number)
         name: 1234,
@@ -29,7 +29,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[post /skills] should response with 200 and the json coming back must be an skill object", async () => {
-    const response = await client.skills.$post({
+    const response = await client.api.skills.$post({
       json: {
         name: "Test Skill",
       },
@@ -47,7 +47,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[get /skills] should response with 200 and the json coming back must be an array", async () => {
-    const response = await client.skills.$get();
+    const response = await client.api.skills.$get();
     expect(response.status).toBe(HttpStatusCodes.OK);
     if (response.status === HttpStatusCodes.OK) {
       const json = await response.json();
@@ -57,7 +57,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[get /skills/:id] should response with 200 and the json coming back must be an skill object", async () => {
-    const response = await client.skills[":id"].$get({ param: { id: testId } });
+    const response = await client.api.skills[":id"].$get({ param: { id: testId } });
     expect(response.status).toBe(HttpStatusCodes.OK);
     if (response.status === HttpStatusCodes.OK) {
       const json = await response.json();
@@ -66,7 +66,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[get /skills/:id] should response with 404 when skill not found", async () => {
-    const response = await client.skills[":id"].$get({ param: { id: 9999 } });
+    const response = await client.api.skills[":id"].$get({ param: { id: 9999 } });
     expect(response.status).toBe(HttpStatusCodes.NOT_FOUND);
     if (response.status === HttpStatusCodes.NOT_FOUND) {
       const json = await response.json();
@@ -75,7 +75,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[get /skills/:id] should response with 422 when id type is invalid", async () => {
-    const response = await client.skills[":id"].$get({
+    const response = await client.api.skills[":id"].$get({
       param: {
         // @ts-expect-error: intentionally passing wrong type to test validation (id should be a number)
         id: "wat",
@@ -85,7 +85,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[patch /skills/:id] should response with 200 and the json coming back must be an skill object", async () => {
-    const response = await client.skills[":id"].$patch({
+    const response = await client.api.skills[":id"].$patch({
       param: { id: testId },
       json: {
         name: "Updated Skill",
@@ -99,7 +99,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[patch /skills/:id] should response with 404 when skill not found", async () => {
-    const response = await client.skills[":id"].$patch({
+    const response = await client.api.skills[":id"].$patch({
       param: { id: 9999 },
       json: {
         name: "Updated Skill",
@@ -113,7 +113,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[patch /skills/:id] should response with 422 when id type is invalid", async () => {
-    const response = await client.skills[":id"].$patch({
+    const response = await client.api.skills[":id"].$patch({
       param: {
         // @ts-expect-error: intentionally passing wrong type to test validation (id should be a number)
         id: "wat",
@@ -126,7 +126,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[patch /skills/:id] should response with 422 when body type is invalid", async () => {
-    const response = await client.skills[":id"].$patch({
+    const response = await client.api.skills[":id"].$patch({
       param: { id: testId },
       json: {
         // @ts-expect-error: intentionally passing wrong type to test validation (name should not be a number)
@@ -137,12 +137,12 @@ describe("[skills] routes tests", () => {
   });
 
   it("[delete /skills/:id] should response with 204", async () => {
-    const response = await client.skills[":id"].$delete({ param: { id: testId } });
+    const response = await client.api.skills[":id"].$delete({ param: { id: testId } });
     expect(response.status).toBe(HttpStatusCodes.NO_CONTENT);
   });
 
   it("[delete /skills/:id] should response with 404 when skill not found", async () => {
-    const response = await client.skills[":id"].$delete({ param: { id: 9999 } });
+    const response = await client.api.skills[":id"].$delete({ param: { id: 9999 } });
     expect(response.status).toBe(HttpStatusCodes.NOT_FOUND);
     if (response.status === HttpStatusCodes.NOT_FOUND) {
       const json = await response.json();
@@ -151,7 +151,7 @@ describe("[skills] routes tests", () => {
   });
 
   it("[delete /skills/:id] should response with 422 when id type is invalid", async () => {
-    const response = await client.skills[":id"].$delete({
+    const response = await client.api.skills[":id"].$delete({
       param: {
         // @ts-expect-error: intentionally passing wrong type to test validation (id should be a number)
         id: "wat",

@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import tailwindcss from "@tailwindcss/vite";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -21,10 +22,15 @@ export default defineConfig(({ mode }) => {
     test: {
       globals: true,
       environment: "jsdom",
+      setupFiles: "./src/test/set-up-test.ts",
+
     },
     build: {
+      emptyOutDir: true,
+      outDir: "../hono/portfolio",
       sourcemap: mode !== "production",
       minify: mode === "production" ? "esbuild" : false,
     },
+
   };
 });

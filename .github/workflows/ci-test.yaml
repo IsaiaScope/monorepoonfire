@@ -1,13 +1,18 @@
-name: CI
+name: CI-test
+description: |
+  This workflow runs on pushes to the 'test' branch, installs dependencies, builds the project, and runs tests using pnpm.
 
 on:
   push:
-    branches: [production, test]
+    branches: [test]
 
 jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,5 +28,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Run tests
+        run: pnpm run test:test
+
       - name: Build
-        run: pnpm run build
+        run: pnpm run build:test

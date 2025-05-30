@@ -9,13 +9,12 @@ import pretty from "pino-pretty";
 import { notFound, onError, serveEmojiFavicon } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
 
-import type { AppOpenAPIHono } from "../@types/open-api-hono";
-import type { AppBindings } from "../@types/pino";
+import type { AppEnv, AppOpenAPIHono } from "../@types/open-api-hono";
 
 // eslint-disable-next-line ts/no-empty-object-type
 export function createApp<S extends Schema = {}>() {
-  return new OpenAPIHono<AppBindings, S>({
-    /* strict: false means that the app will serve the routes also if the path ands with /
+  return new OpenAPIHono<AppEnv, S>({
+    /* strict: false means that the app will serve the routes also if the path ends with /
     for example /api/v1/ and /api/v1 will be served in the same way */
     strict: false,
     defaultHook,

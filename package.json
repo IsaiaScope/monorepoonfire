@@ -7,6 +7,10 @@
   },
   "scripts": {
     "build": "turbo run build",
+    "build:test": "turbo run build:test",
+    "build:production": "turbo run build:production",
+    "test": "turbo run test",
+    "test:test": "turbo run test:test",
     "dev": "turbo run dev",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
