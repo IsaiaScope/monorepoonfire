@@ -13,6 +13,10 @@ jobs:
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      ENV: ${{ env.ENV }}
+      PORT: ${{ env.PORT }}
+      LOG_LEVEL: ${{ env.LOG_LEVEL }}
+      DATABASE_URL: ${{ env.DATABASE_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
