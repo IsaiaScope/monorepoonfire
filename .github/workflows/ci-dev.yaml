@@ -34,6 +34,7 @@ jobs:
 
       - name: Print environment variables
         run: |
+          echo "NODE_ENV: $NODE_ENV"
           echo "ENV: $ENV"
           echo "PORT: $PORT"
           echo "LOG_LEVEL: $LOG_LEVEL"
