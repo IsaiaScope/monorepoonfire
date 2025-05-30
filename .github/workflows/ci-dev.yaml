@@ -35,7 +35,7 @@ jobs:
       - name: Print environment variables
         run: |
           echo "NODE_ENV: $NODE_ENV"
-          echo "ENV: env.$ENV"
+          echo "ENV: ${{ vars}}"
           echo "PORT: $PORT"
           echo "LOG_LEVEL: $LOG_LEVEL"
           echo "DATABASE_URL: $DATABASE_URL"
