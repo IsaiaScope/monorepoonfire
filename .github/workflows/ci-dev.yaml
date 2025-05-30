@@ -32,6 +32,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Print environment variables
+        run: |
+          echo "ENV: $ENV"
+          echo "PORT: $PORT"
+          echo "LOG_LEVEL: $LOG_LEVEL"
+          echo "DATABASE_URL: $DATABASE_URL"
+
       - name: Run tests
         run: pnpm run test
 
