@@ -39,14 +39,14 @@ jobs:
         run: |
           echo "Creating .env file: app/hono/src/environment/.env"
           echo "ENV=${{ vars.ENV }}, PORT=${{ vars.PORT }}, LOG_LEVEL=${{ vars.LOG_LEVEL }}, DATABASE_URL=${{ secrets.DATABASE_URL }}"
-          echo "ENV=${{ vars.ENV }}" >> app/hono/src/environment/.env
+          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
           echo "PORT=${{ vars.PORT }}" >> app/hono/src/environment/.env
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
           
       - name: List environment directory for debug
         run: ls -l app/hono/src/environment
-        
+
       - name: Upload .env as artifact
         uses: actions/upload-artifact@v4
         with:
