@@ -24,8 +24,8 @@ jobs:
 
       # The -p flag means "no error if existing, make parent directories as needed."
       # This ensures that the folder structure is present before writing the .env file into it.
-      - name: Create environment directory
-        run: mkdir -p app/hono/src/environment
+      # - name: Create environment directory
+      #  run: mkdir -p app/hono/src/environment
 
       - name: Print environment variables
         run: |
@@ -44,7 +44,7 @@ jobs:
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
           
-      - name: Print project structure after env creation
+      - name: Print project structure
         run: tree -a -L 5 || find . | head -40
 
       - name: Upload .env as artifact
@@ -69,6 +69,9 @@ jobs:
         with:
           name: hono-env
           path: app/hono/src/environment/
+
+      - name: Print project structure
+        run: tree -a -L 5 || find . | head -40
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
