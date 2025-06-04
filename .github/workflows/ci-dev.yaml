@@ -37,12 +37,12 @@ jobs:
       # Write environment variables from GitHub environment to the specified .env file
       - name: Create .env file
         run: |
-          echo "Creating .env file: app/hono/src/environment/.env"
+          echo "Creating .env file: .env"
           echo "ENV=${{ vars.ENV }}, PORT=${{ vars.PORT }}, LOG_LEVEL=${{ vars.LOG_LEVEL }}, DATABASE_URL=${{ secrets.DATABASE_URL }}"
-          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
-          echo "PORT=${{ vars.PORT }}" >> app/hono/src/environment/.env
-          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
+          echo "ENV=${{ vars.ENV }}" > .env
+          echo "PORT=${{ vars.PORT }}" >> .env
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           
       - name: Print project structure
         run: tree -a -L 5 || find . | head -40
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hono-env
-          path: ./app/hono/src/environment/.env
+          path: .env
 
   build:
     needs: create-dotenv
