@@ -29,6 +29,7 @@ jobs:
 
       # Write environment variables from GitHub environment to the specified .env file
       - name: Create .env file
+        working-directory: ${{ github.workspace }}
         run: |
           echo "Creating .env file: .env"
           echo "ENV=${{ vars.ENV }}, PORT=${{ vars.PORT }}, LOG_LEVEL=${{ vars.LOG_LEVEL }}, DATABASE_URL=${{ secrets.DATABASE_URL }}"
@@ -50,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hono-env
-          path: .env
+          path: ${{ github.workspace }}/.env
 
   build:
     needs: create-dotenv
