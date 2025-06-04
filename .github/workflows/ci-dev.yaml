@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hono-env
-          path: ${{ github.workspace }}/.env
+          path: .env
 
   build:
     needs: create-dotenv
