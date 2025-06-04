@@ -8,6 +8,34 @@ on:
     branches: [dev]
 
 jobs:
+  create-dotenv:
+    runs-on: ubuntu-latest
+    # Use the environment specified by the caller (so it pulls the right variables)
+    environment: env
+    steps:
+      # creates the directory src/environment if it does not already exist.
+
+      # The -p flag means "no error if existing, make parent directories as needed."
+      # This ensures that the folder structure is present before writing the .env file into it.
+      - name: Create environment directory
+        run: mkdir -p src/environment
+
+      - name: Print environment variables
+        run: |
+          echo "ENV: $ENV"
+          echo "PORT: $PORT"
+          echo "LOG_LEVEL: $LOG_LEVEL"
+          echo "DATABASE_URL: $DATABASE_URL"
+
+      # Write environment variables from GitHub environment to the specified .env file
+      - name: Create .env file
+        run: |
+          echo "Creating .env file: src/environment/.env"
+          echo "ENV=${{ vars.ENV }}" >> src/environment/.env
+          echo "PORT=${{ vars.PORT }}" >> src/environment/.env
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> src/environment/.env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> src/environment/.env
+
   build:
     name: Build and Test
     runs-on: ubuntu-latest
@@ -26,19 +54,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          
-      - name: Create .env file for dev
-        uses: ./.github/actions/create-environment
-        with:
-          env_name: dev
-          env_file: .env
 
       - name: Install pnpm
         run: npm install -g pnpm
 
       - name: Install dependencies
         run: pnpm install
-
 
       - name: Run tests
         run: pnpm run test
