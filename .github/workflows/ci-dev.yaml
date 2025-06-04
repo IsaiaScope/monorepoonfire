@@ -38,6 +38,7 @@ jobs:
       - name: Create .env file
         run: |
           echo "Creating .env file: app/hono/src/environment/.env"
+          echo "ENV=${{ vars.ENV }}, PORT=${{ vars.PORT }}, LOG_LEVEL=${{ vars.LOG_LEVEL }}, DATABASE_URL=${{ secrets.DATABASE_URL }}"
           echo "ENV=${{ vars.ENV }}" >> app/hono/src/environment/.env
           echo "PORT=${{ vars.PORT }}" >> app/hono/src/environment/.env
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
