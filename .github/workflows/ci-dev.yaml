@@ -25,7 +25,7 @@ jobs:
       # The -p flag means "no error if existing, make parent directories as needed."
       # This ensures that the folder structure is present before writing the .env file into it.
       - name: Create environment directory
-        run: mkdir -p app/hono/app/hono/src/environment
+        run: mkdir -p app/hono/src/environment
 
       - name: Print environment variables
         run: |
