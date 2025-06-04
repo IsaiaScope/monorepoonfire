@@ -45,7 +45,7 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
           
       - name: List environment directory for debug
-        run: ls -l app/hono/src/environment
+        run: ls app/hono/src/environment
 
       - name: Upload .env as artifact
         uses: actions/upload-artifact@v4
