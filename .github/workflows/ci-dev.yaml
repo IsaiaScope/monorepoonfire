@@ -18,7 +18,6 @@ jobs:
       PORT: ${{ vars.PORT }}
       LOG_LEVEL: ${{ vars.LOG_LEVEL }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      # DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
 
     steps:
       # creates the directory src/environment if it does not already exist.
@@ -26,7 +25,7 @@ jobs:
       # The -p flag means "no error if existing, make parent directories as needed."
       # This ensures that the folder structure is present before writing the .env file into it.
       - name: Create environment directory
-        run: mkdir -p src/environment
+        run: mkdir -p app/hono/src/environment
 
       - name: Print environment variables
         run: |
