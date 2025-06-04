@@ -12,12 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: env
     env:
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-      ENV: ${{ vars.vars }}
+      ENV: ${{ vars.ENV }}
       PORT: ${{ vars.PORT }}
       LOG_LEVEL: ${{ vars.LOG_LEVEL }}
-      DATABASE_URL: ${{ vars.DATABASE_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,15 +32,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Print environment variables
-        run: |
-          echo "NODE_ENV: $NODE_ENV"
-          echo "ENV: $ENV"
-          echo "PORT: $PORT"
-          echo "LOG_LEVEL: $LOG_LEVEL"
-          echo "DATABASE_URL: $DATABASE_URL"
-          echo "TURBO_TOKEN: $TURBO_TOKEN"
-          echo "TURBO_TEAM: $TURBO_TEAM"
+      - name: Create .env file for dev
+        uses: ./.github/workflows/create-environment.yaml
+        with:
+          env_name: dev
+          env_file: .env
 
       - name: Run tests
         run: pnpm run test
