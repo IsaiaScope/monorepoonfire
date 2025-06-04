@@ -47,6 +47,9 @@ jobs:
     needs: create-dotenv
     name: test and build
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -61,6 +64,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      # Debug: print the .env file before running tests
+      - name: Print .env file for debugging
+        run: cat app/hono/src/environment/.env
 
       - name: Run tests
         run: pnpm run test
