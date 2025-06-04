@@ -3,6 +3,6 @@
 import { afterAll } from "vitest";
 
 afterAll(() => {
-  console.warn("Cleaning up...");
+  // console.warn("Cleaning up...");
   // fs.rmSync("dev.database", { force: true });
 });

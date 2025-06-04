@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 
 import app from "./app";
-import env from "./environment/env";
+import env, { printEnv } from "./environment/env";
 
 const port = env.PORT;
 
@@ -12,3 +12,5 @@ serve({
   // eslint-disable-next-line no-console
   console.log(`Server is running on http://localhost:${info.port}`);
 });
+
+printEnv();

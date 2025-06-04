@@ -55,15 +55,17 @@ export const env = createEnv({
   emptyStringAsUndefined: true,
 });
 
+export function printEnv() {
 // eslint-disable-next-line no-console
-console.log("[Env]", {
-  path: path.resolve(
-    process.cwd(),
-    "src",
-    "environment",
-    getDotEnvFileName(),
-  ),
-  env,
-});
+  console.log("[Env]", {
+    path: path.resolve(
+      process.cwd(),
+      "src",
+      "environment",
+      getDotEnvFileName(),
+    ),
+    env,
+  });
+}
 
 export default env;
