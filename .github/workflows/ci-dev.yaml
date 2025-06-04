@@ -10,6 +10,7 @@ jobs:
   build:
     name: Build and Test
     runs-on: ubuntu-latest
+    environment: env
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
@@ -35,7 +36,7 @@ jobs:
       - name: Print environment variables
         run: |
           echo "NODE_ENV: $NODE_ENV"
-          echo "ENV: ${{ vars}}"
+          echo "ENV: $ENV"
           echo "PORT: $PORT"
           echo "LOG_LEVEL: $LOG_LEVEL"
           echo "DATABASE_URL: $DATABASE_URL"
