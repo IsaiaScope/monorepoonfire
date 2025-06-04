@@ -20,13 +20,6 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
-      # creates the directory app/hono/src/environment if it does not already exist.
-
-      # The -p flag means "no error if existing, make parent directories as needed."
-      # This ensures that the folder structure is present before writing the .env file into it.
-      # - name: Create environment directory
-      #  run: mkdir -p app/hono/src/environment
-
       - name: Print environment variables
         run: |
           echo "ENV: $ENV"
@@ -46,6 +39,12 @@ jobs:
           
       - name: Print project structure
         run: tree -a -L 5 || find . | head -40
+
+      - name: List files before uploading artifact
+        run: ls -al
+
+      - name: Print .env file for debugging
+        run: cat .env
 
       - name: Upload .env as artifact
         uses: actions/upload-artifact@v4
