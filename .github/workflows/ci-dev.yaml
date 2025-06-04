@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     # Use the environment specified by the caller (so it pulls the right variables)
     environment: env
+    env:
+      ENV: ${{ vars.ENV }}
+      PORT: ${{ vars.PORT }}
+      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+
     steps:
       # creates the directory src/environment if it does not already exist.
 
@@ -37,15 +44,8 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> src/environment/.env
 
   build:
-    name: Build and Test
+    name: test and build
     runs-on: ubuntu-latest
-    environment: env
-    env:
-      ENV: ${{ vars.ENV }}
-      PORT: ${{ vars.PORT }}
-      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      # DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
