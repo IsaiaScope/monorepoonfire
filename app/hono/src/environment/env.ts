@@ -55,8 +55,6 @@ export const env = createEnv({
   emptyStringAsUndefined: true,
 });
 
-export default env;
-
 // eslint-disable-next-line no-console
 console.log("[Env]", {
   path: path.resolve(
@@ -67,3 +65,5 @@ console.log("[Env]", {
   ),
   env,
 });
+
+export default env;
