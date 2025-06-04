@@ -1,4 +1,5 @@
 name: CI-dev
+run-name: ${{ github.actor }} is running CI-dev
 description: |
   This workflow runs on pushes to the 'dev' branch, installs dependencies, builds the project, and runs devs using pnpm.
 
@@ -16,7 +17,7 @@ jobs:
       PORT: ${{ vars.PORT }}
       LOG_LEVEL: ${{ vars.LOG_LEVEL }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+      # DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -25,6 +26,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          
+      - name: Create .env file for dev
+        uses: ./.github/actions/create-environment
+        with:
+          env_name: dev
+          env_file: .env
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -32,11 +39,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Create .env file for dev
-        uses: ./.github/workflows/create-environment.yaml
-        with:
-          env_name: dev
-          env_file: .env
 
       - name: Run tests
         run: pnpm run test

@@ -1,0 +1,39 @@
+name: Create Environment File
+description: Creates a .env file in src/environment with variables from workflow inputs
+inputs:
+  env_name:
+    description: "The environment name (dev, test, production)"
+    required: true
+  env_file:
+    description: "The .env file to create (e.g., .env, .env.test, .env.production)"
+    required: true
+runs:
+  using: composite
+  steps:
+    # creates the directory src/environment if it does not already exist.
+
+    # The -p flag means "no error if existing, make parent directories as needed."
+    # This ensures that the folder structure is present before writing the .env file into it.
+    - name: Create environment directory
+      shell: bash
+      run: mkdir -p src/environment
+
+    - name: Print environment variables
+      shell: bash
+      run: |
+        echo "ENV: $ENV"
+        echo "PORT: $PORT"
+        echo "LOG_LEVEL: $LOG_LEVEL"
+        echo "DATABASE_URL: $DATABASE_URL"
+        echo "DATABASE_AUTH_TOKEN: $DATABASE_AUTH_TOKEN"
+
+    - name: Create .env file
+      shell: bash
+      run: |
+        echo "Creating environment variables for ${{ inputs.env_name }}"
+        echo "Creating .env file: src/environment/${{ inputs.env_file }}"
+        echo "ENV=$ENV" >> src/environment/${{ inputs.env_file }}
+        echo "PORT=$PORT" >> src/environment/${{ inputs.env_file }}
+        echo "LOG_LEVEL=$LOG_LEVEL" >> src/environment/${{ inputs.env_file }}
+        echo "DATABASE_URL=$DATABASE_URL" >> src/environment/${{ inputs.env_file }}
+        echo "DATABASE_AUTH_TOKEN=$DATABASE_AUTH_TOKEN" >> src/environment/${{ inputs.env_file }}
