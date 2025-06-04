@@ -9,6 +9,7 @@ on:
 
 jobs:
   create-dotenv:
+    name: create environment file
     runs-on: ubuntu-latest
     # Use the environment specified by the caller (so it pulls the right variables)
     environment: env
