@@ -22,32 +22,27 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Print environment variables
-        run: |
-          echo "ENV: $ENV"
-          echo "PORT: $PORT"
-          echo "LOG_LEVEL: $LOG_LEVEL"
-          echo "DATABASE_URL: $DATABASE_URL"
+
+      
+      # creates the directory app/hono/src/environment if it does not already exist.
+
+      # The -p flag means "no error if existing, make parent directories as needed."
+      # This ensures that the folder structure is present before writing the .env file into it.
+      - name: Create environment directory
+        run: mkdir -p app/hono/src/environment
 
       - name: Create .env file
         run: |
-          echo "Creating .env file: .env"
-          echo "ENV=${{ vars.ENV }}, PORT=${{ vars.PORT }}, LOG_LEVEL=${{ vars.LOG_LEVEL }}, DATABASE_URL=${{ secrets.DATABASE_URL }}"
-          echo "ENV=${{ vars.ENV }}" > .env
-          echo "PORT=${{ vars.PORT }}" >> .env
-          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
+          echo "PORT=${{ vars.PORT }}" >> app/hono/src/environment/.env
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
 
       - name: Print project structure
         run: tree -a -L 5 || find . | head -40
 
-      - name: List files before uploading artifact
-        run: ls -al
-
       - name: Print .env file for debugging
-        run: cat .env
-
-    
+        run: cat app/hono/src/environment/.env || echo ".env not found in app/hono/src/environment/"
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
@@ -59,10 +54,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      # Debug: print the .env file before running tests
-      - name: Print .env file for debugging
-        run: cat app/hono/src/environment/.env || echo ".env not found in app/hono/src/environment/"
 
       - name: Run tests
         run: pnpm run test
