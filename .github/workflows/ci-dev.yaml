@@ -44,8 +44,8 @@ jobs:
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
           
-      - name: List environment directory for debug
-        run: ls app/hono/src/environment
+      - name: Print project structure after env creation
+        run: tree -a -L 5 || find . | head -40
 
       - name: Upload .env as artifact
         uses: actions/upload-artifact@v4
