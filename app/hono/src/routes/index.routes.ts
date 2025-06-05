@@ -15,7 +15,7 @@ const router = createApp()
       path: "/",
       responses: {
         [HttpStatusCodes.OK]: jsonContent(
-          createMessageObjectSchema("Tasks API"),
+          createMessageObjectSchema("Tasks APIs"),
           "Tasks API Index",
         ),
       },
