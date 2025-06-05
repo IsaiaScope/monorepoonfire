@@ -1,80 +1,89 @@
 name: CI-dev
 run-name: ${{ github.actor }} is running CI-dev
 
+# Description block for documentation purposes.
 description: |
   This workflow runs on pushes to the 'dev' branch, installs dependencies, builds the project, and runs tests using pnpm.
 
 on:
   push:
-    branches: [dev]
+    branches: [dev] # Triggers workflow only for pushes to the 'dev' branch.
 
 jobs:
   build:
     name: create environment file, test and build
-    runs-on: ubuntu-latest
-    environment: env
+    runs-on: ubuntu-latest # Uses the latest Ubuntu runner provided by GitHub Actions.
+    environment: env # Optionally specifies the environment for secrets/variables.
     env:
-      ENV: ${{ vars.ENV }}
-      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      # These environment variables are available to all steps in this job.
+      ENV: ${{ vars.ENV }} # Custom variable, typically set in GitHub repo/environment.
+      LOG_LEVEL: ${{ vars.LOG_LEVEL }} # Logging level for your app.
+      DATABASE_URL: ${{ secrets.DATABASE_URL }} # Secret for your database connection string.
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Secret for TurboRepo (if used).
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }} # TurboRepo team variable.
 
     steps:
+      # Checks out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Ensures the directory for environment files exists.
+      # -p: No error if existing, make parent directories as needed.
       - name: Create environment directory
         run: mkdir -p app/hono/src/environment
 
+      # Creates the .env file with required variables.
+      # >: Overwrites the file if it exists.
+      # >>: Appends to the file.
+      # Using echo to write each variable to the .env file.
       - name: Create .env file
         run: |
           echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
 
+      # Prints the project structure for debugging.
+      # tree: Lists files in a tree-like format.
+      # -L 5: Limit depth to 5 levels.
+      # If tree is not available, fallback to find and head to avoid too much output.
       - name: Print project structure
         run: tree -L 5 || find . | head -40
 
+      # Prints the contents of the .env file for debugging.
+      # If the file does not exist, prints a message instead.
       - name: Print .env file for debugging
         run: cat app/hono/src/environment/.env || echo ".env not found in app/hono/src/environment/"
 
+      # Sets up the Node.js environment.
+      # Uses the official GitHub Action for Node.js.
+      # node-version: Specifies which version of Node.js to use.
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      # Installs pnpm globally using npm.
+      # -g: Installs pnpm globally so it can be used in subsequent steps.
       - name: Install pnpm
         run: npm install -g pnpm
 
+      # Installs project dependencies using pnpm.
       - name: Install dependencies
         run: pnpm install
 
+      # Runs your test suite using pnpm.
       - name: Run tests
         run: pnpm run test
 
+      # Builds your project using pnpm.
       - name: Run build
         run: pnpm run build
 
+      # Prints the project structure for debugging.
+      # tree: Lists files in a tree-like format.
+      # -a: Show all files including hidden ones.
+      # -L 5: Limit depth to 5 levels.
+      # If tree is not available, fallback to find and head to avoid too much output.
       - name: Print project after build structure
         run: tree -L 5 || find . | head -40
-
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: hono-dist
-          path: app/hono/dist
-
-  deploy:
-    name: Deploy to Render
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: hono-dist
-          path: dist
-
-      - name: List dist contents
-        run: ls -R dist
+      
