@@ -36,7 +36,7 @@ export function initApp() {
     // https://github.com/pinojs/pino-pretty
       pino: pino({
         level: env.LOG_LEVEL || "info",
-      }, env.NODE_ENV === "production" ? undefined : pretty()),
+      }, env.ENV === "production" ? undefined : pretty()),
     }),
   );
 

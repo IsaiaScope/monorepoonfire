@@ -3,7 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "start": "node dist/src/index.js",
+    "start": "cross-env NODE_ENV=development node dist/src/index.js",
+    "start:test": "cross-env NODE_ENV=test node dist/src/index.js",
+    "start:production": "cross-env NODE_ENV=production node dist/src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "update:database": "cross-env NODE_ENV=development drizzle-kit generate && drizzle-kit push",
@@ -15,9 +17,9 @@
     "test:watch": "cross-env NODE_ENV=development vitest --watch",
     "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
     "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
-    "build": "cross-env NODE_ENV=development pnpm update:database && tsc",
-    "build:test": "cross-env NODE_ENV=test pnpm update:database:test && tsc",
-    "build:production": "cross-env NODE_ENV=production pnpm update:database:production && tsc"
+    "build": "pnpm update:database && tsc && tsc-alias",
+    "build:test": "pnpm update:database:test && tsc && tsc-alias",
+    "build:production": "pnpm update:database:production && tsc && tsc-alias"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",
@@ -41,6 +43,7 @@
     "@types/node": "^20.17.46",
     "drizzle-kit": "^0.31.1",
     "eslint-plugin-drizzle": "^0.2.3",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3",
     "vitest": "^3.0.5"

@@ -4,7 +4,7 @@ import { Scalar } from "@scalar/hono-api-reference";
 
 import type { AppOpenAPIHono } from "../@types/open-api-hono";
 
-import { version } from "../../package.json";
+import pkg from "../../package.json" with { type: "json" };
 
 export function configureOpenApi<S extends Schema>(app: AppOpenAPIHono<S>) {
   app.doc("/doc", {
@@ -12,7 +12,7 @@ export function configureOpenApi<S extends Schema>(app: AppOpenAPIHono<S>) {
     openapi: "3.0.3",
     info: {
       title: "OpenAPI",
-      version,
+      version: pkg.version,
     },
   });
 

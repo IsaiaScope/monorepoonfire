@@ -44,10 +44,10 @@ export const env = createEnv({
     PORT: z
       .coerce
       .number()
-      .int(),
-    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    ENV: z.enum(["development", "test", "production"]),
-    LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("info"),
+      .int()
+      .default(3075),
+    ENV: z.enum(["development", "test", "production"]).default("development"),
+    LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("warn"),
     DATABASE_URL: z.string().url(),
     DATABASE_AUTH_TOKEN: z.string().optional(),
   },
@@ -65,6 +65,7 @@ export function printEnv() {
       getDotEnvFileName(),
     ),
     env,
+    NODE_ENV: process.env.NODE_ENV,
   });
 }
 
