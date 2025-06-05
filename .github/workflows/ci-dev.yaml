@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is running CI-dev
 
 # Description block for documentation purposes.
 description: |
-  This workflow runs on pushes to the 'dev' branch, installs dependencies, builds the project, and runs tests using pnpm.
+  This workflow runs on pushes to the 'dev' branch, installs dependencies, builds the project, and runs devs using pnpm.
 
 on:
   push:
@@ -44,10 +44,11 @@ jobs:
 
       # Prints the project structure for debugging.
       # tree: Lists files in a tree-like format.
+      # -a: Show all files including hidden ones.
       # -L 5: Limit depth to 5 levels.
       # If tree is not available, fallback to find and head to avoid too much output.
       - name: Print project structure
-        run: tree -L 5 || find . | head -40
+        run: tree -a -L 5 || find . | head -40
 
       # Prints the contents of the .env file for debugging.
       # If the file does not exist, prints a message instead.
@@ -79,11 +80,5 @@ jobs:
       - name: Run build
         run: pnpm run build
 
-      # Prints the project structure for debugging.
-      # tree: Lists files in a tree-like format.
-      # -a: Show all files including hidden ones.
-      # -L 5: Limit depth to 5 levels.
-      # If tree is not available, fallback to find and head to avoid too much output.
       - name: Print project after build structure
-        run: tree -L 5 || find . | head -40
-      
+        run: tree -a -L 5 || find . | head -40
