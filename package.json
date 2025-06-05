@@ -17,7 +17,8 @@
     "pre-commit": "lint-staged --allow-empty",
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prune:turbo": "turbo prune --scope @app/hono"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
