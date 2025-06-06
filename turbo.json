@@ -4,21 +4,26 @@
 
   "tasks": {
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^test"],
+      "inputs": [".env*"]
     },
     "test:test": {
-      "dependsOn": ["^test:test"]
+      "dependsOn": ["^test:test"],
+      "inputs": [".env*"]
     },
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": [".env*"]
 
     },
     "build:test": {
-      "dependsOn": ["^build:test"]
+      "dependsOn": ["^build:test"],
+      "inputs": [".env*"]
 
     },
     "build:production": {
-      "dependsOn": ["^build:production"]
+      "dependsOn": ["^build:production"],
+      "inputs": [".env*"]
 
     },
     "lint": {
