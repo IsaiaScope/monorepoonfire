@@ -1,6 +1,5 @@
 {
   "name": "monorepoonfire",
-  "type": "module",
   "private": true,
   "packageManager": "pnpm@9.1.1",
   "engines": {
@@ -19,7 +18,10 @@
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
     "prepare": "husky",
-    "prune:turbo": "turbo prune --scope @app/hono"
+    "move:environment:on:deploy": "cross-env NODE_ENV=ciao node script/move-environment-on-deploy.mjs"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
