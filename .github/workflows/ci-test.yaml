@@ -35,6 +35,7 @@ jobs:
       # Using echo to write each variable to the .env file.
       - name: Create .env.test file
         run: |
+          touch app/hono/src/environment/.env.test
           echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.test
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.test
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.test
@@ -45,11 +46,11 @@ jobs:
       # -L 5: Limit depth to 5 levels.
       # If tree is not available, fallback to find and head to avoid too much output.
       - name: Print project structure
-        run: tree -L 5 || find . | head -40
+        run: tree -a -L 8 app/hono || find app/hono | head -40
 
       # Prints the contents of the .env file for debugging.
       # If the file does not exist, prints a message instead.
-      - name: Print .env file for debugging
+      - name: Print .env.test file for debugging
         run: cat app/hono/src/environment/.env.test || echo ".env.test not found in app/hono/src/environment/"
 
       # Sets up the Node.js environment.
