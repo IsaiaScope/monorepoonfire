@@ -14,7 +14,7 @@
     "dev": "turbo run dev",
     "lint": "turbo lint",
     "lint:fix": "turbo lint:fix",
-    "pre-commit": "lint-staged --allow-empty",
+    "pre-commit": "pnpm test && pnpm build && lint-staged --allow-empty",
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
     "prepare": "husky",
