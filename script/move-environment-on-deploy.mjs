@@ -1,15 +1,27 @@
 /* eslint-disable node/no-process-env */
-// 📝 NOTE: this script is used to move the .env file inside hono project during deploys because service as Render, Netlify and Cloudflare add environment variables to an .env file at the root of the project
+import { execSync } from "node:child_process";
 import { copyFileSync, existsSync, unlinkSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
-// Get NODE_ENV from environment or default to 'development'
+// Print all environment variables in a readable table
+console.warn("=== Environment Variables ===");
+// eslint-disable-next-line no-console
+console.table(Object.entries(process.env));
+
+// Print project folder structure (first 40 lines)
+console.warn("\n=== Project Folder Structure ===");
+try {
+  // Try using 'tree' for a nice structure, fallback to 'find' if not available
+  const treeOutput = execSync("tree -a -L 3 || find . | head -40", { encoding: "utf-8" });
+  console.warn(treeOutput);
+}
+catch (err) {
+  console.warn("Could not print folder structure:", err.message);
+}
+
+// ...existing code...
 const NODE_ENV = process.env.NODE_ENV || "development";
-
-// Polyfill __dirname for ES modules
 const sourceEnvPath = resolve(process.cwd(), ".env"); // Use project root as base
-
-// Destination folder and file
 const destDir = resolve(process.cwd(), "app/hono/src/environment");
 const destEnvFile = NODE_ENV === "development" ? `.env` : `.env.${NODE_ENV}`;
 const destEnvPath = join(destDir, destEnvFile);
@@ -19,7 +31,6 @@ if (!existsSync(destDir)) {
   process.exit(0); // Exit without error
 }
 
-// Only copy and remove if .env exists
 if (existsSync(sourceEnvPath)) {
   copyFileSync(sourceEnvPath, destEnvPath);
   unlinkSync(sourceEnvPath);
