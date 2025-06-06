@@ -18,7 +18,7 @@
     "commit-msg": "npx --no -- commitlint --edit",
     "check-types": "turbo run check-types",
     "prepare": "husky",
-    "move:environment:on:deploy": "cross-env NODE_ENV=ciao node script/move-environment-on-deploy.mjs"
+    "move:environment:on:deploy": "cross-env NODE_ENV=test node script/setup-deploy-pipeline.mjs"
   },
   "dependencies": {
     "cross-env": "^7.0.3"
