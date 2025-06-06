@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable node/no-process-env */
-import { existsSync, writeFileSync } from "node:fs";
-import { readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 /* PORT=''
