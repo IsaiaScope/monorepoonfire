@@ -7,13 +7,13 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 import type { notFoundSchema } from "../../constant/schema";
 import type * as schema from "../../database/schema/skills-schema";
 
-import env from "../../environment/env";
+import { printEnv } from "../../environment/env";
 import { createTestApp } from "../../library/create-app";
 import router from "./skills.index";
 
 const client = testClient(createTestApp(router));
 
-console.warn("[TEST] ENV", env);
+printEnv();
 
 describe("[skills] routes tests", () => {
   let testId: number;
