@@ -79,12 +79,12 @@ jobs:
       # Step 9: Runs your test suite using pnpm.
       # pnpm run: Runs a script defined in package.json.
       - name: Run tests
-        run: pnpm run test:test # Runs the test:test script.
+        run: pnpm run test:test
 
       # Step 10: Builds your project using pnpm.
       # pnpm run: Runs a script defined in package.json.
       - name: Run build
-        run: pnpm run build:test # Runs the build:test script.
+        run: pnpm run build:test
 
       # Step 11: Prints the project structure for debugging after build.
       # tree: Lists files in a tree-like format.
