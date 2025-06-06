@@ -71,11 +71,11 @@ jobs:
 
       # Runs your test suite using pnpm.
       - name: Run tests
-        run: pnpm run test
+        run: pnpm run test:test
 
       # Builds your project using pnpm.
       - name: Run build
-        run: pnpm run build
+        run: pnpm run build:test
 
       # Prints the project structure for debugging.
       # tree: Lists files in a tree-like format.
