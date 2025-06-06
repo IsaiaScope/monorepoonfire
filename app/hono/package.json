@@ -11,7 +11,7 @@
     "update:database": "cross-env NODE_ENV=development drizzle-kit generate && drizzle-kit push",
     "update:database:test": "cross-env NODE_ENV=test drizzle-kit generate && drizzle-kit push",
     "update:database:production": "cross-env NODE_ENV=production drizzle-kit generate && drizzle-kit push",
-    "dev": "cross-env tsx watch src/index.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "dev:test": "cross-env NODE_ENV=test tsx watch src/index.ts",
     "dev:production": "cross-env NODE_ENV=production tsx watch src/index.ts",
     "test:watch": "cross-env NODE_ENV=development vitest --watch",

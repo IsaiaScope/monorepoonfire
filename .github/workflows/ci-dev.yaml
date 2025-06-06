@@ -1,10 +1,6 @@
 name: CI-dev
 run-name: ${{ github.actor }} is running CI-dev
 
-# Description block for documentation purposes.
-description: |
-  This workflow runs on pushes to the 'dev' branch, installs dependencies, builds the project, and runs devs using pnpm.
-
 on:
   push:
     branches: [dev] # Triggers workflow only for pushes to the 'dev' branch.
@@ -81,4 +77,4 @@ jobs:
         run: pnpm run build
 
       - name: Print project after build structure
-        run: tree -a -L 5 || find . | head -40
+        run: tree -L 5 || find . | head -40
