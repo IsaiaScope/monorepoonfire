@@ -49,7 +49,18 @@ export const env = createEnv({
     ENV: z.enum(["development", "test", "production"]).default("development"),
     LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("warn"),
     DATABASE_URL: z.string().url(),
-    DATABASE_AUTH_TOKEN: z.string().optional(),
+    DATABASE_AUTH_TOKEN: z.string().optional().refine(
+      (val) => {
+        // Require DATABASE_AUTH_TOKEN if NODE_ENV is 'test' or 'production'
+        if (process.env.NODE_ENV !== "development") {
+          return typeof val === "string" && val.length > 0;
+        }
+        return true;
+      },
+      {
+        message: "DATABASE_AUTH_TOKEN is required in test or production environments",
+      },
+    ),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
