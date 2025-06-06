@@ -36,6 +36,7 @@ jobs:
       # >>: Appends to the file.
       - name: Create .env.test file
         run: |
+          touch app/hono/src/environment/.env.test
           echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.test
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.test 
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.test
