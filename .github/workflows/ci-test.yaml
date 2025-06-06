@@ -81,5 +81,6 @@ jobs:
       # tree: Lists files in a tree-like format.
       # -L 5: Limit depth to 5 levels.
       # If tree is not available, fallback to find and head to avoid too much output.
-      - name: Print project after build structure
-        run: tree -L 5 || find . | head -40
+      - name: Print project structure
+        run: |
+          (tree -L 8 -I 'node_modules' || find . -type d -name node_modules -prune -o -print | grep -v node_modules | head -80)
