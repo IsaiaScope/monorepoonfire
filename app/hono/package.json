@@ -8,7 +8,7 @@
     "start:production": "cross-env NODE_ENV=production node dist/src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "update:database": "cross-env NODE_ENV=development drizzle-kit generate && drizzle-kit push",
+    "update:database": "cross-env NODE_ENV=development drizzle-kit generate && cross-env NODE_ENV=test drizzle-kit push",
     "update:database:test": "cross-env NODE_ENV=test drizzle-kit generate && drizzle-kit push",
     "update:database:production": "cross-env NODE_ENV=production drizzle-kit generate && drizzle-kit push",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
