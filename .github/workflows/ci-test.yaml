@@ -36,7 +36,6 @@ jobs:
       # >>: Appends to the file.
       - name: Create .env.test file
         run: |
-          touch app/hono/src/environment/.env.test
           echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.test
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.test 
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.test
@@ -80,12 +79,12 @@ jobs:
       # Step 9: Runs your test suite using pnpm.
       # pnpm run: Runs a script defined in package.json.
       - name: Run tests
-        run: pnpm run test:test
+        run: pnpm run test:test # Runs the test:test script.
 
       # Step 10: Builds your project using pnpm.
       # pnpm run: Runs a script defined in package.json.
       - name: Run build
-        run: pnpm run build:test
+        run: pnpm run build:test # Runs the build:test script.
 
       # Step 11: Prints the project structure for debugging after build.
       # tree: Lists files in a tree-like format.
