@@ -10,7 +10,7 @@ const NODE_ENV = process.env.NODE_ENV || "development";
 const sourceEnvPath = resolve(process.cwd(), ".env"); // Use project root as base
 
 // Destination folder and file
-const destDir = resolve(process.cwd(), "app/hono/dist/src/environment");
+const destDir = resolve(process.cwd(), "app/hono/src/environment");
 const destEnvFile = NODE_ENV === "development" ? `.env` : `.env.${NODE_ENV}`;
 const destEnvPath = join(destDir, destEnvFile);
 
