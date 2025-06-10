@@ -1,21 +1,20 @@
-name: CI-test
-run-name: ${{ github.actor }} is running CI-test
+name: CI-production
+run-name: ${{ github.actor }} is running CI-production
 
 on:
   push:
-    branches: [test] # Triggers workflow only for pushes to the 'test' branch.
+    branches: [production] # Triggers workflow only for pushes to the 'production' branch.
 
 jobs:
   build:
-    name: Test and Build # Name of the job that will run in this workflow.
+    name: Build # Name of the job that will run in this workflow.
     runs-on: ubuntu-latest # Uses the latest Ubuntu runner provided by GitHub Actions.
-    environment: env.test # Optionally specifies the environment for secrets/variables.
+    environment: env # Optionally specifies the environment for secrets/variables.
     env:
       # These environment variables are available to all steps in this job.
       ENV: ${{ vars.ENV }} # Custom variable, typically set in GitHub repo/environment.
       LOG_LEVEL: ${{ vars.LOG_LEVEL }} # Logging level for your app.
       DATABASE_URL: ${{ secrets.DATABASE_URL }} # Secret for your database connection string.
-      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }} # Secret for database authentication.
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Secret for TurboRepo (if used).
       TURBO_TEAM: ${{ vars.TURBO_TEAM }} # TurboRepo team variable.
 
@@ -30,16 +29,15 @@ jobs:
       - name: Create environment directory
         run: mkdir -p app/hono/src/environment # -p ensures no error if the directory exists.
 
-      # Step 3: Creates the .env.test file with required variables.
+      # Step 3: Creates the .env.production file with required variables.
       # echo: Writes environment variables to the file.
       # >: Overwrites the file if it exists.
       # >>: Appends to the file.
-      - name: Create .env.test file
+      - name: Create .env.production file
         run: |
-          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.test
-          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.test 
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.test
-          echo "DATABASE_AUTH_TOKEN=${{ secrets.DATABASE_AUTH_TOKEN }}" >> app/hono/src/environment/.env.test
+          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.production
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.production 
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.production
 
       # Step 4: Prints the project structure for debugging.
       # tree: Lists files in a tree-like format.
@@ -51,11 +49,11 @@ jobs:
       - name: Print project tree before running tests and build
         run: tree -a -L 8 app/hono || find app/hono | head -40
 
-      # Step 5: Prints the contents of the .env.test file for debugging.
+      # Step 5: Prints the contents of the .env.production file for debugging.
       # cat: Displays file contents.
       # If the file does not exist, prints a message instead.
-      - name: Print .env.test file for debugging
-        run: cat app/hono/src/environment/.env.test || echo ".env.test not found in app/hono/src/environment/"
+      - name: Print .env.production file for debugging
+        run: cat app/hono/src/environment/.env.production || echo ".env.production not found in app/hono/src/environment/"
 
       # Step 6: Sets up the Node.js environment.
       # Uses the official GitHub Action for Node.js.
@@ -76,17 +74,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install # Installs all dependencies listed in package.json.
 
-      # Step 9: Runs your test suite using pnpm.
-      # pnpm run: Runs a script defined in package.json.
-      - name: Run tests
-        run: pnpm run test:test # Runs the test:test script.
-
-      # Step 10: Builds your project using pnpm.
+      # Step 9: Builds your project using pnpm.
       # pnpm run: Runs a script defined in package.json.
       - name: Run build
-        run: pnpm run build:test # Runs the build:test script.
+        run: pnpm run build:production # Runs the build script.
 
-      # Step 11: Prints the project structure for debugging after build.
+      # Step 10: Prints the project structure for debugging after build.
       # tree: Lists files in a tree-like format.
       # -a: All files, including hidden ones.
       # -I 'node_modules': Ignores node_modules directories.
