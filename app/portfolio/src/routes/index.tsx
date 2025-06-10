@@ -1,13 +1,15 @@
 import { Button } from "@package/shadcn";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import logo from "../logo.svg";
 
 export const Route = createFileRoute("/")({
-  component: App,
+  component: Home,
 });
 
-function App() {
+function Home() {
+  const { t } = useTranslation();
   return (
     <div className="text-center">
       <Button
@@ -26,7 +28,7 @@ function App() {
           alt="logo"
         />
         <p>
-          Edit
+          {t("home")}
           {" "}
           <code>src/routes/index.tsx</code>
           {" "}
