@@ -14,12 +14,12 @@
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "dev:test": "cross-env NODE_ENV=test tsx watch src/index.ts",
     "dev:production": "cross-env NODE_ENV=production tsx watch src/index.ts",
-    "test:watch": "cross-env NODE_ENV=development vitest --watch",
-    "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
-    "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
     "build": "pnpm update:database && tsc && tsc-alias",
     "build:test": "pnpm update:database:test && tsc && tsc-alias",
-    "build:production": "pnpm update:database:production && tsc && tsc-alias"
+    "build:production": "pnpm update:database:production && tsc && tsc-alias",
+    "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
+    "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
+    "test:watch": "pnpm update:database && cross-env NODE_ENV=development vitest --watch"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",

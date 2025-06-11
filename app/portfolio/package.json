@@ -15,13 +15,17 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "tailwind:output": "npx @tailwindcss/cli -i ./src/global.css -o ./src/output.css --watch",
-    "test": "vitest run",
     "create:translations:json": "i18nexus pull -k WH_yT8LiyzxNa3Vtejuzvw -p ./public/locales",
     "create:translations:interface": "i18next-resources-for-ts interface -i ./public/locales/en-GB -o ./src/@types/resources.d.ts",
-    "update:locales": "pnpm create:translations:json && pnpm create:translations:interface"
+    "update:locales": "pnpm create:translations:json && pnpm create:translations:interface",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@package/shadcn": "workspace:*",
+    "@package/ui": "workspace:*",
     "@package/utility": "workspace:*",
     "@t3-oss/env-core": "^0.12.0",
     "@tailwindcss/cli": "^4.1.7",
@@ -35,6 +39,7 @@
     "lucide-react": "^0.476.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-error-boundary": "^6.0.0",
     "react-i18next": "^15.5.2",
     "tailwindcss": "^4.0.6",
     "zod": "^3.24.2"

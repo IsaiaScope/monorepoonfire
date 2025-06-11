@@ -3,3 +3,5 @@
 @import "@package/shadcn/css";
 
 @source '../node_modules/@package/shadcn';
+
+@source '../node_modules/@package/ui';
