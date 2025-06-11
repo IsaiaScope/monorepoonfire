@@ -1,5 +1,12 @@
 {
-  "extends": "@package/config/typescript/react-vite"
+  "extends": "@package/config/typescript/react",
+  "compilerOptions": {
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  }
   /*
   To handle the following error: include prop should be specified here because tsconfig.json cannot find the specific files to include.
   */

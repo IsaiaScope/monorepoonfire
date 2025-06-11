@@ -1,10 +1,14 @@
 {
   "extends": "@package/config/typescript/hono",
   "compilerOptions": {
+    "types": [
+      "vitest/globals"
+    ],
     // "module": "NodeNext", // or "ESNext"
     // "moduleResolution": "NodeNext",
     // "resolveJsonModule": true,
     "outDir": "./dist"
+
   },
   // https://stackoverflow.com/questions/62619058/appending-js-extension-on-relative-import-statements-during-typescript-compilat
   "tsc-alias": {

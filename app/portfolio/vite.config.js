@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [TanStackRouterVite({ target: "react", autoCodeSplitting: true, routesDirectory: "src/routes", generatedRouteTree: "src/provider/routeTree.gen.ts" }), viteReact(), tailwindcss()],
     test: {
+      name: "@package/portfolio",
       globals: true,
       environment: "jsdom",
       setupFiles: "src/test/set-up-test.ts",

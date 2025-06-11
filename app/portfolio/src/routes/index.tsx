@@ -2,7 +2,7 @@ import { Button } from "@package/shadcn";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
-import logo from "../logo.svg";
+// import logo from "../logo.svg";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -21,11 +21,11 @@ function Home() {
       >
         TEST
       </Button>
-      <img
+      {/* <img
         src={logo}
         className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
         alt="logo"
-      />
+      /> */}
       <p>
         {t("home")}
         {" "}
