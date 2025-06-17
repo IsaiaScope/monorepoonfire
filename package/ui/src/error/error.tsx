@@ -21,6 +21,18 @@ function isErrorFromRouter(from: From, errorData: FallbackProps | ErrorComponent
   return !!(errorData && from === "router");
 }
 
+function UIErrorWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <UIWrapper tag="main" variant="primary" className="bg-foreground flex flex-col items-center justify-center gap-10">
+      <h1 className=" text-9xl font-extrabold text-primary tracking-widest">404</h1>
+      <div className="bg-primary-foreground text-primary px-2 text-sm rounded rotate-12 absolute">
+        Page Not Found
+      </div>
+      {children}
+    </UIWrapper>
+  );
+}
+
 function UIError({ from, errorData }: ErrorProps) {
   if (isErrorFromBoundary(from, errorData)) {
     const { error, resetErrorBoundary } = errorData;
@@ -28,17 +40,12 @@ function UIError({ from, errorData }: ErrorProps) {
     console.error("[Boundary Error]:", { message: error.message, stack: error.stack });
 
     return (
-      <UIWrapper tag="main" variant="primary" className="bg-foreground flex flex-col items-center justify-center gap-10">
-        <h1 className=" text-9xl font-extrabold text-primary tracking-widest">404</h1>
-        <div className="bg-primary-foreground text-primary px-2 text-sm rounded rotate-12 absolute">
-          Page Not Found
-        </div>
-
+      <UIErrorWrapper>
         <Button size="lg" onClick={resetErrorBoundary}>
           <Globe />
           Reset
         </Button>
-      </UIWrapper>
+      </UIErrorWrapper>
     );
   }
 
@@ -48,25 +55,21 @@ function UIError({ from, errorData }: ErrorProps) {
     console.error("[Router Error]:", { message: error.message, stack: info?.componentStack });
 
     return (
-      <UIWrapper tag="main" variant="primary" className="bg-foreground flex flex-col items-center justify-center gap-10">
-        <h1 className=" text-9xl font-extrabold text-primary tracking-widest">404</h1>
-        <div className="bg-primary-foreground text-primary px-2 text-sm rounded rotate-12 absolute">
-          Page Not Found
-        </div>
-
+      <UIErrorWrapper>
         <Button size="lg" onClick={reset}>
           <Route />
           Reset
         </Button>
-      </UIWrapper>
+      </UIErrorWrapper>
+
     );
   }
 }
 
-export function BoundaryUIError(error: FallbackProps) {
+export function UIBoundaryError(error: FallbackProps) {
   return <UIError from="boundary" errorData={error} />;
 }
 
-export function RouterUIError(error: ErrorComponentProps) {
+export function UIRouterError(error: ErrorComponentProps) {
   return <UIError from="router" errorData={error} />;
 }

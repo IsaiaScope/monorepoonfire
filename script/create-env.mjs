@@ -36,7 +36,7 @@ const envContent = envVars
   .join("\n");
 
 if (!envContent) {
-  console.log("No environment variables found to write to .env file.");
+  console.log(`No environment variables found to write to .env.${process.env.NODE_ENV} file.`);
   process.exit(0); // Exit with no error
 }
 

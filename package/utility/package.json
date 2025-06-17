@@ -9,6 +9,9 @@
     },
     "./tailwind": {
       "import": "./tailwind/index.ts"
+    },
+    "./constant": {
+      "import": "./constant/index.ts"
     }
   },
   "scripts": {

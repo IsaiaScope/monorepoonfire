@@ -1,4 +1,4 @@
-import { BoundaryUIError } from "@package/ui";
+import { UIBoundaryError } from "@package/ui";
 import { DarkModeProvider, TanstackQueryProvider } from "@package/utility/provider";
 import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
@@ -24,7 +24,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <ErrorBoundary FallbackComponent={BoundaryUIError}>
+      <ErrorBoundary FallbackComponent={UIBoundaryError}>
         <DarkModeProvider>
 
           <Suspense fallback={<div className="bg-amber-500">Loading...</div>}>
