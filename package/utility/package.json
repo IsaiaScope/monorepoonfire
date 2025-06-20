@@ -12,6 +12,12 @@
     },
     "./constant": {
       "import": "./constant/index.ts"
+    },
+    "./@types": {
+      "import": "./@types/index.ts"
+    },
+    "./object": {
+      "import": "./object/index.ts"
     }
   },
   "scripts": {
