@@ -168,7 +168,7 @@ export default function Navbar({ className }: { className?: string }) {
 
       <nav
         className={cn(
-          "p-3 flex w-full items-center justify-between shadow-sm shadow-primary-foreground",
+          "p-3 flex w-full items-center justify-between shadow-sm shadow-primary",
           className,
         )}
       >
