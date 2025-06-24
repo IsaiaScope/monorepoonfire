@@ -27,6 +27,8 @@
     "@package/shadcn": "workspace:*",
     "@package/ui": "workspace:*",
     "@package/utility": "workspace:*",
+    "@react-three/drei": "^10.3.0",
+    "@react-three/fiber": "^9.1.2",
     "@t3-oss/env-core": "^0.12.0",
     "@tailwindcss/cli": "^4.1.7",
     "@tailwindcss/vite": "^4.0.6",
@@ -44,6 +46,8 @@
     "react-i18next": "^15.5.2",
     "react-responsive": "^10.0.1",
     "tailwindcss": "^4.0.6",
+    "three": "^0.177.0",
+    "three-stdlib": "^2.36.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -56,6 +60,7 @@
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/three": "^0.177.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/coverage-istanbul": "^3.1.4",
     "@vitest/ui": "^3.1.4",

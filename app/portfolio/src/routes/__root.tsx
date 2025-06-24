@@ -17,7 +17,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     <TanstackRouterDevtoolsProvider showDevtool={env.VITE_SHOW_TANSTACK_DEVTOOLS}>
       <UIWrapper tag="main" variant="secondary">
         <Navbar />
-        <UIWrapper tag="section" className="grow">
+        <UIWrapper tag="section" className="grow relative">
           <Outlet />
         </UIWrapper>
         <Footer />

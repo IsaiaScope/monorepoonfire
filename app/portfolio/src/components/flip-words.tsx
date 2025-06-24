@@ -1,4 +1,5 @@
-"use client";
+/* eslint-disable react/no-array-index-key */
+
 import { cn } from "@package/utility/tailwind";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
@@ -70,7 +71,6 @@ export default function FlipWords({
         )}
         key={currentWord}
       >
-        {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
         {currentWord.split(" ").map((word, wordIndex) => (
           <motion.span
             key={word + wordIndex}
