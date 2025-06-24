@@ -37,6 +37,7 @@
     "i18next-browser-languagedetector": "^8.1.0",
     "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.476.0",
+    "motion": "^12.19.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",
