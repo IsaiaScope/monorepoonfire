@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import Hero from "../components/hero";
+import About from "../feature/about/about";
+import Hero from "../feature/hero/hero";
 
 // import logo from "../logo.svg";
 
@@ -11,7 +12,10 @@ export const Route = createFileRoute("/")({
 function Home() {
   // const { t } = useTranslation();
   return (
-    <Hero />
+    <>
+      <Hero />
+      <About />
+    </>
 
   // <div className="text-center">
   //   <Button

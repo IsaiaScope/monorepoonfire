@@ -164,11 +164,11 @@ export default function Navbar({ className }: { className?: string }) {
   });
 
   return (
-    <header>
+    <header className="fixed z-100 w-full">
 
       <nav
         className={cn(
-          "z-20 p-3 flex w-full items-center justify-between shadow-sm shadow-primary",
+          " p-3 flex w-full h-16 items-center justify-between shadow-sm shadow-primary",
           className,
         )}
       >

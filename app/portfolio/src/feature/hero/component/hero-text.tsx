@@ -11,9 +11,9 @@ const HeroText = () => {
     visible: { opacity: 1, x: 0 },
   };
   return (
-    <div className="z-10 mt-20 text-center md:mt-40 md:text-left rounded-3xl bg-clip-text">
+    <div className="z-10 mt-20 text-center md:mt-40 md:text-left bg-clip-text">
       {/* Desktop View */}
-      <div className="flex-col hidden md:flex c-space">
+      <div className="flex-col hidden md:flex  c-space">
         <motion.h1
           className="text-4xl"
           variants={variants}
@@ -31,7 +31,7 @@ const HeroText = () => {
             animate="visible"
             transition={{ delay: 1.2 }}
           >
-            {t("creating")}
+            {t("a developer")}
             <br />
             {t("committed to building")}
           </motion.p>
@@ -58,7 +58,7 @@ const HeroText = () => {
         </div>
       </div>
       {/* Mobile View */}
-      <div className="flex- flex-col space-y-6 md:hidden">
+      <div className="flex flex-col space-y-6 md:hidden">
         <motion.p
           className="text-4xl"
           variants={variants}

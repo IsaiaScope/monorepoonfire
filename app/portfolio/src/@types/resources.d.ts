@@ -1,11 +1,11 @@
 interface Resources {
   "common": {
     "about": "About",
-    "a developer": "a developer",
-    "bulletproof": "bulletproof",
-    "committed to building": "committed to building",
+    "a developer": "A Developer",
+    "bulletproof": "Bulletproof",
+    "committed to building": "Committed to Building",
     "contact": "Contact",
-    "creating": "creating",
+    "creating": "Creating",
     "dark mode label": "Dark",
     "dark mode screen reader label": "Toggle dark mode",
     "english": "English",
@@ -15,9 +15,9 @@ interface Resources {
     "light mode label": "Light",
     "menu": "Menu",
     "menu description": "This is the menu for the app. Use the links below to navigate",
-    "reliable": "reliable",
-    "robust": "robust",
-    "web solutions": "web solutions",
+    "reliable": "Reliable",
+    "robust": "Robust",
+    "web solutions": "Web Solutions",
     "work": "Work"
   }
 }
