@@ -10,10 +10,10 @@ const HeroBackground = () => {
 
   return (
     <section className="absolute inset-0">
-      <div className="relative w-full h-full overflow-y-hidden">
+      <div className="relative w-full h-full overflow-y-hidden bg-clip-border">
         {/* Background Sky */}
         <div
-          className="absolute inset-0 -z-50"
+          className="absolute inset-0 -z-14"
           style={{
             backgroundImage: "url(/assets/sky.jpg)",
             backgroundPosition: "bottom",
@@ -22,7 +22,7 @@ const HeroBackground = () => {
         />
         {/* Mountain Layer 3 */}
         <motion.div
-          className="absolute inset-0 -z-40"
+          className="absolute inset-0 -z-13"
           style={{
             backgroundImage: "url(/assets/mountain-3.png)",
             backgroundPosition: "bottom",
@@ -32,7 +32,7 @@ const HeroBackground = () => {
         />
         {/* Planets */}
         <motion.div
-          className="absolute inset-0 -z-30"
+          className="absolute inset-0 -z-12"
           style={{
             backgroundImage: "url(/assets/planets.png)",
             backgroundPosition: "bottom",
@@ -42,7 +42,7 @@ const HeroBackground = () => {
         />
         {/* Mountain Layer 2 */}
         <motion.div
-          className="absolute inset-0 -z-20"
+          className="absolute inset-0 -z-11"
           style={{
             backgroundImage: "url(/assets/mountain-2.png)",
             backgroundPosition: "bottom",

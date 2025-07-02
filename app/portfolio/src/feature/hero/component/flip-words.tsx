@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 // https://ui.aceternity.com/components/flip-words
 export default function FlipWords({
   words,
-  duration = 3000,
+  duration = 2000,
   className,
 }: {
   words: string[];

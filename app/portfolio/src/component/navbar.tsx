@@ -3,7 +3,7 @@ import { UIDarkModeSwitch, UILanguageSelector, UILink } from "@package/ui";
 import { PACKAGE_UTILITY } from "@package/utility/constant";
 import { ObjectKeys } from "@package/utility/object";
 import { cn } from "@package/utility/tailwind";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +23,6 @@ function NavbarDarkModeSwitch() {
 
   return (
     <UIDarkModeSwitch
-
       darkLabel={t("dark mode label")}
       lightLabel={t("light mode label")}
       screenReaderLabel={t("dark mode screen reader label")}
@@ -66,9 +65,13 @@ function NavbarLink({ className, children, href }: NavbarLinkProps) {
     <Button
       asChild
       variant="link"
-
     >
-      <UILink href={href} className={cn("cursor-pointer", className)}>
+      <UILink
+        href={href}
+        target="_parent"
+
+        className={cn("cursor-pointer", className)}
+      >
         {children}
       </UILink>
 
@@ -76,41 +79,124 @@ function NavbarLink({ className, children, href }: NavbarLinkProps) {
   );
 };
 
-function NavbarMobile() {
+function NavbarMobile({ isHome }: { isHome: boolean }) {
   const { t } = useTranslation();
   return (
     <>
-      <NavbarLink className="text-lg">
-        {t("home")}
-      </NavbarLink>
-
+      {isHome
+        ? (
+            <NavbarLink
+              href={`#${t("home")}`}
+              className="text-2xl font-bold"
+            >
+              {t("home")}
+            </NavbarLink>
+          )
+        : (
+            <Button
+              asChild
+              variant="link"
+              className="text-2xl font-bold"
+            >
+              <Link to="/">
+                {t("home")}
+              </Link>
+            </Button>
+          )}
       <section className="inline-flex gap-2">
         <NavbarLanguageSelector />
         <NavbarDarkModeSwitch />
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className="ml-auto p-1" size="icon" variant="ghost">
-              <Menu />
+        {isHome
+          ? (
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className="ml-auto p-1" size="icon" variant="ghost">
+                    <Menu />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <SheetHeader className="mb-2">
+                    <SheetTitle>{t("menu")}</SheetTitle>
+                    <SheetDescription className="sr-only">
+                      {t("menu description")}
+                    </SheetDescription>
+
+                  </SheetHeader>
+                  <div className="p-4 grid">
+
+                    <NavbarLink
+                      href={`#${t("about")}`}
+                    >
+                      {t("about")}
+                    </NavbarLink>
+                    <Separator className="my-2" />
+                    <NavbarLink href={`#${t("work")}`}>
+                      {t("work")}
+                    </NavbarLink>
+                    <Separator className="my-2" />
+                    <Button
+                      asChild
+                      variant="link"
+                    >
+                      <Link to="/contact">
+                        {t("contact")}
+                      </Link>
+                    </Button>
+                    <Separator className="my-2" />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            )
+          : null}
+      </section>
+    </>
+  );
+}
+
+function NavbarDesktop({ isHome }: { isHome: boolean }) {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      {isHome
+        ? (
+            <NavbarLink
+              href={`#${t("home")}`}
+              className="text-2xl font-bold"
+            >
+              {t("home")}
+            </NavbarLink>
+          )
+        : (
+            <Button
+              asChild
+              variant="link"
+              className="text-2xl font-bold"
+            >
+              <Link to="/">
+                {t("home")}
+              </Link>
             </Button>
-          </SheetTrigger>
-          <SheetContent side="right">
-            <SheetHeader className="mb-2">
-              <SheetTitle>{t("menu")}</SheetTitle>
-              <SheetDescription className="sr-only">
-                {t("menu description")}
-              </SheetDescription>
-
-            </SheetHeader>
-            <div className="p-4 grid">
-
-              <NavbarLink>
+          )}
+      <section className="inline-flex gap-4">
+        {isHome
+          ? (
+              <NavbarLink
+                href={`#${t("about")}`}
+              >
                 {t("about")}
               </NavbarLink>
-              <Separator className="my-2" />
-              <NavbarLink>
+            )
+          : null}
+        {isHome
+          ? (
+              <NavbarLink href={`#${t("work")}`}>
                 {t("work")}
               </NavbarLink>
-              <Separator className="my-2" />
+            )
+          : null}
+        {isHome
+          ? (
               <Button
                 asChild
                 variant="link"
@@ -119,38 +205,8 @@ function NavbarMobile() {
                   {t("contact")}
                 </Link>
               </Button>
-              <Separator className="my-2" />
-            </div>
-          </SheetContent>
-        </Sheet>
-      </section>
-
-    </>
-  );
-}
-
-function NavbarDesktop() {
-  const { t } = useTranslation();
-  return (
-    <>
-      <NavbarLink className="text-lg">
-        {t("home")}
-      </NavbarLink>
-      <section className="inline-flex gap-4">
-        <NavbarLink>
-          {t("about")}
-        </NavbarLink>
-        <NavbarLink>
-          {t("work")}
-        </NavbarLink>
-        <Button
-          asChild
-          variant="link"
-        >
-          <Link to="/contact">
-            {t("contact")}
-          </Link>
-        </Button>
+            )
+          : null}
         <NavbarLanguageSelector />
         <NavbarDarkModeSwitch />
       </section>
@@ -162,18 +218,19 @@ export default function Navbar({ className }: { className?: string }) {
   const isBiggerThanLarge = useMediaQuery({
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
+  const isHome = useLocation().pathname === "/";
 
   return (
-    <header className="fixed z-100 w-full">
+    <header className="z-20 fixed w-full">
 
       <nav
         className={cn(
-          " p-3 flex w-full h-16 items-center justify-between shadow-sm shadow-primary",
+          "backdrop-blur-md bg-background/80 p-3 flex w-full h-16 items-center justify-between shadow-sm shadow-primary",
           className,
         )}
       >
 
-        {isBiggerThanLarge ? <NavbarDesktop /> : <NavbarMobile /> }
+        {isBiggerThanLarge ? <NavbarDesktop isHome={isHome} /> : <NavbarMobile isHome={isHome} /> }
       </nav>
     </header>
   );

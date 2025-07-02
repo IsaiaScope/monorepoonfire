@@ -1,66 +1,26 @@
+import { PACKAGE_UTILITY } from "@package/utility/constant";
 import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 
 import FlipWords from "./flip-words";
 
 const HeroText = () => {
   const { t } = useTranslation();
-  const words = [t("robust"), t("bulletproof"), t("reliable")];
+  const words = [t("robust"), t("innovative"), t("reliable")];
   const variants = {
     hidden: { opacity: 0, x: -50 },
     visible: { opacity: 1, x: 0 },
   };
+  const isBiggerThanMedium = useMediaQuery({
+    minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
+  });
   return (
-    <div className="z-10 mt-20 text-center md:mt-40 md:text-left bg-clip-text">
-      {/* Desktop View */}
-      <div className="flex-col hidden md:flex  c-space">
-        <motion.h1
-          className="text-4xl"
-          variants={variants}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 1 }}
-        >
-          {t("Hi, I'm Isaia")}
-        </motion.h1>
-        <div className="flex flex-col items-start">
-          <motion.p
-            className="text-5xl text-neutral-300"
-            variants={variants}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1.2 }}
-          >
-            {t("a developer")}
-            <br />
-            {t("committed to building")}
-          </motion.p>
-          <motion.div
-            variants={variants}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1.5 }}
-          >
-            <FlipWords
-              words={words}
-              className="text-white text-8xl"
-            />
-          </motion.div>
-          <motion.p
-            className="text-4xl text-neutral-300"
-            variants={variants}
-            initial="hidden"
-            animate="visible"
-            transition={{ delay: 1.8 }}
-          >
-            {t("web solutions")}
-          </motion.p>
-        </div>
-      </div>
-      {/* Mobile View */}
-      <div className="flex flex-col space-y-6 md:hidden">
+    <section className="text-shadow-md/30 text-shadow-black text-white z-10 text-center inset-0 absolute">
+
+      <div className="mt-20 md:mt-40 flex flex-col space-y-4">
         <motion.p
-          className="text-4xl"
+          className="text-4xl font-semibold"
           variants={variants}
           initial="hidden"
           animate="visible"
@@ -68,15 +28,25 @@ const HeroText = () => {
         >
           {t("Hi, I'm Isaia")}
         </motion.p>
-        <div>
+        <div className="space-y-2">
           <motion.p
-            className="text-5xl text-neutral-300"
+            className="text-5xl "
             variants={variants}
             initial="hidden"
             animate="visible"
             transition={{ delay: 1.2 }}
           >
-            {t("creating")}
+            {
+              isBiggerThanMedium
+                ? (
+                    <>
+                      {t("a developer")}
+                      <br />
+                      {t("committed to building")}
+                    </>
+                  )
+                : t("creating")
+            }
           </motion.p>
           <motion.div
             variants={variants}
@@ -86,7 +56,7 @@ const HeroText = () => {
           >
             <FlipWords
               words={words}
-              className="font-bold text-white text-7xl"
+              className="font-bold text-white text-5xl"
             />
           </motion.div>
           <motion.p
@@ -100,7 +70,7 @@ const HeroText = () => {
           </motion.p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

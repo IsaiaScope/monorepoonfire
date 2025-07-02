@@ -1,46 +1,45 @@
 import { UIWrapper } from "@package/ui";
-// import { Float, OrbitControls } from "@react-three/drei";
-// import { Canvas, useFrame } from "@react-three/fiber";
-// import { Suspense } from "react";
+import { PACKAGE_UTILITY } from "@package/utility/constant";
+import { Float } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 
-// import { Alien } from "./component/alien";
+import { Alien } from "./component/alien";
 import HeroBackground from "./component/hero-background";
 import HeroText from "./component/hero-text";
 
 // 📝 NOTE: 16 (4rem) is Navbar height
 function Hero() {
+  const { t } = useTranslation();
+  const isBiggerThanLarge = useMediaQuery({
+    minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
+  });
   return (
-    <UIWrapper tag="section" className="grow relative  mt-16 min-h-[calc(100dvh-4rem)]" variant="primary">
+    <UIWrapper tag="section" className="scroll-mt-16 grow relative mt-16 min-h-[calc(100dvh-4rem)]" variant="primary" id={t("home")}>
 
       <HeroText />
       <HeroBackground />
-      {/* <figure className="absolute inset-0">
+      <figure className="absolute inset-0">
         <Canvas>
           <ambientLight intensity={1.5} />
           <directionalLight position={[5, 10, 7.5]} />
           <Suspense fallback={null}>
             <Float>
-              <Alien />
-              <OrbitControls />
+              <Alien
+                scale={isBiggerThanLarge ? [2, 2, 2] : [1.6, 1.6, 1.6]}
+                position={isBiggerThanLarge ? [1, -0.5, 0.5] : [0, -0.8, 0]}
+                rotation={[0, 0, -Math.PI / 8]}
+              />
             </Float>
           </Suspense>
         </Canvas>
-      </figure> */}
+      </figure>
 
     </UIWrapper>
 
   );
 }
-
-// function Rig() {
-//   return useFrame((state, delta) => {
-//     easing.damp3(
-//       state.camera.position,
-//       [state.mouse.x / 10, 1 + state.mouse.y / 10, 3],
-//       0.5,
-//       delta
-//     );
-//   });
-// }
 
 export default Hero;

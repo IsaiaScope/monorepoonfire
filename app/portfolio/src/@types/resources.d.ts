@@ -2,7 +2,6 @@ interface Resources {
   "common": {
     "about": "About",
     "a developer": "A Developer",
-    "bulletproof": "Bulletproof",
     "committed to building": "Committed to Building",
     "contact": "Contact",
     "creating": "Creating",
@@ -11,6 +10,7 @@ interface Resources {
     "english": "English",
     "Hi, I'm Isaia": "Hi, I'm Isaia",
     "home": "Isaia",
+    "innovative": "Innovative",
     "italian": "Italian",
     "light mode label": "Light",
     "menu": "Menu",

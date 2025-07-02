@@ -15,7 +15,7 @@ type RouterContext = {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <TanstackRouterDevtoolsProvider showDevtool={env.VITE_SHOW_TANSTACK_DEVTOOLS}>
-      <UIWrapper tag="main" variant="secondary">
+      <UIWrapper tag="main" variant="secondary" className="overflow-x-hidden">
         <Navbar />
         <Outlet />
         <Footer />
