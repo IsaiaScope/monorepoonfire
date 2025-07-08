@@ -15,6 +15,7 @@ type GLTFResult = GLTF & {
 
 export function Alien(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/small_alien_3d_model.glb") as unknown as GLTFResult;
+
   return (
     <group {...props} dispose={null}>
       <mesh
