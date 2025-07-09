@@ -2,6 +2,11 @@
   "name": "@app/hono",
   "type": "module",
   "version": "0.0.1",
+  "exports": {
+    "./rpc": {
+      "import": "./src/app.ts"
+    }
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=development node dist/src/index.js",
     "start:test": "cross-env NODE_ENV=test node dist/src/index.js",

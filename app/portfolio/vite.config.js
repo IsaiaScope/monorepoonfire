@@ -32,6 +32,10 @@ export default defineConfig(({ mode }) => {
       sourcemap: mode !== "production",
       minify: mode === "production" ? "esbuild" : false,
     },
+    proxy: {
+      // 📝 NOTE: port should be the same as in HONO server
+      "/api": `http://localhost:3075`,
+    },
 
   };
 });

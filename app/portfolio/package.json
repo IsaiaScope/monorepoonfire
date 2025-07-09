@@ -24,6 +24,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@app/hono": "workspace:*",
     "@package/shadcn": "workspace:*",
     "@package/ui": "workspace:*",
     "@package/utility": "workspace:*",

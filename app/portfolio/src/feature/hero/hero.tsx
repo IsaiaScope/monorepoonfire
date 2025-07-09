@@ -17,7 +17,7 @@ function Hero() {
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
   return (
-    <UIWrapper tag="section" className="scroll-mt-16 grow relative mt-16 min-h-[calc(100dvh-4rem)]" variant="primary" id={t("home")}>
+    <UIWrapper tag="section" className="scroll-mt-16 grow relative mt-16 min-h-[calc(100dvh-4rem)] overflow-hidden" variant="primary" id={t("home")}>
 
       <HeroText />
       <HeroBackground />

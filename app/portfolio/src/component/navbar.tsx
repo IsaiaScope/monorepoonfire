@@ -22,11 +22,13 @@ function NavbarDarkModeSwitch() {
   const { t } = useTranslation();
 
   return (
-    <UIDarkModeSwitch
-      darkLabel={t("dark mode label")}
-      lightLabel={t("light mode label")}
-      screenReaderLabel={t("dark mode screen reader label")}
-    />
+    <div className="animate-in fade-in zoom-in duration-300">
+      <UIDarkModeSwitch
+        darkLabel={t("dark mode label")}
+        lightLabel={t("light mode label")}
+        screenReaderLabel={t("dark mode screen reader label")}
+      />
+    </div>
   );
 }
 
@@ -52,11 +54,13 @@ function NavbarLanguageSelector() {
     })), [getLabel]);
 
   return (
-    <UILanguageSelector<Language>
-      value={language}
-      onValueChange={changeLanguage}
-      languages={_languages}
-    />
+    <div className="animate-in fade-in zoom-in duration-300">
+      <UILanguageSelector<Language>
+        value={language}
+        onValueChange={changeLanguage}
+        languages={_languages}
+      />
+    </div>
   );
 }
 
@@ -65,6 +69,7 @@ function NavbarLink({ className, children, href }: NavbarLinkProps) {
     <Button
       asChild
       variant="link"
+      className="animate-in fade-in zoom-in duration-300"
     >
       <UILink
         href={href}
@@ -96,7 +101,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
             <Button
               asChild
               variant="link"
-              className="text-2xl font-bold"
+              className="text-2xl font-bold animate-in fade-in zoom-in duration-300"
             >
               <Link to="/">
                 {t("home")}
@@ -108,9 +113,10 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
         <NavbarDarkModeSwitch />
         {isHome
           ? (
+
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button className="ml-auto p-1" size="icon" variant="ghost">
+                  <Button className="ml-auto p-1 animate-in fade-in zoom-in duration-300" size="icon" variant="outline">
                     <Menu />
                   </Button>
                 </SheetTrigger>
@@ -137,6 +143,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                     <Button
                       asChild
                       variant="link"
+                      className="animate-in fade-in zoom-in duration-300"
                     >
                       <Link to="/contact">
                         {t("contact")}
@@ -171,7 +178,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
             <Button
               asChild
               variant="link"
-              className="text-2xl font-bold"
+              className="text-2xl font-bold animate-in fade-in zoom-in duration-300"
             >
               <Link to="/">
                 {t("home")}
@@ -200,6 +207,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
               <Button
                 asChild
                 variant="link"
+                className="animate-in fade-in zoom-in duration-300"
               >
                 <Link to="/contact">
                   {t("contact")}

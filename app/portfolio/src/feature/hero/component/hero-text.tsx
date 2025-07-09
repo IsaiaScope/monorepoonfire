@@ -12,13 +12,13 @@ const HeroText = () => {
     hidden: { opacity: 0, x: -50 },
     visible: { opacity: 1, x: 0 },
   };
-  const isBiggerThanMedium = useMediaQuery({
-    minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
+  const isBiggerThanLarge = useMediaQuery({
+    minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
   return (
     <section className="text-shadow-md/30 text-shadow-black text-white z-10 text-center inset-0 absolute">
 
-      <div className="mt-20 md:mt-40 flex flex-col space-y-4">
+      <div className="mt-20 lg:mt-40 flex flex-col space-y-4">
         <motion.p
           className="text-4xl font-semibold"
           variants={variants}
@@ -37,7 +37,7 @@ const HeroText = () => {
             transition={{ delay: 1.2 }}
           >
             {
-              isBiggerThanMedium
+              isBiggerThanLarge
                 ? (
                     <>
                       {t("a developer")}

@@ -5,6 +5,8 @@ import { expand } from "dotenv-expand";
 import path from "node:path";
 import { z } from "zod";
 
+import { APP_HONO } from "../constant";
+
 // Using cross-env is a great idea if you want your scripts to work consistently across all operating systems (Linux, macOS, Windows).
 
 /*
@@ -45,7 +47,7 @@ export const env = createEnv({
       .coerce
       .number()
       .int()
-      .default(3075),
+      .default(APP_HONO.PORT),
     ENV: z.enum(["development", "test", "production"]).default("development"),
     LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("warn"),
     DATABASE_URL: z.string().url(),

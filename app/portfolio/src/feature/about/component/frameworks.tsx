@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { OrbitingCircles } from "./orbiting-circle";
 
 const Icon = ({ src }: { src: string }) => (
@@ -10,22 +11,28 @@ export default function Frameworks() {
     "git",
     "github",
     "html5",
-    "javascript",
     "react",
+    "javascript",
     "sqlite",
     "tailwindcss",
     "vitejs",
     "threejs",
     "visualstudiocode",
+    "typescript",
+    "nodejs",
+    "nextjs",
+    "angular",
+    "google-drive",
+    "ngrx",
   ];
   return (
-    <div className="relative flex h-[15rem] w-full flex-col items-center justify-center">
+    <div className="relative flex h-full w-full flex-col items-center justify-center">
       <OrbitingCircles iconSize={40}>
         {skills.map((skill, index) => (
           <Icon key={index} src={`assets/${skill}.svg`} />
         ))}
       </OrbitingCircles>
-      <OrbitingCircles iconSize={25} radius={100} reverse speed={2}>
+      <OrbitingCircles iconSize={25} radius={100} reverse speed={1}>
         {skills.reverse().map((skill, index) => (
           <Icon key={index} src={`assets/${skill}.svg`} />
         ))}

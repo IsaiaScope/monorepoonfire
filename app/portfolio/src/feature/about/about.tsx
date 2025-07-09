@@ -2,6 +2,7 @@ import { UIWrapper } from "@package/ui";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
+import { TextEffect } from "../../component/text-effect";
 import Download from "./component/download";
 import Frameworks from "./component/frameworks";
 import Globe from "./component/globe";
@@ -11,20 +12,21 @@ function About() {
   const { t } = useTranslation();
   const skillContainer = useRef<HTMLDivElement | null>(null);
 
-  // https://ui.aceternity.com/components/wobble-card
   return (
     <UIWrapper tag="section" id={t("about")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
-      <h2 className="font-bold text-3xl">About</h2>
-      <section className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <TextEffect per="char" preset="fade" className="text-shadow-sm/20 text-shadow-primary font-bold text-3xl">
+        {t("about me")}
+      </TextEffect>
 
-        <div className="bg-secondary rounded-lg text-secondary-foreground p-2">
-          ciao dwqwjkcv qiwhcvwicvqw cviwe uicv weuihj wev  qei iv 4w vwi vqwiv 4ei qwihv qwiv  qwivi
-          ciao dwqwjkcv qiwhcvwicvqw cviwe uicv weuihj wev  qei iv 4w vwi vqwiv 4ei qwihv qwiv  qwivi
-          ciao dwqwjkcv qiwhcvwicvqw cviwe uicv weuihj wev  qei iv 4w vwi vqwiv 4ei qwihv qwiv   qwivi
-          ciao dwqwjkcv qiwhcvwicvqw cviwe uicv weuihj wev  qei iv 4w vwi vqwiv 4ei qwihv qwiv  qwivi
+      <section className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-10 auto-rows-fr">
 
+        <div className="bg-gradient-to-t from-primary/70 to-primary/80 shadow-foreground/40 shadow-sm ring-1 rounded-lg text-secondary-foreground ring-primary/60 p-2 min-h-80 col-span-1">
+          As software engineer my journey has been a blend of hard work and passion but I'm sure to have found my way. The road is still long, but I am excited to see where it leads me.
         </div>
-        <div className="bg-secondary rounded-lg text-secondary-foreground p-2 relative   overflow-hidden h-80" ref={skillContainer}>
+        <div className="bg-gradient-to-t from-primary/70 to-primary/80 shadow-foreground/40 shadow-sm ring-1 rounded-lg text-secondary-foreground ring-primary/60 p-2 min-h-80 relative overflow-hidden col-span-2" ref={skillContainer}>
+          <p>
+            Play around with my skills
+          </p>
           <Skill
             style={{ rotate: "0deg", top: "0%", left: "0%" }}
             text="SOLID"
@@ -36,24 +38,26 @@ function About() {
             containerRef={skillContainer}
           />
         </div>
-
-        <div className="bg-secondary rounded-lg text-secondary-foreground p-2 relative   overflow-hidden h-80">
-          One you leave this world behind so live a life you will remember
-          <Globe />
-        </div>
-        <div className="bg-secondary rounded-lg text-secondary-foreground p-2 relative   overflow-hidden h-80">
+        <div className="bg-gradient-to-t from-primary/70 to-primary/80 shadow-foreground/40 shadow-sm ring-1 rounded-lg text-secondary-foreground ring-primary/60 p-2 min-h-80 col-span-1">
+          <p>
+            Check out my CV to learn more about my professional journey, skills, and accomplishments.
+          </p>
           <Download />
         </div>
 
-        <div className="bg-secondary rounded-lg text-secondary-foreground p-2 relative   overflow-hidden h-80">
-          <div className="z-10 w-[50%]">
-            <p className="headText">Teck Stack</p>
-            <p className="subtext">
-              I specialize in a variety of languages, frameworks, and tools taht
-              allow me to build robust and scalable applications
-            </p>
-          </div>
-          <div className="absolute inset-y-0 md:inset-y-9 w-full h-full start-[50%] md:scale-125">
+        <div className="bg-gradient-to-t from-primary/70 to-primary/80 shadow-foreground/40 shadow-sm ring-1 rounded-lg text-secondary-foreground ring-primary/60 p-2 min-h-80 relative overflow-hidden col-span-2">
+          <p>
+            One you leave this world behind
+            <br />
+            so live a life you will remember
+          </p>
+          <Globe />
+        </div>
+        <div className="bg-gradient-to-t from-primary/70 to-primary/80 shadow-foreground/40 shadow-sm ring-1 rounded-lg text-secondary-foreground ring-primary/60 p-2 min-h-80 relative overflow-hidden col-span-2">
+          <p className="">
+            A bit of Teck Stack that I use in my projects
+          </p>
+          <div className="absolute inset-0 translate-x-1/2 lg:scale-125">
             <Frameworks />
           </div>
         </div>

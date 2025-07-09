@@ -11,7 +11,7 @@ function UILanguageSelector<L extends string>({ value, onValueChange, languages 
 Props<L>) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger>
+      <SelectTrigger className="bg-background dark:bg-background">
         <SelectValue />
       </SelectTrigger>
       <SelectContent className="min-w-auto">

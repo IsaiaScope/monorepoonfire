@@ -1,6 +1,7 @@
 interface Resources {
   "common": {
     "about": "About",
+    "about me": "About me",
     "a developer": "A Developer",
     "committed to building": "Committed to Building",
     "contact": "Contact",
