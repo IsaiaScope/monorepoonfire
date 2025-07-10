@@ -8,21 +8,17 @@ import skills from "./routes/skills/skills.index";
 
 const app = initApp();
 
-const routes = [
-  index,
-  skills,
-];
-
 configureOpenApi(app);
 
-routes.forEach((route) => {
-  app.route("/", route);
-});
+const _routes = app.route(
+  "/",
+  skills,
+).route("/", index);
 
-app.get("/error", () => {
-  // c.var.logger.info("Hello Hono!");
-  throw new Error("This is an error");
-});
+// app.get("/error", () => {
+//   c.var.logger.info("Hello Hono!");
+//   throw new Error("This is an error");
+// });
 
 app.get("*", serveStatic({ root: `.${APP_HONO.PORTFOLIO}` }));
 app.get("*", serveStatic({ path: `.${APP_HONO.PORTFOLIO}/index.html` }));
@@ -33,4 +29,4 @@ app.get("*", serveStatic({ path: `.${APP_HONO.PORTFOLIO}/index.html` }));
 
 export default app;
 
-// export type RPC = typeof routes[number];
+export type Routes = typeof _routes;

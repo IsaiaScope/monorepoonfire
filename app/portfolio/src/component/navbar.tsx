@@ -1,7 +1,7 @@
 import { Button, Separator, Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@package/shadcn";
 import { UIDarkModeSwitch, UILanguageSelector, UILink } from "@package/ui";
 import { PACKAGE_UTILITY } from "@package/utility/constant";
-import { ObjectKeys } from "@package/utility/object";
+import { ObjectKeys } from "@package/utility/javascript";
 import { cn } from "@package/utility/tailwind";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Menu } from "lucide-react";

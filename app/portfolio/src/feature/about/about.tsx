@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { TextEffect } from "../../component/text-effect";
+import { useGetSkills } from "./api/use-skills";
 import Download from "./component/download";
 import Frameworks from "./component/frameworks";
 import Globe from "./component/globe";
@@ -11,6 +12,9 @@ import Skill from "./component/skill";
 function About() {
   const { t } = useTranslation();
   const skillContainer = useRef<HTMLDivElement | null>(null);
+
+  const { data: skills } = useGetSkills();
+  console.warn(`🧊 ~ skills: `, skills);
 
   return (
     <UIWrapper tag="section" id={t("about")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">

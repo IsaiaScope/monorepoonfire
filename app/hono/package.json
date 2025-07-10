@@ -4,7 +4,10 @@
   "version": "0.0.1",
   "exports": {
     "./rpc": {
-      "import": "./src/app.ts"
+      "import": "./src/library/rpc.ts"
+    },
+    "./constant": {
+      "import": "./src/constant/index.ts"
     }
   },
   "scripts": {

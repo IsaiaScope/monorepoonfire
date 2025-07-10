@@ -4,5 +4,7 @@ const queryClient = new QueryClient();
 
 export const TANSTACK = {
   QUERY_CLIENT: queryClient,
-  QUERY_KEY: {},
+  QUERY_KEY: {
+    GET_SKILLS: "get-skills",
+  },
 };

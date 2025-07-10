@@ -16,8 +16,8 @@
     "./@types": {
       "import": "./@types/index.ts"
     },
-    "./object": {
-      "import": "./object/index.ts"
+    "./javascript": {
+      "import": "./javascript/index.ts"
     }
   },
   "scripts": {
