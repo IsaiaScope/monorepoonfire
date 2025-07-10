@@ -1,0 +1,47 @@
+{
+  "name": "@package/ui",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:test": "vitest run"
+  },
+  "dependencies": {
+    "@package/shadcn": "workspace:*",
+    "@package/utility": "workspace:*",
+    "@tanstack/react-router": "^1.120.7",
+    "class-variance-authority": "^0.7.1",
+    "lucide-react": "^0.476.0",
+    "react": "^19.0.0",
+    "react-country-flag": "^3.1.0",
+    "react-dom": "^19.0.0",
+    "react-error-boundary": "^6.0.0",
+    "tailwindcss": "^4.0.6"
+  },
+  "devDependencies": {
+    "@package/config": "workspace:*",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitest/coverage-istanbul": "^3.1.4",
+    "@vitest/ui": "^3.1.4",
+    "jsdom": "^26.0.0",
+    "tw-animate-css": "^1.2.9",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.4"
+  },
+  "lint-staged": {
+    "*": [
+      "pnpm lint:fix",
+      "pnpm lint"
+    ]
+  }
+}

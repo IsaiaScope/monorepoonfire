@@ -30,7 +30,7 @@ jobs:
       - name: Create environment directory
         run: mkdir -p app/hono/src/environment # -p ensures no error if the directory exists.
 
-      # Step 3: Creates the .env file with required variables.
+      # Step 3: Creates the .env.test file with required variables.
       # echo: Writes environment variables to the file.
       # >: Overwrites the file if it exists.
       # >>: Appends to the file.
@@ -51,7 +51,7 @@ jobs:
       - name: Print project tree before running tests and build
         run: tree -a -L 8 app/hono || find app/hono | head -40
 
-      # Step 5: Prints the contents of the .env file for debugging.
+      # Step 5: Prints the contents of the .env.test file for debugging.
       # cat: Displays file contents.
       # If the file does not exist, prints a message instead.
       - name: Print .env.test file for debugging

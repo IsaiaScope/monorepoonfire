@@ -1,0 +1,26 @@
+interface Resources {
+  "common": {
+    "about": "About",
+    "about me": "About me",
+    "a developer": "A Developer",
+    "committed to building": "Committed to Building",
+    "contact": "Contact",
+    "creating": "Creating",
+    "dark mode label": "Dark",
+    "dark mode screen reader label": "Toggle dark mode",
+    "english": "English",
+    "Hi, I'm Isaia": "Hi, I'm Isaia",
+    "home": "Isaia",
+    "innovative": "Innovative",
+    "italian": "Italian",
+    "light mode label": "Light",
+    "menu": "Menu",
+    "menu description": "This is the menu for the app. Use the links below to navigate",
+    "reliable": "Reliable",
+    "robust": "Robust",
+    "web solutions": "Web Solutions",
+    "work": "Work"
+  }
+}
+
+export default Resources;

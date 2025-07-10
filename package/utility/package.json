@@ -9,6 +9,15 @@
     },
     "./tailwind": {
       "import": "./tailwind/index.ts"
+    },
+    "./constant": {
+      "import": "./constant/index.ts"
+    },
+    "./@types": {
+      "import": "./@types/index.ts"
+    },
+    "./javascript": {
+      "import": "./javascript/index.ts"
     }
   },
   "scripts": {

@@ -2,7 +2,6 @@ import type z from "zod";
 
 import { testClient } from "hono/testing";
 import * as HttpStatusCodes from "stoker/http-status-codes";
-import { describe, expect, expectTypeOf, it } from "vitest";
 
 import type { notFoundSchema } from "../../constant/schema";
 import type * as schema from "../../database/schema/skills-schema";

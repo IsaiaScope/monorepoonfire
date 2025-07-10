@@ -2,6 +2,7 @@ import type { Schema } from "hono";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { pinoLogger } from "hono-pino";
+import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import { env } from "node:process";
 import pino from "pino";
@@ -25,6 +26,16 @@ export function initApp() {
   const app = createApp();
 
   app.use(serveEmojiFavicon("🔥"));
+
+  // CORS configuration
+  app.use(
+    cors({
+      origin: "*", // Allow all origins
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    }),
+  );
 
   app.use(
   // https://hono.dev/docs/middleware/builtin/request-id

@@ -1,0 +1,9 @@
+{
+  "extends": "@package/config/typescript/react",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  }
+}

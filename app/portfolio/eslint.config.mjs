@@ -2,7 +2,7 @@ import createConfig from "@package/config/eslint/create-config";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 
 export default createConfig({
-  ignores: ["**/routeTree.gen.ts"],
+  ignores: ["**/routeTree.gen.ts", "**/@types/*.d.ts"],
   react: true,
 }, {
   plugins: {

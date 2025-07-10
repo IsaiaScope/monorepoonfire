@@ -2,6 +2,14 @@
   "name": "@app/hono",
   "type": "module",
   "version": "0.0.1",
+  "exports": {
+    "./rpc": {
+      "import": "./src/library/rpc.ts"
+    },
+    "./constant": {
+      "import": "./src/constant/index.ts"
+    }
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=development node dist/src/index.js",
     "start:test": "cross-env NODE_ENV=test node dist/src/index.js",
@@ -14,12 +22,12 @@
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "dev:test": "cross-env NODE_ENV=test tsx watch src/index.ts",
     "dev:production": "cross-env NODE_ENV=production tsx watch src/index.ts",
-    "test:watch": "cross-env NODE_ENV=development vitest --watch",
-    "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
-    "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
     "build": "pnpm update:database && tsc && tsc-alias",
     "build:test": "pnpm update:database:test && tsc && tsc-alias",
-    "build:production": "pnpm update:database:production && tsc && tsc-alias"
+    "build:production": "pnpm update:database:production && tsc && tsc-alias",
+    "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
+    "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
+    "test:watch": "pnpm update:database && cross-env NODE_ENV=development vitest --watch"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",
@@ -46,7 +54,7 @@
     "tsc-alias": "^1.8.16",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3",
-    "vitest": "^3.0.5"
+    "vitest": "^3.1.4"
   },
   "lint-staged": {
     "*": [
