@@ -17,7 +17,7 @@ const HeroText = () => {
   });
   return (
     <section className="text-white z-10 text-center lg:text-left inset-0 absolute">
-      <div className="flex flex-col space-y-4 lg:justify-center h-full lg:ml-[25%] mt-28 md:mt-36 lg:mt-0">
+      <h1 className="flex flex-col space-y-4 lg:justify-center h-full lg:ml-[25%] mt-28 md:mt-36 lg:mt-0">
         <motion.p
           className="text-5xl font-semibold font-LibreFranklin"
           variants={variants}
@@ -68,7 +68,7 @@ const HeroText = () => {
             {t("web solutions")}
           </motion.p>
         </div>
-      </div>
+      </h1>
     </section>
   );
 };
