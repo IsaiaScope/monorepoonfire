@@ -10,6 +10,7 @@
 //   designation: string;
 //   src: string;
 // };
+// https://ui.aceternity.com/components/animated-testimonials
 // export const AnimatedTestimonials = ({
 //   testimonials,
 //   autoplay = false,
