@@ -142,6 +142,17 @@ const HeroBackground = () => {
           }}
         />
 
+        {/*
+          GRADIENT OVERLAY (Top Layer)
+          - Z-index -9 places it on top of all background layers
+          - Creates a subtle gradient effect to enhance visual depth
+          - Opacity set to x% for a semi-transparent overlay
+        */}
+        <div
+          className="absolute inset-0 -z-9  bg-gray-950/50"
+
+        />
+
       </div>
     </section>
   );

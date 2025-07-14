@@ -69,7 +69,7 @@ function NavbarLink({ className, children, href }: NavbarLinkProps) {
     <Button
       asChild
       variant="link"
-      className="animate-in fade-in zoom-in duration-300"
+      className="animate-in fade-in zoom-in duration-300 text-secondary-foreground"
     >
       <UILink
         href={href}
@@ -92,7 +92,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
         ? (
             <NavbarLink
               href={`#${t("home")}`}
-              className="text-2xl font-bold"
+              className="text-2xl font-bold font-LibreFranklin"
             >
               {t("home")}
             </NavbarLink>
@@ -101,7 +101,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
             <Button
               asChild
               variant="link"
-              className="text-2xl font-bold animate-in fade-in zoom-in duration-300"
+              className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
               <Link to="/">
                 {t("home")}
@@ -143,7 +143,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                     <Button
                       asChild
                       variant="link"
-                      className="animate-in fade-in zoom-in duration-300"
+                      className="animate-in fade-in zoom-in duration-300 text-secondary-foreground"
                     >
                       <Link to="/contact">
                         {t("contact")}
@@ -169,7 +169,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
         ? (
             <NavbarLink
               href={`#${t("home")}`}
-              className="text-2xl font-bold"
+              className="text-2xl font-bold font-LibreFranklin"
             >
               {t("home")}
             </NavbarLink>
@@ -178,7 +178,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
             <Button
               asChild
               variant="link"
-              className="text-2xl font-bold animate-in fade-in zoom-in duration-300"
+              className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
               <Link to="/">
                 {t("home")}
@@ -207,7 +207,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
               <Button
                 asChild
                 variant="link"
-                className="animate-in fade-in zoom-in duration-300"
+                className="animate-in fade-in zoom-in duration-300 text-secondary-foreground"
               >
                 <Link to="/contact">
                   {t("contact")}
@@ -233,7 +233,7 @@ export default function Navbar({ className }: { className?: string }) {
 
       <nav
         className={cn(
-          "backdrop-blur-md bg-background/80 p-3 flex w-full h-16 items-center justify-between shadow-sm shadow-primary",
+          "backdrop-blur-md bg-secondary/80 p-3 flex w-full h-16 items-center justify-between",
           className,
         )}
       >

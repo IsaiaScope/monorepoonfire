@@ -1,6 +1,7 @@
-import { APP_HONO } from "@app/hono/constant";
 import honoClientWithType from "@app/hono/rpc";
 
-const honoClient = honoClientWithType(`http://localhost:${APP_HONO.PORT}`);
+import { env } from "../environment/env";
+
+const honoClient = honoClientWithType(`${env.VITE_BASE_URL}`);
 
 export default honoClient;

@@ -16,11 +16,10 @@ const HeroText = () => {
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
   return (
-    <section className="text-shadow-md/30 text-shadow-black text-white z-10 text-center inset-0 absolute">
-
-      <div className="mt-20 lg:mt-40 flex flex-col space-y-4">
+    <section className="text-white z-10 text-center lg:text-left inset-0 absolute">
+      <div className="flex flex-col space-y-4 lg:justify-center h-full lg:ml-[25%] mt-28 md:mt-36 lg:mt-0">
         <motion.p
-          className="text-4xl font-semibold"
+          className="text-5xl font-semibold font-LibreFranklin"
           variants={variants}
           initial="hidden"
           animate="visible"
