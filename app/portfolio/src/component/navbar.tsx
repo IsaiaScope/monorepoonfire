@@ -229,11 +229,11 @@ export default function Navbar({ className }: { className?: string }) {
   const isHome = useLocation().pathname === "/";
 
   return (
-    <header className="z-20 fixed w-full">
+    <header className="z-20 fixed w-full backdrop-blur-md bg-secondary/80">
 
       <nav
         className={cn(
-          "backdrop-blur-md bg-secondary/80 p-3 flex w-full h-16 items-center justify-between",
+          " flex w-full h-16 items-center justify-between max-w-screen-xl mx-auto pl-2 pr-6 py-3",
           className,
         )}
       >

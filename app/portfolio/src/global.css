@@ -17,6 +17,108 @@ html body[data-scroll-locked] {
 }
 
 @theme inline {
+  /* Grab gesture animations - Tailwind 4 compatible */
+  --animate-grab-gesture-hand: grab-gesture-hand 4.5s linear infinite;
+  --animate-grab-gesture-grab: grab-gesture-grab 4.5s linear infinite;
+
+  @keyframes grab-gesture-hand {
+    0% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0;
+    }
+    1% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.6;
+    }
+    2.08% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.7;
+    }
+    4.17% {
+      transform: translateX(2.8px) translateY(-2.8px);
+      opacity: 0.8;
+    }
+    6.25% {
+      transform: translateX(4px) translateY(0);
+      opacity: 0.9;
+    }
+    8.33% {
+      transform: translateX(2.8px) translateY(2.8px);
+      opacity: 1;
+    }
+    10.42% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0.8;
+    }
+    11.5% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0.6;
+    }
+    12.5% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0;
+    }
+    13.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0;
+    }
+    66.67%,
+    100% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes grab-gesture-grab {
+    0%,
+    12.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0;
+    }
+    13.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0.5;
+    }
+    14.58% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0.6;
+    }
+    16.67% {
+      transform: translateX(-4px) translateY(0);
+      opacity: 0.7;
+    }
+    18.75% {
+      transform: translateX(-2.8px) translateY(-2.8px);
+      opacity: 0.8;
+    }
+    20.83% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.9;
+    }
+    22.92% {
+      transform: translateX(2.8px) translateY(-2.8px);
+      opacity: 1;
+    }
+    24% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    26% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+@theme inline {
   /* https://magicui.design/docs/components/orbiting-circles */
   --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
 

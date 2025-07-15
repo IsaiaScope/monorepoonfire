@@ -16,6 +16,7 @@ export type OrbitingCirclesProps = {
   speed?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
+// https://magicui.design/docs/components/orbiting-circles
 export function OrbitingCircles({
   className,
   children,
