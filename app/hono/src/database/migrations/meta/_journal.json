@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1748014741693,
-      "tag": "0000_acoustic_jamie_braddock",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1753375236849,
-      "tag": "0001_mysterious_deathbird",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1753375357412,
-      "tag": "0002_clammy_bucky",
+      "when": 1753390344481,
+      "tag": "0000_sour_phalanx",
       "breakpoints": true
     }
   ]

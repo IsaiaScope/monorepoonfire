@@ -1,3 +1,11 @@
+CREATE TABLE `skills` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`name` text(100) NOT NULL,
+	`createdAt` text(50) NOT NULL,
+	`updatedAt` text(50) NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `skills_name_unique` ON `skills` (`name`);--> statement-breakpoint
 CREATE TABLE `work-experience` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`language` text(50) NOT NULL,
@@ -11,5 +19,3 @@ CREATE TABLE `work-experience` (
 	`createdAt` text(50) NOT NULL,
 	`updatedAt` text(50) NOT NULL
 );
---> statement-breakpoint
-CREATE UNIQUE INDEX `work-experience_name_unique` ON `work-experience` (`name`);

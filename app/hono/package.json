@@ -27,7 +27,8 @@
     "build:production": "pnpm update:database:production && tsc && tsc-alias",
     "test": "pnpm update:database && cross-env NODE_ENV=development vitest run",
     "test:test": "pnpm update:database:test && cross-env NODE_ENV=test vitest run",
-    "test:watch": "pnpm update:database && cross-env NODE_ENV=development vitest --watch"
+    "test:watch": "pnpm update:database && cross-env NODE_ENV=development vitest --watch",
+    "see:db": "cross-env NODE_ENV=development drizzle-kit studio"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.1",

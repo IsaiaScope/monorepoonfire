@@ -2,10 +2,12 @@ import { UIWrapper } from "@package/ui";
 import { useTranslation } from "react-i18next";
 
 import { TextEffect } from "../../component/text-effect";
+// import { useGetWorkExperience } from "./api/use-work-experiences";
 import Timeline from "./component/timeline";
 
 function Work() {
   const { t } = useTranslation();
+  // const { data: workExperienceData, isFetching, isError } = useGetWorkExperience();
 
   const data = [
     {
