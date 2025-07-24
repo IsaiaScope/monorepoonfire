@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import About from "../feature/about/about";
 import Hero from "../feature/hero/hero";
+import Work from "../feature/work/work";
 
 // import logo from "../logo.svg";
 
@@ -15,6 +16,7 @@ function Home() {
     <>
       <Hero />
       <About />
+      <Work />
     </>
 
   // <div className="text-center">

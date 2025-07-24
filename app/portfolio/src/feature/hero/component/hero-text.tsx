@@ -7,7 +7,7 @@ import FlipWords from "./flip-words";
 
 const HeroText = () => {
   const { t } = useTranslation();
-  const words = [t("robust"), t("innovative"), t("reliable")];
+  const words = [t("Robust"), t("Innovative"), t("Reliable")];
   const variants = {
     hidden: { opacity: 0, x: -50 },
     visible: { opacity: 1, x: 0 },
@@ -39,12 +39,12 @@ const HeroText = () => {
               isBiggerThanLarge
                 ? (
                     <>
-                      {t("a developer")}
+                      {t("A Developer")}
                       <br />
-                      {t("committed to building")}
+                      {t("Committed to Building")}
                     </>
                   )
-                : t("creating")
+                : t("Creating")
             }
           </motion.p>
           <motion.div
@@ -65,7 +65,7 @@ const HeroText = () => {
             animate="visible"
             transition={{ delay: 1.8 }}
           >
-            {t("web solutions")}
+            {t("Web Solutions")}
           </motion.p>
         </div>
       </h1>

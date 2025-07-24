@@ -1,0 +1,1 @@
+DROP INDEX `work-experience_name_unique`;

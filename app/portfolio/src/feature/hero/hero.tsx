@@ -17,7 +17,7 @@ function Hero() {
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
   return (
-    <UIWrapper tag="section" className="grow relative  min-h-[100dvh] overflow-hidden" variant="primary" id={t("home")}>
+    <UIWrapper tag="section" className="grow relative  min-h-[100dvh] overflow-hidden" variant="primary" id={t("Home")}>
 
       <HeroText />
       <HeroBackground />

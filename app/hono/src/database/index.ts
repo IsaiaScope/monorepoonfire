@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/libsql";
 
 import { env } from "../environment/env";
 import * as skillsSchema from "./schema/skills-schema";
+import * as workExperienceSchema from "./schema/work-experience-schema";
 
 const client = createClient({
   url: env.DATABASE_URL,
@@ -10,7 +11,7 @@ const client = createClient({
 });
 
 const database = drizzle(client, {
-  schema: { ...skillsSchema },
+  schema: { ...skillsSchema, ...workExperienceSchema },
 });
 
 export default database;

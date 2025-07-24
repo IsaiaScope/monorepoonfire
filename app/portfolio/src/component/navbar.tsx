@@ -24,9 +24,9 @@ function NavbarDarkModeSwitch() {
   return (
     <div className="animate-in fade-in zoom-in duration-300">
       <UIDarkModeSwitch
-        darkLabel={t("dark mode label")}
-        lightLabel={t("light mode label")}
-        screenReaderLabel={t("dark mode screen reader label")}
+        darkLabel={t("Dark")}
+        lightLabel={t("Light")}
+        screenReaderLabel={t("Toggle dark mode")}
       />
     </div>
   );
@@ -41,9 +41,9 @@ function NavbarLanguageSelector() {
   const getLabel = useCallback((lang: Language) => {
     switch (lang) {
       case APP_PORTFOLIO.LANGUAGE["en-GB"]:
-        return t("english");
+        return t("English");
       case APP_PORTFOLIO.LANGUAGE["it-IT"]:
-        return t("italian");
+        return t("Italian");
     }
   }, [t]);
 
@@ -91,10 +91,10 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
       {isHome
         ? (
             <NavbarLink
-              href={`#${t("home")}`}
+              href={`#${t("Home")}`}
               className="text-2xl font-bold font-LibreFranklin"
             >
-              {t("home")}
+              {t("Home")}
             </NavbarLink>
           )
         : (
@@ -104,7 +104,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
               className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
               <Link to="/">
-                {t("home")}
+                {t("Home")}
               </Link>
             </Button>
           )}
@@ -122,22 +122,22 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                 </SheetTrigger>
                 <SheetContent side="right">
                   <SheetHeader className="mb-2">
-                    <SheetTitle>{t("menu")}</SheetTitle>
+                    <SheetTitle>{t("Menu")}</SheetTitle>
                     <SheetDescription className="sr-only">
-                      {t("menu description")}
+                      {t("This is the menu for the app. Use the links below to navigate")}
                     </SheetDescription>
 
                   </SheetHeader>
                   <div className="p-4 grid">
 
                     <NavbarLink
-                      href={`#${t("about")}`}
+                      href={`#${t("About")}`}
                     >
-                      {t("about")}
+                      {t("About")}
                     </NavbarLink>
                     <Separator className="my-2" />
-                    <NavbarLink href={`#${t("work")}`}>
-                      {t("work")}
+                    <NavbarLink href={`#${t("Work")}`}>
+                      {t("Work")}
                     </NavbarLink>
                     <Separator className="my-2" />
                     <Button
@@ -146,7 +146,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                       className="animate-in fade-in zoom-in duration-300 text-secondary-foreground"
                     >
                       <Link to="/contact">
-                        {t("contact")}
+                        {t("Contact")}
                       </Link>
                     </Button>
                     <Separator className="my-2" />
@@ -168,10 +168,10 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
       {isHome
         ? (
             <NavbarLink
-              href={`#${t("home")}`}
+              href={`#${t("Home")}`}
               className="text-2xl font-bold font-LibreFranklin"
             >
-              {t("home")}
+              {t("Home")}
             </NavbarLink>
           )
         : (
@@ -181,7 +181,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
               className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
               <Link to="/">
-                {t("home")}
+                {t("Home")}
               </Link>
             </Button>
           )}
@@ -189,16 +189,16 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
         {isHome
           ? (
               <NavbarLink
-                href={`#${t("about")}`}
+                href={`#${t("About")}`}
               >
-                {t("about")}
+                {t("About")}
               </NavbarLink>
             )
           : null}
         {isHome
           ? (
-              <NavbarLink href={`#${t("work")}`}>
-                {t("work")}
+              <NavbarLink href={`#${t("Work")}`}>
+                {t("Work")}
               </NavbarLink>
             )
           : null}
@@ -210,7 +210,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
                 className="animate-in fade-in zoom-in duration-300 text-secondary-foreground"
               >
                 <Link to="/contact">
-                  {t("contact")}
+                  {t("Contact")}
                 </Link>
               </Button>
             )

@@ -5,6 +5,7 @@ import { configureOpenApi } from "./library/configure-open-api";
 import { initApp } from "./library/create-app";
 import index from "./routes/index.routes";
 import skills from "./routes/skills/skills.index";
+import workExperience from "./routes/work-experience/work-experience.index";
 
 const app = initApp();
 
@@ -13,6 +14,9 @@ configureOpenApi(app);
 const _routes = app.route(
   "/",
   skills,
+).route(
+  "/",
+  workExperience,
 ).route("/", index);
 
 // app.get("/error", () => {

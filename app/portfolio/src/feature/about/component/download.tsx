@@ -2,6 +2,7 @@ import { Button } from "@package/shadcn";
 import { UILink } from "@package/ui";
 import { PACKAGE_UTILITY } from "@package/utility/constant";
 import { DownloadIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
 function Download() {
@@ -9,6 +10,7 @@ function Download() {
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
   });
   const cvUrl = "https://1drv.ms/b/c/ce94a875eefa9f39/EW1jGNcVV59MtB30LDkGqw4BdCc1iDppLM9XShslAdwltg?e=aqR9I4";
+  const { t } = useTranslation();
 
   return (
     <Button
@@ -24,7 +26,7 @@ function Download() {
     >
       <UILink href={cvUrl}>
         <DownloadIcon size={isBiggerThanMedium ? 26 : 20} />
-        Download
+        {t("Download")}
       </UILink>
     </Button>
   );

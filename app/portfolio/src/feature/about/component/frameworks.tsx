@@ -2,7 +2,7 @@
 import { OrbitingCircles } from "./orbiting-circle";
 
 const Icon = ({ src }: { src: string }) => (
-  <img src={src} alt="" tabIndex={-1} className="duration-200 rounded-sm hover:scale-110" />
+  <img src={src} alt="" tabIndex={-1} className="duration-200 rounded-sm hover:scale-110" loading="lazy" />
 );
 
 export default function Frameworks() {
@@ -13,16 +13,13 @@ export default function Frameworks() {
     "html5",
     "react",
     "javascript",
-    // "sqlite",
     "tailwindcss",
     "vitejs",
     "threejs",
-    // "visualstudiocode",
     "typescript",
     "nodejs",
-    "nextjs",
+    "nextjs-original",
     "angular",
-    // "google-drive",
     "ngrx",
   ];
   return (
