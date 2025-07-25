@@ -21,7 +21,7 @@ export function useGetWorkExperience(
 ) {
   return useQuery({
     queryKey: [
-      APP_PORTFOLIO.TANSTACK.QUERY_KEY.GET_SKILLS,
+      APP_PORTFOLIO.TANSTACK.QUERY_KEY.GET_WORK_EXPERIENCES,
     ],
     queryFn: getWorkExperience,
     ...{ ...DEFAULT_USE_QUERY_OPTIONS, ...useQueryOptions },
