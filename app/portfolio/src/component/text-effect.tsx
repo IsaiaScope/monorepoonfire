@@ -56,7 +56,11 @@ const defaultContainerVariants: Variants = {
     },
   },
   exit: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    opacity: 0,
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1,
+    },
   },
 };
 
@@ -274,9 +278,10 @@ export function TextEffect({
   };
 
   return (
-    <AnimatePresence mode="popLayout">
+    <AnimatePresence mode="wait">
       {trigger && (
         <MotionTag
+          key={children} // Add key based on content to trigger animations on change
           initial="hidden"
           animate="visible"
           exit="exit"

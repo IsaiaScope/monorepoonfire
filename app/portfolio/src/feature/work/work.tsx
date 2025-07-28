@@ -6,11 +6,11 @@ import { useGetWorkExperience } from "./api/use-work-experiences";
 import Timeline from "./component/timeline";
 
 function Work() {
-  const { t } = useTranslation();
+  const { t, i18n: { language } } = useTranslation();
   const { data: workExperienceData } = useGetWorkExperience();
 
   return (
-    <UIWrapper tag="section" id={t("Work")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6   w-full">
+    <UIWrapper tag="section" id={t("Work")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6 w-full">
       <TextEffect as="h2" per="char" preset="fade" className="my-10 font-bold text-4xl font-LibreFranklin">
         {t("Work Experience")}
       </TextEffect>
@@ -19,7 +19,7 @@ function Work() {
         { workExperienceData
           ? (
               <Timeline
-                data={workExperienceData}
+                data={workExperienceData.filter(item => item.language === language)}
               />
             )
           : null}

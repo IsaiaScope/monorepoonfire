@@ -39,5 +39,5 @@ export {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-
 } from "./component/sheet";
+export { Skeleton } from "./component/skeleton";
