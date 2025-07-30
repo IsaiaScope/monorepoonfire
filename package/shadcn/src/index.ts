@@ -41,3 +41,4 @@ export {
   SheetTrigger,
 } from "./component/sheet";
 export { Skeleton } from "./component/skeleton";
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./component/tooltip";

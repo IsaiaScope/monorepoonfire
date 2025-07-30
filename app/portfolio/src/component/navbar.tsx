@@ -140,6 +140,10 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                       {t("Work")}
                     </NavbarLink>
                     <Separator className="my-2" />
+                    <NavbarLink href={`#${t("Projects")}`}>
+                      {t("Projects")}
+                    </NavbarLink>
+                    <Separator className="my-2" />
                     <Button
                       asChild
                       variant="link"
@@ -199,6 +203,13 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
           ? (
               <NavbarLink href={`#${t("Work")}`}>
                 {t("Work")}
+              </NavbarLink>
+            )
+          : null}
+        {isHome
+          ? (
+              <NavbarLink href={`#${t("Projects")}`}>
+                {t("Projects")}
               </NavbarLink>
             )
           : null}

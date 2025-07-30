@@ -15,7 +15,7 @@ i18next
     defaultNS: "common",
     supportedLngs: Object.values(APP_PORTFOLIO.LANGUAGE), // List of supported languages
     backend: {
-      loadPath: `./locales/{{lng}}/{{ns}}.json`, // Path to translation files
+      loadPath: `/locales/{{lng}}/{{ns}}.json`, // Path to translation files
     },
     detection: {
       order: ["navigator", "localStorage"], // Detection order

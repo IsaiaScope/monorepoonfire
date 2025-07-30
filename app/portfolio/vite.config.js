@@ -19,13 +19,6 @@ export default defineConfig(({ mode }) => {
       port: env.VITE_SERVER_PORT,
     },
     plugins: [TanStackRouterVite({ target: "react", autoCodeSplitting: true, routesDirectory: "src/routes", generatedRouteTree: "src/provider/routeTree.gen.ts" }), viteReact(), tailwindcss()],
-    test: {
-      name: "@package/portfolio",
-      globals: true,
-      environment: "jsdom",
-      setupFiles: "src/test/set-up-test.ts",
-
-    },
     build: {
       emptyOutDir: true,
       outDir: "../hono/portfolio",

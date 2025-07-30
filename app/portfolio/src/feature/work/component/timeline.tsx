@@ -37,12 +37,12 @@ export const Timeline = ({ data }: { data: TimelineEntry }) => {
       ref={containerRef}
     >
 
-      <div ref={ref} className="relative mx-auto pb-20">
+      <div ref={ref} className="relative mx-auto">
         {data.map((item, index) => (
           <div
             // eslint-disable-next-line react/no-array-index-key
             key={index}
-            className="flex justify-start pt-10 lg:pt-30 lg:gap-4 first:pt-10"
+            className="flex justify-start pt-10 lg:pt-30 lg:gap-4 first:pt-0"
           >
             <div className="sticky ml-4 lg:ml-0 flex flex-col lg:flex-row z-10 items-center top-40 self-start max-w-sm lg:w-full">
               <div className="h-10 absolute w-10 rounded-full bg-secondary/80 flex items-center justify-center">
