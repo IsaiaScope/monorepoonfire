@@ -1,317 +1,225 @@
-// vitest-setup.tsx
+// test-utils.tsx
 // =============================================================================
-// This file sets up the testing environment for React components in our portfolio app.
-// It configures all necessary providers (i18n, React Query, Router) and mocks
-// external dependencies to create isolated, predictable test environments.
+// Test utilities for React components with all necessary providers and mocks
+// This file centralizes all test setup, mocking, and provider configuration
 // =============================================================================
 
-import "@testing-library/jest-dom"; // Extends Jest matchers for DOM testing
+// Extends Jest matchers with DOM-specific assertions like toBeInTheDocument()
+import "@testing-library/jest-dom";
 
 import type { RenderOptions } from "@testing-library/react";
 import type { ReactElement } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
 import i18n from "i18next";
 import React from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
-import { vi } from "vitest";
+import { afterEach, vi } from "vitest";
+
+// Import actual locale resources from the application's public folder
+// This ensures tests use the same translations as production
+import enGBCommon from "../../public/locales/en-GB/common.json";
+import itITCommon from "../../public/locales/it-IT/common.json";
 
 // =============================================================================
-// I18N SETUP
+// I18N SETUP - Internationalization Configuration
 // =============================================================================
-// Configure internationalization for testing with predefined translations.
-// This ensures consistent translation behavior across all tests without
-// depending on external translation files.
 
-// Initialize i18next for testing with initImmediate: false for synchronous setup
+// Configure i18next for test environment with actual locale data
 i18n.use(initReactI18next).init({
-  lng: "en-GB", // Default language for tests
-  fallbackLng: "en-GB", // Fallback if translation key is missing
-  initImmediate: false, // Initialize synchronously for tests
-  interpolation: {
-    escapeValue: false, // React already does XSS protection
-  },
+  lng: "en-GB", // Default language for all tests
+  fallbackLng: "en-GB", // Language to use if requested language is unavailable
+  ns: ["common"], // Namespaces to load (matches production setup)
+  defaultNS: "common", // Default namespace when none specified
+  initImmediate: false, // Don't initialize immediately - wait for explicit init (important for tests)
+  interpolation: { escapeValue: false }, // Don't escape values (React already does this)
   resources: {
-    // English translations - used as default in most tests
     "en-GB": {
-      translation: {
-        "Home": "Home",
-        "About": "About",
-        "Work": "Work",
-        "Projects": "Projects",
-        "Contact": "Contact",
-        "Menu": "Menu",
-        "Dark": "Dark",
-        "Light": "Light",
-        "Toggle dark mode": "Toggle dark mode",
-        "English": "English",
-        "Italian": "Italian",
-        "This is the menu for the app. Use the links below to navigate":
-          "This is the menu for the app. Use the links below to navigate",
-      },
+      common: enGBCommon, // Load actual English translations from JSON file
     },
-    // Italian translations - used for testing language switching
     "it-IT": {
-      translation: {
-        "Home": "Casa",
-        "About": "Chi Sono",
-        "Work": "Lavoro",
-        "Projects": "Progetti",
-        "Contact": "Contatti",
-        "Menu": "Menu",
-        "Dark": "Scuro",
-        "Light": "Chiaro",
-        "Toggle dark mode": "Attiva modalità scura",
-        "English": "Inglese",
-        "Italian": "Italiano",
-        "This is the menu for the app. Use the links below to navigate":
-          "Questo è il menu dell'app. Usa i link qui sotto per navigare",
-      },
+      common: itITCommon, // Load actual Italian translations from JSON file
     },
   },
 });
 
 // =============================================================================
-// TANSTACK ROUTER MOCKS
+// ROUTER MOCKS - TanStack Router Mocking
 // =============================================================================
-// Mock router context and hooks to isolate components from routing dependencies.
-// This allows testing component behavior without setting up complex routing scenarios.
 
+// Mock context object that simulates router state
+// This object will be mutated by tests to simulate different routes/states
 const mockRouterContext = {
-  location: { pathname: "/" }, // Current route location
-  navigate: vi.fn(), // Mock navigation function
-  search: {}, // URL search parameters
-  params: {}, // Route parameters
+  location: { pathname: "/" }, // Current route path (default to home)
+  navigate: vi.fn(), // Mock navigation function (Vitest mock function)
+  search: {}, // URL search parameters (query strings)
+  params: {}, // Route parameters (e.g., /user/:id -> { id: "123" })
 };
 
 // Mock the entire @tanstack/react-router module
 vi.mock("@tanstack/react-router", async () => {
-  // Import actual module to preserve non-hook exports
-  const actual = await vi.importActual("@tanstack/react-router");
+  const actual = await vi.importActual("@tanstack/react-router"); // Import real module first
   return {
-    ...actual,
-    // Mock router hooks to return predictable values
-    useLocation: vi.fn(() => mockRouterContext.location),
-    useNavigate: vi.fn(() => mockRouterContext.navigate),
-    useSearch: vi.fn(() => mockRouterContext.search),
-    useParams: vi.fn(() => mockRouterContext.params),
-    // Mock Link component as a simple anchor tag for testing
+    ...actual, // Spread all actual exports
+    // Override specific hooks with mocked versions:
+    useLocation: vi.fn(() => mockRouterContext.location), // Returns mocked location
+    useNavigate: vi.fn(() => mockRouterContext.navigate), // Returns mocked navigate function
+    useSearch: vi.fn(() => mockRouterContext.search), // Returns mocked search params
+    useParams: vi.fn(() => mockRouterContext.params), // Returns mocked route params
+    // Mock Link component to render as simple anchor tag for testing
     Link: ({ to, children, className, ...props }: any) =>
       React.createElement("a", { href: to, className, ...props }, children),
   };
 });
 
 // =============================================================================
-// REACT RESPONSIVE MOCKS
+// MEDIA QUERY MOCKS - Responsive Design Testing
 // =============================================================================
-// Mock useMediaQuery hook to control responsive behavior in tests.
-// This allows testing both desktop and mobile views deterministically.
 
-const mockUseMediaQuery = vi.fn(() => true); // Default to desktop view (large screen)
+// Mock function for react-responsive's useMediaQuery hook
+// Default returns false (simulates desktop view when no mobile override)
+const mockUseMediaQuery = vi.fn(() => false);
 
+// Mock the react-responsive module used for responsive design
 vi.mock("react-responsive", () => ({
-  useMediaQuery: mockUseMediaQuery,
+  useMediaQuery: mockUseMediaQuery, // Replace real hook with our mock
 }));
 
 // =============================================================================
-// PROVIDER WRAPPERS
+// TYPE DEFINITIONS - Custom Test Options
 // =============================================================================
-// Create reusable wrapper functions for different providers.
-// This modular approach makes it easy to combine providers and maintain test setup.
 
-type WrapperProps = {
-  children: React.ReactNode;
+// Extend React Testing Library's RenderOptions with our custom test options
+// Omit<RenderOptions, "wrapper"> removes the wrapper property since we provide our own
+export type TestRenderOptions = Omit<RenderOptions, "wrapper"> & {
+  location?: { pathname: string }; // Mock router location (which page we're on)
+  isMobile?: boolean; // Control mobile vs desktop rendering (mobile-first: defaults to true)
+  language?: string; // Set i18n language for the test ("en-GB" | "it-IT")
 };
 
-/**
- * Wraps children with I18nextProvider for internationalization support
- * @param children - React components to wrap
- * @returns JSX element with i18n context
- */
-function createI18nWrapper(children: React.ReactNode) {
-  return React.createElement(I18nextProvider, { i18n }, children);
-}
+// Default options object - used when no options are provided to render()
+const defaultOptions: TestRenderOptions = {};
 
-/**
- * Wraps children with QueryClientProvider for React Query support
- * @param queryClient - Configured QueryClient instance
- * @param children - React components to wrap
- * @returns JSX element with React Query context
- */
-function createQueryWrapper(queryClient: QueryClient, children: React.ReactNode) {
-  return React.createElement(QueryClientProvider, { client: queryClient }, children);
-}
+// =============================================================================
+// TEST PROVIDERS - Wrapper Component for All Required Providers
+// =============================================================================
 
-/**
- * Combines all providers into a single wrapper function
- * @param queryClient - Configured QueryClient instance
- * @param children - React components to wrap
- * @returns JSX element with all necessary providers
- */
-function createAllProvidersWrapper(queryClient: QueryClient, children: React.ReactNode) {
-  return createI18nWrapper(
-    createQueryWrapper(queryClient, children),
+// eslint-disable-next-line react-refresh/only-export-components
+function TestProviders({
+  children, // The component being tested
+  options = defaultOptions, // Test configuration options
+}: {
+  children: React.ReactNode;
+  options?: TestRenderOptions;
+}) {
+  // Destructure options with defaults (mobile-first approach)
+  const {
+    location = { pathname: "/" }, // Default to home page
+    isMobile = true, // MOBILE-FIRST: Default to mobile view
+    language = "en-GB", // Default to English
+  } = options;
+
+  // =============================================================================
+  // MOCK UPDATES - Configure mocks based on test options
+  // =============================================================================
+
+  // Update router mock to simulate the requested route
+  mockRouterContext.location = location;
+
+  // CRITICAL: Media query logic inversion
+  // isMobile: true  -> mockUseMediaQuery returns false (mobile media query doesn't match)
+  // isMobile: false -> mockUseMediaQuery returns true  (desktop media query matches)
+  // This inversion is necessary because media queries typically check for "min-width"
+  mockUseMediaQuery.mockReturnValue(!isMobile);
+
+  // Change i18n language if different from current
+  if (language !== i18n.language) {
+    i18n.changeLanguage(language);
+  }
+
+  // =============================================================================
+  // PROVIDER SETUP - Create fresh instances for each test
+  // =============================================================================
+
+  // Create a new QueryClient for each test to avoid state leakage
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false }, // Don't retry failed queries in tests (faster, more predictable)
+    },
+  });
+
+  // =============================================================================
+  // PROVIDER TREE - Wrap component with all necessary providers
+  // =============================================================================
+
+  return (
+    // TanStack Query Provider - Manages server state caching and synchronization
+    <QueryClientProvider client={queryClient}>
+      {/* i18next Provider - Provides internationalization context */}
+      <I18nextProvider i18n={i18n}>
+        {children}
+      </I18nextProvider>
+    </QueryClientProvider>
   );
 }
 
 // =============================================================================
-// HELPER FUNCTIONS
+// CUSTOM RENDER FUNCTION - Enhanced render with automatic provider wrapping
 // =============================================================================
-// Utility functions to update mock states during tests.
-// These allow tests to simulate different application states easily.
 
-/**
- * Updates the mock router context with a new location
- * Useful for testing components that behave differently based on current route
- */
-const updateRouterContext = (location: { pathname: string }) => {
-  mockRouterContext.location = location;
-};
-
-/**
- * Updates the media query mock to simulate desktop/mobile views
- * @param isDesktop - true for desktop view, false for mobile
- */
-const updateMediaQuery = (isDesktop: boolean) => {
-  mockUseMediaQuery.mockReturnValue(isDesktop);
-};
-
-/**
- * Changes the active language in i18n
- * Useful for testing internationalization features
- */
-const changeLanguage = (language: string) => {
-  if (language !== i18n.language) {
-    i18n.changeLanguage(language);
-  }
-};
-
-/**
- * Creates a new QueryClient configured for testing
- * Disables retries to make tests faster and more predictable
- */
-const createQueryClient = () => {
-  return new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false, // Don't retry failed queries in tests
-      },
-    },
+// Custom render function that automatically wraps components with all necessary providers
+const customRender = (
+  ui: ReactElement, // The React component/element to render
+  options?: TestRenderOptions, // Optional test configuration
+) => {
+  return render(ui, {
+    // Provide our TestProviders as the wrapper component
+    // This ensures every rendered component has access to:
+    // - TanStack Query context
+    // - i18next internationalization
+    // - Mocked router context
+    // - Mocked media queries
+    wrapper: ({ children }) => (
+      <TestProviders options={options}>{children}</TestProviders>
+    ),
+    ...options, // Spread any additional RTL options
   });
 };
 
-/**
- * Debug utility to log HTML content during tests
- * Helpful for understanding test failures and component rendering
- */
-const debugHTML = (container: Element, title = "Current HTML") => {
-  // eslint-disable-next-line no-console
-  console.log(`\n=== ${title} ===`);
-  // eslint-disable-next-line no-console
-  console.log(container);
-  // eslint-disable-next-line no-console
-  console.log("==================\n");
-};
-
 // =============================================================================
-// CUSTOM RENDER FUNCTION
-// =============================================================================
-// Enhanced render function that automatically sets up all necessary providers
-// and allows easy configuration of test scenarios through options.
-
-export type CustomRenderOptions = Omit<RenderOptions, "wrapper"> & {
-  location?: { pathname: string }; // Mock current route location
-  isDesktop?: boolean; // Mock screen size (desktop vs mobile)
-  language?: string; // Set active language
-  debug?: boolean; // Enable HTML debugging output
-  debugTitle?: string; // Custom title for debug output
-};
-
-/**
- * Custom render function that wraps components with all necessary providers
- *
- * @param ui - The React component to render
- * @param options - Configuration options for the test environment
- * @returns Testing Library render result with additional debug capabilities
- *
- * Usage examples:
- * - Basic: render(<MyComponent />)
- * - Mobile view: render(<MyComponent />, { isDesktop: false })
- * - Different route: render(<MyComponent />, { location: { pathname: "/about" } })
- * - Italian language: render(<MyComponent />, { language: "it-IT" })
- * - With debugging: render(<MyComponent />, { debug: true })
- */
-export const customRender = (
-  ui: ReactElement,
-  options: CustomRenderOptions = {},
-) => {
-  const {
-    location = { pathname: "/" }, // Default to home page
-    isDesktop = true, // Default to desktop view
-    language = "en-GB", // Default to English
-    debug = false, // Debug disabled by default
-    debugTitle = "Test HTML", // Default debug title
-    ...renderOptions // Pass through other render options
-  } = options;
-
-  // Configure mock states based on options
-  updateRouterContext(location);
-  updateMediaQuery(isDesktop);
-  changeLanguage(language);
-
-  // Create a fresh QueryClient for this test
-  const queryClient = createQueryClient();
-
-  // Create wrapper component that provides all contexts
-  const Wrapper = ({ children }: WrapperProps) =>
-    createAllProvidersWrapper(queryClient, children);
-
-  // Render the component with all providers
-  const result = render(ui, { wrapper: Wrapper, ...renderOptions });
-
-  // Output debug information if requested
-  if (debug) {
-    debugHTML(result.container, debugTitle);
-  }
-
-  return result;
-};
-
-// =============================================================================
-// UTILITY EXPORTS
+// EXPORTS - Re-export Testing Library functions and custom utilities
 // =============================================================================
 
-// Export utilities for advanced test scenarios
-export const testUtils = {
-  updateRouterContext,
-  updateMediaQuery,
-  changeLanguage,
-  createQueryClient,
-  debugHTML,
-  mockRouterContext,
-  mockUseMediaQuery,
-  i18n,
-};
-
-// Re-export everything from testing-library/react except render
+// Re-export specific testing library functions for convenient importing
 export {
-  cleanup,
-  findByRole,
-  findByTestId,
-  findByText,
-  fireEvent,
-  getByRole,
-  getByTestId,
-  getByText,
-  queryByRole,
-  queryByTestId,
-  queryByText,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-  within,
+  cleanup, // Function to unmount components and clear DOM (used in afterEach)
+  findByRole, // Async query that waits for element with specific role
+  findByTestId, // Async query that waits for element with data-testid
+  findByText, // Async query that waits for element with specific text
+  fireEvent, // Function to trigger events (click, change, etc.)
+  getByRole, // Synchronous query for element with specific role (throws if not found)
+  getByTestId, // Synchronous query for element with data-testid (throws if not found)
+  getByText, // Synchronous query for element with text (throws if not found)
+  queryByRole, // Synchronous query for element with role (returns null if not found)
+  queryByTestId, // Synchronous query for element with data-testid (returns null if not found)
+  queryByText, // Synchronous query for element with text (returns null if not found)
+  screen, // Object containing all query functions scoped to document.body
+  waitFor, // Utility to wait for async operations to complete
+  waitForElementToBeRemoved, // Waits for element to be removed from DOM
+  within, // Scopes queries to a specific container element
 } from "@testing-library/react";
 
-// Override the default render with our custom render
+// Export our enhanced render function as the default render
+// This replaces the standard RTL render with our provider-wrapped version
 export { customRender as render };
+
+// =============================================================================
+// GLOBAL TEST SETUP - Automatic cleanup after each test
+// =============================================================================
+
+// Automatically cleanup after each test to prevent DOM pollution
+// This ensures each test starts with a clean slate
+afterEach(() => {
+  cleanup(); // Remove all rendered components from DOM
+});

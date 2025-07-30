@@ -8,8 +8,11 @@ import Timeline from "./component/timeline";
 
 function Work() {
   const { t, i18n: { language } } = useTranslation();
-  const { data: workExperienceData, isLoading } = useGetWorkExperience();
+  const { data: workExperienceData, isLoading, isError } = useGetWorkExperience();
   const skeletons = [1, 2, 3, 4, 5, 6];
+
+  if (isError)
+    return null;
 
   return (
     <UIWrapper tag="section" id={t("Work")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6 w-full">
@@ -17,18 +20,18 @@ function Work() {
         {t("Work Experience")}
       </TextEffect>
 
-      <section className="flex flex-col space-y-8 pt-10">
+      <section className="flex flex-col space-y-6 md:space-y-8 pt-10">
         {isLoading
           ? skeletons.map((_, index) => (
               // eslint-disable-next-line react/no-array-index-key
-              <div className="flex items-start gap-4" key={index}>
+              <div className="flex gap-4 items-center" key={index}>
                 <div className="flex-shrink-0">
-                  <Skeleton className="h-20 w-20 rounded-full" />
+                  <Skeleton className="h-20 w-20 md:h-24 md:w-24 rounded-full" />
                 </div>
                 <div className="flex-1 space-y-2">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-6 w-1/2" />
-                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-6 md:h-8 w-3/4" />
+                  <Skeleton className="h-6 md:h-8 w-1/2" />
+                  <Skeleton className="h-4 md:h-6 w-full" />
                 </div>
               </div>
             ))

@@ -56,7 +56,7 @@ function About() {
               : null}
             {isError || skills?.length === 0
               ? (
-                  <p>
+                  <p className="text-center">
                     {t("Oops! Something went wrong while fetching the skills")}
                   </p>
                 )

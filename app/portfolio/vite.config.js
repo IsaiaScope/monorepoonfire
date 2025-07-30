@@ -18,6 +18,12 @@ export default defineConfig(({ mode }) => {
     server: {
       port: env.VITE_SERVER_PORT,
     },
+    test: {
+      globals: true,
+      name: "@app/portfolio",
+      environment: "jsdom",
+      setupFiles: ["src/test/set-up-test.tsx"],
+    },
     plugins: [TanStackRouterVite({ target: "react", autoCodeSplitting: true, routesDirectory: "src/routes", generatedRouteTree: "src/provider/routeTree.gen.ts" }), viteReact(), tailwindcss()],
     build: {
       emptyOutDir: true,

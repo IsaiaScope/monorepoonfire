@@ -26,12 +26,6 @@ function ContactLink(
           variant="ghost"
           asChild
           aria-label={label}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.cursor = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='24'%3E🦆%3C/text%3E%3C/svg%3E"), auto`;
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.cursor = "pointer";
-          }}
         >
           <UILink href={href} {...props} className={cn("rounded-full px-0 py-0 size-10 [&_svg]:size-6 bg-transparent animate-in fade-in zoom-in duration-300", className)}>
             {children}

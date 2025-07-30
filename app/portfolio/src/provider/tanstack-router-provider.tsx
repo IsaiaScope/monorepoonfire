@@ -1,5 +1,5 @@
-import { UIRouterError } from "@package/ui";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { UIFullPageDotsLoaderOnFire, UIRouterError } from "@package/ui";
+import { createRouter, Navigate, RouterProvider } from "@tanstack/react-router";
 
 import { APP_PORTFOLIO } from "../constant";
 import { routeTree } from "./routeTree.gen";
@@ -8,8 +8,8 @@ const router = createRouter({
   routeTree,
   context: { queryClient: APP_PORTFOLIO.TANSTACK.QUERY_CLIENT },
   defaultErrorComponent: UIRouterError,
-  // defaultNotFoundComponent: NotFoundOnFire,
-  // defaultPendingComponent: FullPageDotsLoaderOnFire,
+  defaultNotFoundComponent: () => <Navigate to="/" />,
+  defaultPendingComponent: UIFullPageDotsLoaderOnFire,
 });
 
 declare module "@tanstack/react-router" {

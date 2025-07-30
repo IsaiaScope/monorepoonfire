@@ -11,12 +11,12 @@ function UILanguageSelector<L extends string>({ value, onValueChange, languages 
 Props<L>) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="bg-background dark:bg-background">
+      <SelectTrigger className="bg-background dark:bg-background cursor-pointer">
         <SelectValue />
       </SelectTrigger>
       <SelectContent className="min-w-auto">
         {languages.map(lang => (
-          <SelectItem className="flex items-center" value={lang.code} key={lang.label}>
+          <SelectItem className="flex items-center cursor-pointer" value={lang.code} key={lang.label}>
             <ReactCountryFlag
               countryCode={
                 lang.code.split("-")[1]
