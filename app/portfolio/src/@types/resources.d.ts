@@ -49,6 +49,7 @@ interface Resources {
     "Travelling": "Travelling",
     "Twitch": "Twitch",
     "Twitter": "Twitter",
+    "View Project": "View Project",
     "Web Solutions": "Web Solutions",
     "Work": "Work",
     "Work Experience": "Work Experience"

@@ -45,7 +45,7 @@ function Footer() {
     <footer className=" w-full backdrop-blur-md bg-secondary/80">
       <section className="py-2 px-6 md:justify-between max-w-screen-xl mx-auto flex items-center justify-center text-secondary-foreground font-LibreFranklin">
 
-        <p className="hidden text-nowrap text-lg lg:block">
+        <p className="hidden text-nowrap text-md lg:block">
           {`${t("Terms & Conditions")} | ${t("Privacy Policy")}`}
         </p>
 
@@ -87,7 +87,7 @@ function Footer() {
             <Twitter />
           </ContactLink>
         </section>
-        <p className="hidden text-nowrap text-lg lg:block">{`© ${t("2025 Isaia. All rights reserved.")}`}</p>
+        <p className="hidden text-nowrap text-md lg:block">{`© ${t("2025 Isaia. All rights reserved.")}`}</p>
       </section>
     </footer>
   );

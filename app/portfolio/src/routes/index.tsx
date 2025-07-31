@@ -3,9 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import About from "../feature/about/about";
 import Hero from "../feature/hero/hero";
 import Projects from "../feature/projects/projects";
-import Work from "../feature/work/work";
-
-// import logo from "../logo.svg";
+// import Work from "../feature/work/work";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -17,7 +15,7 @@ function Home() {
     <>
       <Hero />
       <About />
-      <Work />
+      {/* <Work /> */}
       <Projects />
     </>
   );

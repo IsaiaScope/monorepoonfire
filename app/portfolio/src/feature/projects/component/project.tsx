@@ -1,17 +1,25 @@
-import { Badge, Button } from "@package/shadcn";
-import { ArrowRightCircle } from "lucide-react";
-import { useState } from "react";
+import { Badge, Button, Dialog, DialogTrigger } from "@package/shadcn";
+import { UILink } from "@package/ui";
+import { PACKAGE_UTILITY } from "@package/utility/constant";
+import { ArrowRightCircle, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "react-responsive";
 
 import ProjectDetails from "./project-details";
 
 type Props = {
+  id: number;
   title: string;
   description: string;
   subDescription: string[];
   href: string;
+  repo: string;
   image: string;
-  tags: { id: number; path: string; name: string }[];
+  tags: {
+    id: number;
+    name: string;
+    path: string;
+  }[];
   setPreview: (image: string | null) => void;
 };
 
@@ -21,11 +29,14 @@ const Project = ({
   subDescription,
   href,
   image,
+  repo,
   tags,
   setPreview,
 }: Props) => {
-  const [isHidden, setIsHidden] = useState(false);
   const { t } = useTranslation();
+  const isBiggerThanMedium = useMediaQuery({
+    minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
+  });
   return (
     <>
       <div
@@ -46,27 +57,42 @@ const Project = ({
 
           </div>
         </div>
-        <Button
-          variant="default"
-          onClick={() => setIsHidden(true)}
-          className="flex items-center gap-1 cursor-pointer hover-animation"
-        >
-          {t("Read More")}
-          <ArrowRightCircle />
-        </Button>
+        {
+          isBiggerThanMedium
+
+            ? (
+                <Dialog onOpenChange={() => setPreview(null)}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="default"
+                      className="flex items-center gap-1 cursor-pointer hover-animation"
+                    >
+                      {t("Read More")}
+                      <ArrowRightCircle />
+                    </Button>
+                  </DialogTrigger>
+                  <ProjectDetails
+                    title={title}
+                    description={description}
+                    subDescription={subDescription}
+                    image={image}
+                    tags={tags}
+                    href={href}
+                  />
+                </Dialog>
+              )
+            : (
+                <Button asChild>
+                  <UILink href={repo}>
+                    {t("View Project")}
+                    <ExternalLink />
+                  </UILink>
+                </Button>
+              )
+        }
       </div>
-      <div className="bg-gradient-to-r from-transparent via-primary/70 to-transparent h-[1px] w-full" />
-      {isHidden && (
-        <ProjectDetails
-          title={title}
-          description={description}
-          subDescription={subDescription}
-          image={image}
-          tags={tags}
-          href={href}
-          closeModal={() => setIsHidden(false)}
-        />
-      )}
+
+      <div className="bg-gradient-to-r from-transparent via-primary/70 to-transparent h-[2px] w-full" />
     </>
   );
 };
