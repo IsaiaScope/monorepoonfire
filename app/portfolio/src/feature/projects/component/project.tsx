@@ -18,7 +18,6 @@ type Props = {
   tags: {
     id: number;
     name: string;
-    path: string;
   }[];
   setPreview: (image: string | null) => void;
 };
@@ -37,12 +36,13 @@ const Project = ({
   const isBiggerThanMedium = useMediaQuery({
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
   });
+  const canHover = useMediaQuery({ query: "(hover: hover)" });
   return (
     <>
       <div
         className="flex-wrap justify-between  pt-10 pb-14 space-y-14 sm:flex sm:space-y-0"
-        onMouseEnter={() => setPreview(image)}
-        onMouseLeave={() => setPreview(null)}
+        onMouseEnter={canHover ? () => setPreview(image) : undefined}
+        onMouseLeave={canHover ? () => setPreview(null) : undefined}
       >
         <div className="flex flex-col space-y-6 max-w-9/12 overflow-hidden text-ellipsis">
           <p className="text-2xl lg:text-3xl font-semibold">
@@ -50,7 +50,7 @@ const Project = ({
           </p>
           <div className="flex gap-5 mt-4">
             {tags.map(tag => (
-              <Badge variant="secondary" key={tag.id}>
+              <Badge variant="secondary" className="hover:scale-110 cursor-default" key={tag.id}>
                 {`#${tag.name}`}
               </Badge>
             ))}
@@ -62,6 +62,7 @@ const Project = ({
 
             ? (
                 <Dialog onOpenChange={() => setPreview(null)}>
+
                   <DialogTrigger asChild>
                     <Button
                       variant="default"
@@ -76,7 +77,6 @@ const Project = ({
                     description={description}
                     subDescription={subDescription}
                     image={image}
-                    tags={tags}
                     href={href}
                   />
                 </Dialog>

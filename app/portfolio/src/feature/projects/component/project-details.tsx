@@ -1,13 +1,14 @@
 import {
   Button,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@package/shadcn";
-import { UILink } from "@package/ui";
-import { ExternalLink } from "lucide-react";
+import { UIImage, UILink } from "@package/ui";
+import { ExternalLink, OctagonX } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 type ProjectDetailsProps = {
@@ -15,7 +16,6 @@ type ProjectDetailsProps = {
   description: string;
   subDescription: string[];
   image: string;
-  tags: Array<{ id: number; path: string; name: string }>;
   href: string;
 };
 
@@ -24,60 +24,45 @@ const ProjectDetails = ({
   description,
   subDescription,
   image,
-  tags,
   href,
 }: ProjectDetailsProps) => {
   const { t } = useTranslation();
   return (
 
-    <DialogContent className="md:max-w-2xl">
-      <DialogHeader>
-        <DialogTitle>Edit profile</DialogTitle>
-        <DialogDescription>
-          Make changes to your profile here. Click save when you&apos;re
-          done.
+    <DialogContent showCloseButton={false} className="overflow-auto flex flex-col rounded-2xl p-3 pb-4 md:max-w-2xl h-10/12 max-h-[950px] gap-8 hide-scrollbar">
+      <DialogHeader className="flex flex-col gap-5">
+        <UIImage src={image} alt="" className="w-full rounded-2xl" />
+        <DialogTitle className="text-2xl font-LibreFranklin">{title}</DialogTitle>
+        <DialogDescription className="sr-only">
+          {description}
         </DialogDescription>
       </DialogHeader>
-      <div className="flex flex-col  items-center justify-center w-full h-full overflow-hidden backdrop-blur-sm">
-
-        <img src={image} alt={title} className="w-full rounded-t-2xl" />
-        <div className="p-5">
-          <h5 className="mb-2 text-2xl font-bold text-white">{title}</h5>
-          <p className="mb-3 font-normal text-neutral-400">{description}</p>
-          {subDescription.map((subDesc, index) => (
-            <p
-              className="mb-3 font-normal text-neutral-400"
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-            >
-              {subDesc}
-              {subDesc}
-
-            </p>
-          ))}
-
-        </div>
+      <div className="flex flex-col grow gap-2">
+        {subDescription.map((subDesc, index) => (
+          <p
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+          >
+            {subDesc}
+          </p>
+        ))}
 
       </div>
-      <DialogFooter>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex gap-3">
-            {tags.map(tag => (
-              <img
-                key={tag.id}
-                src={tag.path}
-                alt={tag.name}
-                className="rounded-lg size-10 hover-animation"
-              />
-            ))}
-          </div>
+      <DialogFooter className="mt-2">
+        <div className="flex gap-4 items-center justify-center">
+          <DialogClose asChild>
+            <Button variant="destructive" className="cursor-pointer">
+              {t("Close")}
+              <OctagonX />
+            </Button>
+          </DialogClose>
+          <Button asChild>
+            <UILink href={href}>
+              {t("View Project")}
+              <ExternalLink />
+            </UILink>
+          </Button>
         </div>
-        <Button asChild>
-          <UILink href={href}>
-            {t("View Project")}
-            <ExternalLink />
-          </UILink>
-        </Button>
       </DialogFooter>
     </DialogContent>
   );

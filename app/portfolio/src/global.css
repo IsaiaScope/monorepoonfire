@@ -133,3 +133,17 @@ html body[data-scroll-locked] {
     }
   }
 }
+
+/* Hide scrollbar utility class */
+.hide-scrollbar {
+  /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Webkit browsers */
+}

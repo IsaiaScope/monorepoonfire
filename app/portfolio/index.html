@@ -1,25 +1,101 @@
 <!doctype html>
-<html lang="en">
+<!-- Declares this as an HTML5 document -->
+<html lang="en-GB">
+  <!-- Sets the document language to British English for accessibility and SEO -->
   <head>
+    <!-- Document character encoding - UTF-8 supports all Unicode characters -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tells the browser to respect system dark/light mode preferences -->
+    <!-- This enables automatic theme switching based on user's OS settings -->
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Enhanced viewport configuration for mobile devices -->
+    <!-- viewport-fit=cover: Content extends to screen edges (handles notches on iPhone X+) -->
+    <!-- width=device-width: Uses device's actual width instead of default 980px -->
+    <!-- initial-scale=1.0: Sets initial zoom level to 100% -->
+    <!-- minimum/maximum-scale=1.0: Prevents users from zooming in/out -->
+    <!-- user-scalable=no: Disables pinch-to-zoom for app-like experience -->
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <!-- Prevents automatic phone number detection on mobile browsers -->
+    <!-- Stops browsers from making phone numbers clickable automatically -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Disables the tap highlight effect on Windows Phone -->
+    <!-- Removes the gray highlight when tapping elements on Windows mobile -->
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- Page title that appears in browser tabs and search results -->
     <title>Riva Isaia</title>
+
+    <!-- Meta description for SEO - appears in search engine results -->
     <meta name="description" content="Web site to show Riva Isaia portfolio" />
-    <!-- Standard favicon -->
+
+    <!-- Theme color for browser UI elements (address bar, etc.) -->
+    <!-- This color appears in browser chrome and app switcher on mobile -->
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Web App Manifest for PWA functionality -->
+    <!-- Links to manifest.json which defines app behavior when installed -->
+    <!-- iOS uses manifest.json "short_name" for home screen app title -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Preload the main Apple Touch Icon for faster loading -->
+    <link rel="preload" href="/apple-touch-icon.png" as="image" type="image/png" />
+
+    <!-- Standard ICO favicon for older browsers and Windows -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <!-- PNG favicons for modern browsers -->
+
+    <!-- PNG favicons for modern browsers with size specifications -->
+    <!-- Multiple sizes ensure optimal display across different contexts -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <!-- SVG favicon for browsers that support it -->
+
+    <!-- SVG favicon for browsers that support vector graphics -->
+    <!-- Scales perfectly at any size and supports dark mode -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- Apple Touch Icon -->
+
+    <!-- Apple Touch Icons for iOS home screen when app is bookmarked -->
+    <!-- iOS looks for these in order of preference -->
+    <!-- Primary Apple Touch Icon - this should be your main icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#000000" />
+    <!-- Fallback Apple Touch Icon without size specified -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- iOS-specific meta tags for enhanced web app experience -->
+
+    <!-- Modern meta tag for web app capabilities -->
+    <!-- Enables fullscreen mode when app is added to home screen -->
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Legacy iOS support (kept for backward compatibility) -->
+    <!-- Enables fullscreen mode when app is added to iOS home screen -->
+    <!-- Removes Safari UI elements for native app-like experience -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- NOTE -->
+    <!-- Sets the title that appears when the app is added to iOS home screen -->
+    <!-- Alternative: Ensure your manifest.json has the correct "name" and "short_name" -->
+    <!-- iOS will prioritize: 1. manifest.json "short_name", 2. manifest.json "name", 3. <title> tag -->
+
+    <!-- Controls the appearance of the status bar in iOS web apps -->
+    <!-- 'black': Black status bar with white text -->
+    <!-- 'default': Default status bar -->
+    <!-- 'black-translucent': Black translucent status bar (content goes behind it) -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
 
+  <!-- Document body - contains all visible page content -->
   <body>
+    <!-- Main application container where React will mount -->
     <div id="app"></div>
+
+    <!-- Entry point for the React application -->
+    <!-- type="module" enables ES6 module imports -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

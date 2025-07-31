@@ -17,12 +17,10 @@ export const myProjects = [
       {
         id: 1,
         name: "JavaScript",
-        path: "/assets/logos/csharp.svg",
       },
       {
         id: 2,
         name: "Markdown",
-        path: "/assets/logos/dotnet.svg",
       },
     ],
   },
@@ -44,17 +42,14 @@ export const myProjects = [
       {
         id: 1,
         name: "React",
-        path: "/assets/logos/auth0.svg",
       },
       {
         id: 2,
         name: "SQLite",
-        path: "/assets/logos/sqlite.svg",
       },
       {
         id: 3,
         name: "Hono",
-        path: "/assets/logos/tailwindcss.svg",
       },
     ],
   },
