@@ -1,6 +1,16 @@
+export { Badge } from "./component/badge";
 export {
   Button,
 } from "./component/button";
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./component/dialog";
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,

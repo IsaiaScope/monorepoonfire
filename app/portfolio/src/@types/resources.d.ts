@@ -1,5 +1,10 @@
 interface Resources {
   "common": {
+    "2025 Isaia": {
+      " All rights reserved": {
+        "": "2025 Isaia. All rights reserved."
+      }
+    },
     "About": "About",
     "About me": "About me",
     "A Developer": "A Developer",
@@ -29,11 +34,14 @@ interface Resources {
       " So, live a life you will remember": "One day you'll leave this world behind. So, live a life you will remember"
     },
     "Oops! Something went wrong while fetching the skills": "Oops! Something went wrong while fetching the skills",
+    "Privacy Policy": "Privacy Policy",
     "Projects": "Projects",
+    "Read More": "Read More",
     "Reliable": "Reliable",
     "Robust": "Robust",
     "Skills Lab": "Skills Lab",
     "Tech Stack": "Tech Stack",
+    "Terms & Conditions": "Terms & Conditions",
     "This is the menu for the app": {
       " Use the links below to navigate": "This is the menu for the app. Use the links below to navigate"
     },
