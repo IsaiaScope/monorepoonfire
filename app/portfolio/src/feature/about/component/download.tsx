@@ -14,7 +14,7 @@ function Download() {
 
   return (
     <Button
-      className="md:text-xl h-12 px-6 [&_svg]:size-auto hover:scale-105 transition-transform duration-200"
+      className="md:text-xl h-12 px-6 [&_svg]:size-auto hover:scale-105 transition-transform duration-200 animate-in fade-out zoom-in"
       size="lg"
       asChild
       onMouseEnter={(e) => {

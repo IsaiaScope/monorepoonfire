@@ -40,5 +40,6 @@ export const TANSTACK = {
     GET_SKILLS: "get-skills",
     GET_WORK_EXPERIENCES: "get-work-experiences",
     GET_PROJECTS: "get-projects",
+    SEND_EMAIL: "send-email",
   },
 };

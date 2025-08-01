@@ -1,6 +1,7 @@
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@package/shadcn";
 import { UILink } from "@package/ui";
 import { cn } from "@package/utility/tailwind";
+import { useLocation } from "@tanstack/react-router";
 import { Facebook, Github, Instagram, Linkedin, Twitch, Twitter } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -41,8 +42,9 @@ function ContactLink(
 
 function Footer() {
   const { t } = useTranslation();
+  const isHome = useLocation().pathname === "/";
   return (
-    <footer className=" w-full backdrop-blur-md bg-secondary/80 mt-20">
+    <footer className={cn("w-full backdrop-blur-md bg-secondary/80 mt-20", { "mt-0": !isHome })}>
       <section className="py-2 px-6 md:justify-between max-w-screen-xl mx-auto flex items-center justify-center text-secondary-foreground font-LibreFranklin">
 
         <p className="hidden text-nowrap text-md lg:block">

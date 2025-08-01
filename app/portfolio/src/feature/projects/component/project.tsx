@@ -63,7 +63,7 @@ const Project = ({
           </p>
           <div className="flex gap-5 mt-4">
             {tags.map(tag => (
-              <Badge variant="secondary" className="hover:scale-110 cursor-default" key={tag.id}>
+              <Badge variant="secondary" className="hover:scale-110 cursor-default text-secondary-foreground/80" key={tag.id}>
                 {`#${tag.name}`}
               </Badge>
             ))}

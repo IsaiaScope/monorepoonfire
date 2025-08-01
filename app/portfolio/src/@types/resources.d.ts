@@ -19,6 +19,7 @@ interface Resources {
     "Creating": "Creating",
     "Dark": "Dark",
     "Download": "Download",
+    "Email": "Email",
     "English": "English",
     "Facebook": "Facebook",
     "GitHub": "GitHub",
@@ -27,11 +28,16 @@ interface Resources {
     "I have experience with a wide range of languages, frameworks and tools": "I have experience with a wide range of languages, frameworks and tools",
     "Innovative": "Innovative",
     "Instagram": "Instagram",
+    "Invalid email address": "Invalid email address",
     "Italian": "Italian",
     "Light": "Light",
     "LinkedIn": "LinkedIn",
     "Loading skills": "Loading skills",
     "Menu": "Menu",
+    "Message": "Message",
+    "Message is required": "Message is required",
+    "Name": "Name",
+    "Name is required": "Name is required",
     "One day you'll leave this world behind": {
       " So, live a life you will remember": "One day you'll leave this world behind. So, live a life you will remember"
     },
@@ -41,6 +47,8 @@ interface Resources {
     "Read More": "Read More",
     "Reliable": "Reliable",
     "Robust": "Robust",
+    "Send Email": "Send Email",
+    "Sending": "Sending",
     "Skills Lab": "Skills Lab",
     "Tech Stack": "Tech Stack",
     "Terms & Conditions": "Terms & Conditions",
@@ -54,7 +62,11 @@ interface Resources {
     "View Project": "View Project",
     "Web Solutions": "Web Solutions",
     "Work": "Work",
-    "Work Experience": "Work Experience"
+    "Work Experience": "Work Experience",
+    "yourEmail@mail": {
+      "com": "yourEmail@mail.com"
+    },
+    "Your message": "Your message"
   }
 }
 
