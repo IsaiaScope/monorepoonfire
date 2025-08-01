@@ -38,10 +38,9 @@ export const Timeline = ({ data }: { data: TimelineEntry }) => {
     >
 
       <div ref={ref} className="relative mx-auto">
-        {data.map((item, index) => (
+        {data.map(item => (
           <div
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
+            key={`${item.company}-${item.role}-${item.startDate}`}
             className="flex justify-start pt-10 lg:pt-30 lg:gap-4 first:pt-0"
           >
             <div className="sticky ml-4 lg:ml-0 flex flex-col lg:flex-row z-10 items-center top-40 self-start max-w-sm lg:w-full">

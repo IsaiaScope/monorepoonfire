@@ -31,17 +31,16 @@ const ProjectDetails = ({
 
     <DialogContent showCloseButton={false} className="overflow-auto flex flex-col rounded-2xl p-3 pb-4 md:max-w-2xl h-10/12 max-h-[950px] gap-8 hide-scrollbar">
       <DialogHeader className="flex flex-col gap-5">
-        <UIImage src={image} alt="" className="w-full rounded-2xl" />
+        <UIImage src={image} alt="" className="w-full rounded-2xl shadow" />
         <DialogTitle className="text-2xl font-LibreFranklin">{title}</DialogTitle>
         <DialogDescription className="sr-only">
           {description}
         </DialogDescription>
       </DialogHeader>
       <div className="flex flex-col grow gap-2">
-        {subDescription.map((subDesc, index) => (
+        {subDescription.map(subDesc => (
           <p
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
+            key={`${title}`}
           >
             {subDesc}
           </p>
