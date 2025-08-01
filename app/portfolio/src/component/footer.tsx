@@ -42,7 +42,7 @@ function ContactLink(
 function Footer() {
   const { t } = useTranslation();
   return (
-    <footer className=" w-full backdrop-blur-md bg-secondary/80">
+    <footer className=" w-full backdrop-blur-md bg-secondary/80 mt-20">
       <section className="py-2 px-6 md:justify-between max-w-screen-xl mx-auto flex items-center justify-center text-secondary-foreground font-LibreFranklin">
 
         <p className="hidden text-nowrap text-md lg:block">

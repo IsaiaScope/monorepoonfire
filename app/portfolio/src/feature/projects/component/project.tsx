@@ -2,24 +2,19 @@ import { Badge, Button, Dialog, DialogTrigger } from "@package/shadcn";
 import { UILink } from "@package/ui";
 import { PACKAGE_UTILITY } from "@package/utility/constant";
 import { ArrowRightCircle, ExternalLink } from "lucide-react";
+import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
+import type { useGetProjects } from "../api/use-projects";
+
 import ProjectDetails from "./project-details";
 
-type Props = {
-  id: number;
-  title: string;
-  description: string;
-  subDescription: string[];
-  href: string;
-  repo: string;
-  image: string;
-  tags: {
-    id: number;
-    name: string;
-  }[];
+type ProjectPros = NonNullable<ReturnType<typeof useGetProjects>["data"]>[number];
+
+type Props = ProjectPros & {
   setPreview: (image: string | null) => void;
+  index: number;
 };
 
 const Project = ({
@@ -31,6 +26,7 @@ const Project = ({
   repo,
   tags,
   setPreview,
+  index,
 }: Props) => {
   const { t } = useTranslation();
   const isBiggerThanMedium = useMediaQuery({
@@ -39,10 +35,27 @@ const Project = ({
   const canHover = useMediaQuery({ query: "(hover: hover)" });
   return (
     <>
-      <div
-        className="flex-wrap justify-between  pt-10 pb-14 space-y-14 sm:flex sm:space-y-0"
+      <motion.div
+        className="flex-wrap justify-between pb-10 space-y-14 md:flex md:space-y-0"
         onMouseEnter={canHover ? () => setPreview(image) : undefined}
         onMouseLeave={canHover ? () => setPreview(null) : undefined}
+        initial={{
+          opacity: 0,
+          x: index % 2 === 0 ? -100 : 100,
+        }}
+        whileInView={{
+          opacity: 1,
+          x: 0,
+        }}
+        viewport={{
+          once: true,
+          amount: 0.3,
+        }}
+        transition={{
+          duration: 0.6,
+          delay: 0.1,
+          ease: "easeOut",
+        }}
       >
         <div className="flex flex-col space-y-6 max-w-9/12 overflow-hidden text-ellipsis">
           <p className="text-2xl lg:text-3xl font-semibold">
@@ -66,7 +79,7 @@ const Project = ({
                   <DialogTrigger asChild>
                     <Button
                       variant="default"
-                      className="flex items-center gap-1 cursor-pointer hover-animation"
+                      className="flex items-center gap-1 cursor-pointer"
                     >
                       {t("Read More")}
                       <ArrowRightCircle />
@@ -78,11 +91,12 @@ const Project = ({
                     subDescription={subDescription}
                     image={image}
                     href={href}
+                    repo={repo}
                   />
                 </Dialog>
               )
             : (
-                <Button asChild>
+                <Button asChild className="">
                   <UILink href={repo}>
                     {t("View Project")}
                     <ExternalLink />
@@ -90,7 +104,7 @@ const Project = ({
                 </Button>
               )
         }
-      </div>
+      </motion.div>
 
       <div className="bg-gradient-to-r from-transparent via-primary/70 to-transparent h-[2px] w-full" />
     </>

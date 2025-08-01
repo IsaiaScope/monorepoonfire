@@ -6,9 +6,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "@package/shadcn";
 import { UIImage, UILink } from "@package/ui";
-import { ExternalLink, OctagonX } from "lucide-react";
+import { cn } from "@package/utility/tailwind";
+import { ExternalLink, Github, OctagonX } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 type ProjectDetailsProps = {
@@ -16,6 +20,7 @@ type ProjectDetailsProps = {
   description: string;
   subDescription: string[];
   image: string;
+  repo: string;
   href: string;
 };
 
@@ -25,6 +30,7 @@ const ProjectDetails = ({
   subDescription,
   image,
   href,
+  repo,
 }: ProjectDetailsProps) => {
   const { t } = useTranslation();
   return (
@@ -40,7 +46,7 @@ const ProjectDetails = ({
       <div className="flex flex-col grow gap-2">
         {subDescription.map(subDesc => (
           <p
-            key={`${title}`}
+            key={`${description}`}
           >
             {subDesc}
           </p>
@@ -49,13 +55,31 @@ const ProjectDetails = ({
       </div>
       <DialogFooter className="mt-2">
         <div className="flex gap-4 items-center justify-center">
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                asChild
+                aria-label={t("Check out the repository")}
+              >
+                <UILink href={repo} className={cn("rounded-full px-0 py-0 size-10 [&_svg]:size-6 bg-transparent animate-in fade-out zoom-in duration-300 hover:scale-110")}>
+                  <Github />
+                </UILink>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="text-xs">
+              {t("Check out the repository")}
+            </TooltipContent>
+          </Tooltip>
           <DialogClose asChild>
-            <Button variant="destructive" className="cursor-pointer">
+
+            <Button variant="destructive" className="cursor-pointer animate-in fade-out zoom-in duration-300">
               {t("Close")}
               <OctagonX />
             </Button>
           </DialogClose>
-          <Button asChild>
+          <Button asChild className="animate-in fade-out zoom-in duration-300">
             <UILink href={href}>
               {t("View Project")}
               <ExternalLink />

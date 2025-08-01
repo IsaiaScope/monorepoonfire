@@ -4,6 +4,7 @@ import { APP_HONO } from "./constant";
 import { configureOpenApi } from "./library/configure-open-api";
 import { initApp } from "./library/create-app";
 import index from "./routes/index.routes";
+import projects from "./routes/projects/projects.index";
 import skills from "./routes/skills/skills.index";
 import workExperience from "./routes/work-experience/work-experience.index";
 
@@ -17,6 +18,9 @@ const _routes = app.route(
 ).route(
   "/",
   workExperience,
+).route(
+  "/",
+  projects,
 ).route("/", index);
 
 // app.get("/error", () => {

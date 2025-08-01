@@ -39,5 +39,6 @@ export const TANSTACK = {
   QUERY_KEY: {
     GET_SKILLS: "get-skills",
     GET_WORK_EXPERIENCES: "get-work-experiences",
+    GET_PROJECTS: "get-projects",
   },
 };

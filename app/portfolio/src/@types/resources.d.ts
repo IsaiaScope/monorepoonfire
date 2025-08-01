@@ -12,6 +12,7 @@ interface Resources {
       " The road is still long, but I am excited to see where it leads me": "As software engineer my journey has been a blend of hard work and passion but I'm sure to have found my way. The road is still long, but I am excited to see where it leads me"
     },
     "Check out my curriculum vitae to learn more about my professional journey": "Check out my curriculum vitae to learn more about my professional journey",
+    "Check out the repository": "Check out the repository",
     "Close": "Close",
     "Committed to Building": "Committed to Building",
     "Contact": "Contact",

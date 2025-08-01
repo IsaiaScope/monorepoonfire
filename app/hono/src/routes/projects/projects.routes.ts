@@ -4,43 +4,43 @@ import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
 import { notFoundSchema } from "../../constant/schema";
-import { insertWorkExperiencesSchema, selectWorkExperiencesSchema } from "../../database/schema/work-experience-schema";
+import { insertProjectsSchema, selectProjectsSchema } from "../../database/schema/projects-schema";
 
-const path = "/work-experience";
-const tags = ["Work Experience"];
+const path = "/projects";
+const tags = ["Projects"];
 
-export const getWorkExperienceRoute = createRoute({
+export const getProjectsRoute = createRoute({
   path,
   tags,
   method: "get",
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(selectWorkExperiencesSchema),
-      "The list of work experiences",
+      z.array(selectProjectsSchema),
+      "The list of projects",
     ),
   },
 });
 
-export const postWorkExperienceRoute = createRoute({
+export const postProjectRoute = createRoute({
   path,
   tags,
   method: "post",
   request: {
-    body: jsonContentRequired(insertWorkExperiencesSchema, "The work experience to create"),
+    body: jsonContentRequired(insertProjectsSchema, "The project to create"),
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectWorkExperiencesSchema,
-      "The created work experience",
+      selectProjectsSchema,
+      "The created project",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(insertWorkExperiencesSchema),
+      createErrorSchema(insertProjectsSchema),
       "The validation error(s)",
     ),
   },
 });
 
-export const getOneWorkExperienceRoute = createRoute({
+export const getOneProjectRoute = createRoute({
   path: `${path}/{id}`,
   tags,
   method: "get",
@@ -49,12 +49,12 @@ export const getOneWorkExperienceRoute = createRoute({
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectWorkExperiencesSchema,
-      "The requested work experience",
+      selectProjectsSchema,
+      "The requested project",
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       notFoundSchema,
-      "The work experience was not found",
+      "The project was not found",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
@@ -63,35 +63,33 @@ export const getOneWorkExperienceRoute = createRoute({
   },
 });
 
-export const patchWorkExperienceRoute = createRoute({
+export const patchProjectRoute = createRoute({
   path: `${path}/{id}`,
   tags,
   method: "patch",
   request: {
     params: IdParamsSchema,
-    body: jsonContentRequired(
-      insertWorkExperiencesSchema,
-      "The work experience to update",
-    ),
+    body: jsonContentRequired(insertProjectsSchema, "The project updates"),
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectWorkExperiencesSchema,
-      "The updated work experience",
+      selectProjectsSchema,
+      "The updated project",
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       notFoundSchema,
-      "The work experience was not found",
+      "The project was not found",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema).or(
-        createErrorSchema(insertWorkExperiencesSchema),
+        createErrorSchema(insertProjectsSchema),
       ),
       "The validation error(s)",
     ),
   },
 });
-export const deleteWorkExperienceRoute = createRoute({
+
+export const deleteProjectRoute = createRoute({
   path: `${path}/{id}`,
   tags,
   method: "delete",
@@ -100,11 +98,11 @@ export const deleteWorkExperienceRoute = createRoute({
   },
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
-      description: "The work experience was deleted",
+      description: "The project was deleted",
     },
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
       notFoundSchema,
-      "The work experience was not found",
+      "The project was not found",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
@@ -113,13 +111,13 @@ export const deleteWorkExperienceRoute = createRoute({
   },
 });
 
-export const deleteAllWorkExperienceRoute = createRoute({
+export const deleteAllProjectsRoute = createRoute({
   path,
   tags,
   method: "delete",
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
-      description: "All work experiences were deleted",
+      description: "All projects were deleted",
     },
   },
 });

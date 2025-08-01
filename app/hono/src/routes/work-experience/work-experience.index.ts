@@ -18,6 +18,9 @@ const router = createApp().basePath(APP_HONO.BASE_PATH).openapi(
 ).openapi(
   routes.deleteWorkExperienceRoute,
   handlers.deleteWorkExperienceHandler,
+).openapi(
+  routes.deleteAllWorkExperienceRoute,
+  handlers.deleteAllWorkExperienceHandler,
 );
 
 export default router;

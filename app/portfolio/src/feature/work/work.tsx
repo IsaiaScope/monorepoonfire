@@ -1,5 +1,6 @@
 import { Skeleton } from "@package/shadcn";
 import { UIWrapper } from "@package/ui";
+import { cn } from "@package/utility/tailwind";
 import { useTranslation } from "react-i18next";
 
 import { TextEffect } from "../../component/text-effect";
@@ -11,11 +12,11 @@ function Work() {
   const { data: workExperienceData, isLoading, isError } = useGetWorkExperience();
   const skeletons = [1, 2, 3, 4, 5, 6];
 
-  if (isError)
+  if (isError || workExperienceData?.length === 0)
     return null;
 
   return (
-    <UIWrapper tag="section" id={t("Work")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6 w-full">
+    <UIWrapper tag="section" id={t("Work")} className={cn("scroll-mt-16 max-w-screen-xl mx-auto p-6 w-full")}>
       <TextEffect as="h2" per="char" preset="fade" className="my-10 font-bold text-4xl font-LibreFranklin">
         {t("Work Experience")}
       </TextEffect>
@@ -36,7 +37,7 @@ function Work() {
               </div>
             ))
           : null}
-        { workExperienceData && workExperienceData.length > 0
+        { workExperienceData
           ? (
               <Timeline
                 data={workExperienceData.filter(item => item.language === language)}

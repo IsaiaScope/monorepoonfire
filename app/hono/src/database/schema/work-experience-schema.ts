@@ -57,12 +57,12 @@ const workExperiencesTableSchema = z.object({
   startDate: z.string({
     description: "The start date of the work experience",
   }).nonempty().max(50).openapi({
-    example: "2022-01-01",
+    example: "2022-01",
   }),
   endDate: z.string({
     description: "The end date of the work experience",
   }).nonempty().max(50).openapi({
-    example: "2023-01-01",
+    example: "2023-01",
   }),
   createdAt: z.string({
     description: "The timestamp when the work experience was created",

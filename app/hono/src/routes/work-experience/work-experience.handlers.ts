@@ -3,7 +3,7 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhases from "stoker/http-status-phrases";
 
 import type { AppRouterHandler } from "../../@types/open-api-hono";
-import type { deleteWorkExperienceRoute, getOneWorkExperienceRoute, getWorkExperienceRoute, patchWorkExperienceRoute, postWorkExperienceRoute } from "./work-experience.routes";
+import type { deleteAllWorkExperienceRoute, deleteWorkExperienceRoute, getOneWorkExperienceRoute, getWorkExperienceRoute, patchWorkExperienceRoute, postWorkExperienceRoute } from "./work-experience.routes";
 
 import database from "../../database";
 import { workExperiences } from "../../database/schema/work-experience-schema";
@@ -94,5 +94,11 @@ export const deleteWorkExperienceHandler: AppRouterHandler<typeof deleteWorkExpe
     );
   }
 
+  return c.body(null, HttpStatusCodes.NO_CONTENT);
+};
+
+export const deleteAllWorkExperienceHandler: AppRouterHandler<typeof deleteAllWorkExperienceRoute> = async (c) => {
+  // eslint-disable-next-line drizzle/enforce-delete-with-where
+  await database.delete(workExperiences);
   return c.body(null, HttpStatusCodes.NO_CONTENT);
 };

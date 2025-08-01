@@ -2,6 +2,7 @@ import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
 import { env } from "../environment/env";
+import * as projectsSchema from "./schema/projects-schema";
 import * as skillsSchema from "./schema/skills-schema";
 import * as workExperienceSchema from "./schema/work-experience-schema";
 
@@ -11,7 +12,7 @@ const client = createClient({
 });
 
 const database = drizzle(client, {
-  schema: { ...skillsSchema, ...workExperienceSchema },
+  schema: { ...skillsSchema, ...workExperienceSchema, ...projectsSchema },
 });
 
 export default database;
