@@ -9,7 +9,7 @@ export const workExperiences = sqliteTable("work-experience", {
   company: text("company", { length: 100 }).notNull(),
   location: text("location", { length: 100 }).notNull(),
   longDescription: text("description", { length: 1000 }).notNull(),
-  shortDescription: text("shortDescription", { length: 200 }).notNull(),
+  shortDescription: text("shortDescription", { length: 500 }).notNull(),
   startDate: text("startDate", { length: 50 }).notNull(),
   endDate: text("endDate", { length: 50 }).notNull(),
   createdAt: text("createdAt", {
@@ -51,7 +51,7 @@ const workExperiencesTableSchema = z.object({
   }),
   shortDescription: z.string({
     description: "A brief description of the work experience",
-  }).nonempty().max(200).openapi({
+  }).nonempty().max(500).openapi({
     example: "Developed web applications and managed cloud infrastructure.",
   }),
   startDate: z.string({

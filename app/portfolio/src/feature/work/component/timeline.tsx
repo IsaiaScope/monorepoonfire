@@ -101,6 +101,11 @@ const TimelineItem = ({ item, index, onVisibilityChange }: TimelineItemProps) =>
             {item.company}
           </span>
           <br />
+          {/* Location - displayed on all screen sizes */}
+          <span className="text-secondary-foreground text-lg">
+            {item.location}
+          </span>
+          <br />
           {/* Job role with emphasis */}
           <span className="text-2xl font-LibreFranklin font-bold">
             {item.role}
@@ -120,6 +125,11 @@ const TimelineItem = ({ item, index, onVisibilityChange }: TimelineItemProps) =>
             {item.company}
           </span>
           <br />
+          {/* Location - displayed on all screen sizes */}
+          <span className="text-secondary-foreground text-lg">
+            {item.location}
+          </span>
+          <br />
           {/* Job role */}
           <span className="text-2xl font-LibreFranklin font-bold">
             {item.role}
@@ -127,7 +137,7 @@ const TimelineItem = ({ item, index, onVisibilityChange }: TimelineItemProps) =>
         </h3>
 
         {/* Short description - visible on all screen sizes */}
-        <h4 className="block text-xl mb-4 text-left lg:font-bold ">
+        <h4 className="block lg:hidden  text-xl mb-4 text-left lg:font-bold ">
           {item.shortDescription}
         </h4>
 

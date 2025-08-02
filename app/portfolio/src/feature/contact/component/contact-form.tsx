@@ -17,8 +17,8 @@ import {
   Input,
   Textarea,
 } from "@package/shadcn";
-import { Loader2Icon, Send } from "lucide-react";
-import { useMemo } from "react";
+import { Loader2Icon, Mail, Send } from "lucide-react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -27,7 +27,7 @@ import { z } from "zod";
 import { useSendEmail } from "../utility/use-send-email";
 
 export default function ContactForm() {
-  const { t } = useTranslation();
+  const { t, i18n: { language } } = useTranslation();
 
   const contactFormSchema = useMemo(() => z.object({
     name: z.string().min(1, t("Name is required")),
@@ -44,14 +44,33 @@ export default function ContactForm() {
     },
   });
 
+  // Update validation messages when language changes for touched fields
+  useEffect(() => {
+    const touchedFields = form.formState.touchedFields;
+    // Check if there are any touched fields
+    const hasTouchedFields = Object.keys(touchedFields).some((key) => {
+      const fieldKey = key as keyof typeof touchedFields;
+      return touchedFields[fieldKey];
+    });
+
+    // Only trigger validation if there are touched fields
+    if (hasTouchedFields) {
+      form.trigger();
+    }
+  }, [language, form]);
+
+  const onSuccess = useCallback(() => {
+    toast.success(t("Email sent successfully"));
+    form.reset();
+  }, [t, form]);
+
+  const onError = useCallback((error: Error) => {
+    toast.error(`${t("Failed to send email")}: ${error.message}`);
+  }, [t]);
+
   const { mutate, isPending } = useSendEmail({
-    onSuccess: () => {
-      toast.success("Email sent successfully");
-      form.reset();
-    },
-    onError: (error) => {
-      toast.error(`Failed to send email: ${error.message}`);
-    },
+    onSuccess,
+    onError,
   });
 
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
@@ -75,25 +94,28 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="flex min-h-[60vh] h-full w-full items-center justify-center px-4 z-10">
-      <Card className="mx-auto max-w-md">
+    <div className="flex items-center justify-center px-4 z-10 w-full">
+      <Card className="mx-auto w-full  lg:max-w-md lg:min-w-sm lg:w-auto">
         <CardHeader>
-          <CardTitle className="text-2xl">Contact Us</CardTitle>
+          <CardTitle className="flex items-center text-3xl font-LibreFranklin">
+            <Mail className="mr-3" />
+            {t("Contact Me")}
+          </CardTitle>
           <CardDescription>
-            Please fill out the form below and we will get back to you shortly.
+            {t("Please fill out the form below, and I will get back to you shortly")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="grid gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid gap-8">
                 {/* Name Field */}
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="name">{t("Name")}</FormLabel>
+                      <FormLabel className="font-LibreFranklin" htmlFor="name">{t("Name")}</FormLabel>
                       <FormControl>
                         <Input
                           id="name"
@@ -114,7 +136,7 @@ export default function ContactForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="email">{t("Email")}</FormLabel>
+                      <FormLabel className="font-LibreFranklin" htmlFor="email">{t("Email")}</FormLabel>
                       <FormControl>
                         <Input
                           id="email"
@@ -135,7 +157,7 @@ export default function ContactForm() {
                   name="message"
                   render={({ field }) => (
                     <FormItem className="grid gap-2">
-                      <FormLabel htmlFor="message">{t("Message")}</FormLabel>
+                      <FormLabel className="font-LibreFranklin" htmlFor="message">{t("Message")}</FormLabel>
                       <FormControl>
                         <Textarea
                           id="message"
@@ -149,7 +171,7 @@ export default function ContactForm() {
                   )}
                 />
 
-                <Button type="submit" className="w-full cursor-pointer" disabled={isPending}>
+                <Button type="submit" className="w-full py-6 cursor-pointer" disabled={isPending}>
                   {isPending ? <Loader2Icon className="animate-spin mr-2" /> : <Send className="mr-2" />}
                   {isPending ? t("Sending") : t("Send Email")}
                 </Button>
