@@ -1,6 +1,14 @@
 {
   "name": "Isaia Riva Portfolio",
   "short_name": "Isaia Riva",
+  "description": "Web site to show Riva Isaia portfolio",
+  "start_url": "/",
+  "display": "browser",
+  "orientation": "portrait-primary",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "lang": "en-GB",
+  "scope": "/",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -8,10 +16,20 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon-180x180.png",
       "sizes": "180x180",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/android-chrome-192x192.png",
@@ -26,9 +44,6 @@
       "purpose": "any maskable"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
-  "display": "standalone",
-  "start_url": "/",
-  "scope": "/"
+  "categories": ["business", "portfolio", "developer"],
+  "screenshots": []
 }

@@ -25,7 +25,7 @@ function Contact() {
   }];
 
   return (
-    <UIWrapper tag="section" className="relative grow scroll-mt-16 max-w-screen-xl w-full mx-auto px-6  py-10 mt-16 grid place-content-center">
+    <UIWrapper tag="section" className="relative grow scroll-mt-16 max-w-screen-xl w-full mx-auto px-6 py-10 mt-16 grid place-content-center">
       <BackgroundLines>
         <div className="relative z-10  flex flex-col-reverse gap-10 lg:gap-0 justify-center lg:grid lg:grid-cols-2 ">
           <ContactForm />

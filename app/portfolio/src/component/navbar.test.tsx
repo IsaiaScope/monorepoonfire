@@ -3,7 +3,7 @@ import type { TestRenderOptions } from "../test/set-up-test";
 import { cleanup, fireEvent, render, screen, waitFor } from "../test/set-up-test";
 import Navbar from "./navbar";
 
-describe("navbar Component", () => {
+describe("navbar component", () => {
   // =============================================================================
   // DESKTOP VIEW TESTS
   // =============================================================================
@@ -242,7 +242,7 @@ describe("navbar Component", () => {
     });
 
     describe("mobile Menu Interaction", () => {
-      it("menu should stay open open after internal link clicking", async () => {
+      it("menu should stay open after internal link clicking", async () => {
         renderMobileNavbar({ location: { pathname: "/" } });
 
         // Find and open menu
@@ -347,10 +347,10 @@ describe("navbar Component", () => {
       });
 
       expect(screen.getByText("Isaia")).toBeInTheDocument(); // Home is "Isaia" in both locales
-      expect(screen.getByText("Di")).toBeInTheDocument(); // About is "Di" in Italian
-      expect(screen.getByText("Lavoro")).toBeInTheDocument(); // Work is "Lavoro"
+      expect(screen.getByText("Chi sono")).toBeInTheDocument(); // About is "Chi sono" in Italian
+      expect(screen.getByText("Esperienze")).toBeInTheDocument(); // Work is "Esperienze"
       expect(screen.getByText("Progetti")).toBeInTheDocument(); // Projects is "Progetti"
-      expect(screen.getByText("Contatto")).toBeInTheDocument(); // Contact is "Contatto"
+      expect(screen.getByText("Contattami")).toBeInTheDocument(); // Contact is "Contattami"
     });
 
     it("shows correct menu content in Italian (mobile)", async () => {
@@ -372,16 +372,16 @@ describe("navbar Component", () => {
         expect(screen.getByText("Menu")).toBeInTheDocument();
 
         // Verify Italian navigation links are present
-        expect(screen.getByText("Di")).toBeInTheDocument(); // About is "Di" in Italian
-        expect(screen.getByText("Lavoro")).toBeInTheDocument(); // Work is "Lavoro"
+        expect(screen.getByText("Chi sono")).toBeInTheDocument(); // About is "Chi sono" in Italian
+        expect(screen.getByText("Esperienze")).toBeInTheDocument(); // Work is "Esperienze"
         expect(screen.getByText("Progetti")).toBeInTheDocument(); // Projects is "Progetti"
-        expect(screen.getByText("Contatto")).toBeInTheDocument(); // Contact is "Contatto"
+        expect(screen.getByText("Contattami")).toBeInTheDocument(); // Contact is "Contattami"
 
         // Verify Italian links have correct href attributes
-        expect(screen.getByText("Di").closest("a")).toHaveAttribute("href", "#Di");
-        expect(screen.getByText("Lavoro").closest("a")).toHaveAttribute("href", "#Lavoro");
+        expect(screen.getByText("Chi sono").closest("a")).toHaveAttribute("href", "#Chi sono");
+        expect(screen.getByText("Esperienze").closest("a")).toHaveAttribute("href", "#Esperienze");
         expect(screen.getByText("Progetti").closest("a")).toHaveAttribute("href", "#Progetti");
-        expect(screen.getByText("Contatto").closest("a")).toHaveAttribute("href", "/contact");
+        expect(screen.getByText("Contattami").closest("a")).toHaveAttribute("href", "/contact");
       });
     });
   });

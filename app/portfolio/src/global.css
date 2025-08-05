@@ -21,6 +21,9 @@ html body[data-scroll-locked] {
   --animate-grab-gesture-hand: grab-gesture-hand 4.5s linear infinite;
   --animate-grab-gesture-grab: grab-gesture-grab 4.5s linear infinite;
 
+  /* https://magicui.design/docs/components/orbiting-circles */
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+
   @keyframes grab-gesture-hand {
     0% {
       transform: translateX(0) translateY(-4px);
@@ -116,11 +119,6 @@ html body[data-scroll-locked] {
       opacity: 1;
     }
   }
-}
-
-@theme inline {
-  /* https://magicui.design/docs/components/orbiting-circles */
-  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
 
   @keyframes orbit {
     0% {

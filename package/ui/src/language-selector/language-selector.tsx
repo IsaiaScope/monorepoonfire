@@ -22,7 +22,7 @@ Props<L>) {
                 lang.code.split("-")[1]
               }
               svg
-              aria-label={lang.label}
+              alt={lang.label}
             />
             <span aria-hidden className="hidden lg:block">{lang.label}</span>
           </SelectItem>

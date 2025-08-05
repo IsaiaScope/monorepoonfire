@@ -25,7 +25,7 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ErrorBoundary FallbackComponent={UIBoundaryError}>
-        <DarkModeProvider>
+        <DarkModeProvider defaultTheme="dark">
 
           <Suspense fallback={<UIFullPageDotsLoaderOnFire />}>
             <TanstackQueryProvider

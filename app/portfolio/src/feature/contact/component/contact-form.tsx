@@ -94,8 +94,8 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="flex items-center justify-center px-4 z-10 w-full">
-      <Card className="mx-auto w-full  lg:max-w-md lg:min-w-sm lg:w-auto">
+    <div className="flex items-center justify-center px-1 lg:px-4 z-10 w-full">
+      <Card className="mx-auto w-full lg:max-w-md lg:min-w-sm lg:w-auto">
         <CardHeader>
           <CardTitle className="flex items-center text-3xl font-LibreFranklin">
             <Mail className="mr-3" />
