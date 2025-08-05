@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import { TextEffect } from "../../component/text-effect";
+import { createSectionId } from "../../utility/create-section-id";
 import { useGetSkills } from "./api/use-skills";
 import Download from "./component/download";
 import Frameworks from "./component/frameworks";
@@ -19,7 +20,7 @@ function About() {
   const { data: skills, isFetching, isError } = useGetSkills();
 
   return (
-    <UIWrapper tag="section" id={t("About")} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
+    <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
       <TextEffect as="h2" per="char" preset="fade" className="my-10 font-bold text-4xl font-LibreFranklin">
         {t("About me")}
       </TextEffect>

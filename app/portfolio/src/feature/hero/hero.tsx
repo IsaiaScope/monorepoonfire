@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
+import { createSectionId } from "../../utility/create-section-id";
 import { Alien } from "./component/alien";
 import HeroBackground from "./component/hero-background";
 import HeroText from "./component/hero-text";
@@ -17,7 +18,7 @@ function Hero() {
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
   return (
-    <UIWrapper tag="section" className="grow relative h-svh overflow-hidden" variant="primary" id={t("Home")}>
+    <UIWrapper tag="section" className="grow relative h-svh overflow-hidden" variant="primary" id={createSectionId(t("Home"))}>
 
       <HeroText />
       <HeroBackground />

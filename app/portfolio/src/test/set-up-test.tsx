@@ -78,7 +78,7 @@ vi.mock("@tanstack/react-router", async () => {
 // =============================================================================
 
 // Mock function for react-responsive's useMediaQuery hook
-// Default returns false (simulates desktop view when no mobile override)
+// Mobile-first approach: Default returns false (mobile doesn't match min-width queries)
 const mockUseMediaQuery = vi.fn(() => false);
 
 // Mock the react-responsive module used for responsive design
@@ -94,7 +94,7 @@ vi.mock("react-responsive", () => ({
 // Omit<RenderOptions, "wrapper"> removes the wrapper property since we provide our own
 export type TestRenderOptions = Omit<RenderOptions, "wrapper"> & {
   location?: { pathname: string }; // Mock router location (which page we're on)
-  isMobile?: boolean; // Control mobile vs desktop rendering (mobile-first: defaults to true)
+  viewport?: "mobile" | "tablet" | "desktop"; // Control viewport size (mobile-first: defaults to mobile)
   language?: string; // Set i18n language for the test ("en-GB" | "it-IT")
 };
 
@@ -116,7 +116,7 @@ function TestProviders({
   // Destructure options with defaults (mobile-first approach)
   const {
     location = { pathname: "/" }, // Default to home page
-    isMobile = true, // MOBILE-FIRST: Default to mobile view
+    viewport = "mobile", // MOBILE-FIRST: Default to mobile viewport
     language = "en-GB", // Default to English
   } = options;
 
@@ -127,11 +127,37 @@ function TestProviders({
   // Update router mock to simulate the requested route
   mockRouterContext.location = location;
 
-  // CRITICAL: Media query logic inversion
-  // isMobile: true  -> mockUseMediaQuery returns false (mobile media query doesn't match)
-  // isMobile: false -> mockUseMediaQuery returns true  (desktop media query matches)
-  // This inversion is necessary because media queries typically check for "min-width"
-  mockUseMediaQuery.mockReturnValue(!isMobile);
+  // MOBILE-FIRST: Configure media query responses based on viewport
+  // Mobile-first approach: media queries check for min-width, so larger viewports match
+  //
+  // Breakpoint behavior:
+  // Mobile (default): isBiggerThanMedium=false, isBiggerThanLarge=false
+  // Tablet (768px+): isBiggerThanMedium=true, isBiggerThanLarge=false
+  // Desktop (1024px+): isBiggerThanMedium=true, isBiggerThanLarge=true
+  //
+  // Example component usage:
+  // - Navbar uses isBiggerThanLarge (1024px+) to switch desktop/mobile layouts
+  // - Projects uses isBiggerThanMedium (768px+) for modal vs external link behavior
+  // - Footer uses CSS-only responsiveness (lg:block = 1024px+) without JS media queries
+  mockUseMediaQuery.mockImplementation((query?: { minWidth?: number }) => {
+    if (!query || typeof query.minWidth !== "number") {
+      return false; // Default behavior for invalid queries
+    }
+
+    const minWidth = query.minWidth;
+
+    if (viewport === "mobile") {
+      return false; // Mobile doesn't match any min-width breakpoints
+    }
+    else if (viewport === "tablet") {
+      return minWidth <= 768; // Tablet matches md (768px) but not lg (1024px)
+    }
+    else if (viewport === "desktop") {
+      return minWidth <= 1024; // Desktop matches both md (768px) and lg (1024px)
+    }
+
+    return false; // Fallback to mobile behavior
+  });
 
   // Change i18n language if different from current
   if (language !== i18n.language) {

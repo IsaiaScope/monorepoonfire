@@ -10,15 +10,15 @@
     <!-- This enables automatic theme switching based on user's OS settings -->
     <meta name="color-scheme" content="light dark" />
 
-    <!-- Enhanced viewport configuration for mobile devices -->
+    <!-- Enhanced viewport configuration for mobile devices with accessibility support -->
     <!-- viewport-fit=cover: Content extends to screen edges (handles notches on iPhone X+) -->
     <!-- width=device-width: Uses device's actual width instead of default 980px -->
     <!-- initial-scale=1.0: Sets initial zoom level to 100% -->
-    <!-- minimum/maximum-scale=1.0: Prevents users from zooming in/out -->
-    <!-- user-scalable=no: Disables pinch-to-zoom for app-like experience -->
+    <!-- maximum-scale=5.0: Allows users to zoom up to 500% for accessibility -->
+    <!-- user-scalable=yes: Enables pinch-to-zoom for users with low vision -->
     <meta
       name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
     />
 
     <!-- Prevents automatic phone number detection on mobile browsers -->

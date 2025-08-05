@@ -12,6 +12,7 @@ import { useMediaQuery } from "react-responsive";
 import type { Language } from "../constant/language";
 
 import { APP_PORTFOLIO } from "../constant";
+import { createSectionHref } from "../utility/create-section-id";
 
 type NavbarLinkProps = {
   children: React.ReactNode;
@@ -59,6 +60,7 @@ function NavbarLanguageSelector() {
         value={language}
         onValueChange={changeLanguage}
         languages={_languages}
+        ariaLabel={t("Languages Menu")}
       />
     </div>
   );
@@ -91,7 +93,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
       {isHome
         ? (
             <NavbarLink
-              href={`#${t("Home")}`}
+              href={createSectionHref(t("Home"))}
               className="text-2xl font-bold font-LibreFranklin"
             >
               {t("Home")}
@@ -116,7 +118,12 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
 
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button className="ml-auto p-1 animate-in fade-in zoom-in duration-300" size="icon" variant="outline">
+                  <Button
+                    className="ml-auto p-1 animate-in fade-in zoom-in duration-300"
+                    size="icon"
+                    variant="outline"
+                    aria-label={t("Navigation Menu")}
+                  >
                     <Menu />
                   </Button>
                 </SheetTrigger>
@@ -131,16 +138,16 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
                   <div className="p-4 grid">
 
                     <NavbarLink
-                      href={`#${t("About")}`}
+                      href={createSectionHref(t("About"))}
                     >
                       {t("About")}
                     </NavbarLink>
                     <Separator className="my-2" />
-                    <NavbarLink href={`#${t("Work")}`}>
+                    <NavbarLink href={createSectionHref(t("Work"))}>
                       {t("Work")}
                     </NavbarLink>
                     <Separator className="my-2" />
-                    <NavbarLink href={`#${t("Projects")}`}>
+                    <NavbarLink href={createSectionHref(t("Projects"))}>
                       {t("Projects")}
                     </NavbarLink>
                     <Separator className="my-2" />
@@ -172,7 +179,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
       {isHome
         ? (
             <NavbarLink
-              href={`#${t("Home")}`}
+              href={createSectionHref(t("Home"))}
               className="text-2xl font-bold font-LibreFranklin"
             >
               {t("Home")}
@@ -193,7 +200,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
         {isHome
           ? (
               <NavbarLink
-                href={`#${t("About")}`}
+                href={createSectionHref(t("About"))}
               >
                 {t("About")}
               </NavbarLink>
@@ -201,14 +208,14 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
           : null}
         {isHome
           ? (
-              <NavbarLink href={`#${t("Work")}`}>
+              <NavbarLink href={createSectionHref(t("Work"))}>
                 {t("Work")}
               </NavbarLink>
             )
           : null}
         {isHome
           ? (
-              <NavbarLink href={`#${t("Projects")}`}>
+              <NavbarLink href={createSectionHref(t("Projects"))}>
                 {t("Projects")}
               </NavbarLink>
             )

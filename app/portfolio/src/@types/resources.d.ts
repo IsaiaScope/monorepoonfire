@@ -33,14 +33,15 @@ interface Resources {
     "Instagram": "Instagram",
     "Invalid email address": "Invalid email address",
     "Italian": "Italian",
+    "Languages Menu": "Languages Menu",
     "Light": "Light",
     "LinkedIn": "LinkedIn",
     "Loading skills": "Loading skills",
-    "Menu": "Menu",
     "Message": "Message",
     "Message is required": "Message is required",
     "Name": "Name",
     "Name is required": "Name is required",
+    "Navigation Menu": "Navigation Menu",
     "Next Image": "Next Image",
     "One day you'll leave this world behind": {
       " So, live a life you will remember": "One day you'll leave this world behind. So, live a life you will remember"
@@ -72,7 +73,8 @@ interface Resources {
     "yourEmail@mail": {
       "com": "yourEmail@mail.com"
     },
-    "Your message": "Your message"
+    "Your message": "Your message",
+    "Menu": "Menu",
   }
 }
 
