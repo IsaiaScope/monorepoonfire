@@ -11,11 +11,12 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
+import { APP_HONO } from "../../constant";
 import { notFoundSchema } from "../../constant/schema";
 import { insertProjectsSchema, selectProjectsSchema } from "../../database/schema/projects-schema";
 
 // Common configuration for all project routes
-const path = "/projects"; // Base path for all project endpoints
+const path = APP_HONO.ROUTES.PROJECTS; // Base path for all project endpoints
 const tags = ["Projects"]; // OpenAPI tag for grouping routes in documentation
 
 /**

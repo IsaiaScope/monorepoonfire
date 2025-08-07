@@ -48,16 +48,44 @@ export default defineConfig(({ mode }) => {
       port: env.VITE_SERVER_PORT,
     },
 
-    // Vitest testing framework configuration
     test: {
-      // Enable global test APIs (describe, it, expect) without imports
-      globals: true,
-      // Test suite name for better organization in monorepo setup
-      name: "@app/portfolio",
-      // Use jsdom environment for DOM testing with React components
+    // Use JSDOM environment for React component testing
       environment: "jsdom",
-      // Setup file for test configuration, mocks, and global test utilities
-      setupFiles: ["src/test/set-up-test.tsx"],
+
+      // Setup files that run before each test
+      setupFiles: [
+        "./src/test/set-up-test.tsx", // Global test setup with providers and MSW
+      ],
+      // Include patterns for test files
+      include: [
+        "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}",
+      ],
+
+      // Exclude patterns for files that shouldn't be tested
+      exclude: [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.git/**",
+      ],
+
+      // Globals configuration - enables global test functions without imports
+      globals: true,
+      name: "@app/portfolio",
+      // Coverage configuration
+      coverage: {
+        provider: "istanbul",
+        reporter: ["text", "json", "html"],
+        exclude: [
+          "**/*.config.*",
+          "**/*.d.ts",
+          "**/index.ts",
+          "**/test/**",
+          "**/coverage/**",
+          "**/dist/**",
+          "**/build/**",
+        ],
+      },
     },
 
     // Plugin configuration for enhanced development experience and build optimization

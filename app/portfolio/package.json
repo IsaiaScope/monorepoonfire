@@ -19,7 +19,7 @@
     "create:translations:interface": "i18next-resources-for-ts interface -i ./public/locales/en-GB -o ./src/@types/resources.d.ts",
     "update:locales": "pnpm create:translations:json && pnpm create:translations:interface",
     "test": "vitest run",
-    "test:watch": "vitest",
+    "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage"
   },
@@ -44,6 +44,7 @@
     "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.476.0",
     "motion": "^12.19.1",
+    "msw": "^2.10.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",

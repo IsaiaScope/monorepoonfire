@@ -46,7 +46,7 @@ const ProjectDetails = ({
       <div className="flex flex-col grow gap-2">
         {subDescription.map(subDesc => (
           <p
-            key={`${description}`}
+            key={subDesc}
           >
             {subDesc}
           </p>

@@ -36,6 +36,8 @@ const Project = ({
   return (
     <>
       <motion.div
+        id={title}
+        data-testid="project-container"
         className="flex-wrap justify-between pb-10 space-y-14 md:flex md:space-y-0"
         onMouseEnter={canHover ? () => setPreview(image) : undefined}
         onMouseLeave={canHover ? () => setPreview(null) : undefined}

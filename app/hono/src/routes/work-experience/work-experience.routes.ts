@@ -12,11 +12,12 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
+import { APP_HONO } from "../../constant";
 import { notFoundSchema } from "../../constant/schema";
 import { insertWorkExperiencesSchema, selectWorkExperiencesSchema } from "../../database/schema/work-experience-schema";
 
 // Common configuration for all work experience routes
-const path = "/work-experience"; // Base path for all work experience endpoints
+const path = APP_HONO.ROUTES.WORK_EXPERIENCE; // Base path for all work experience endpoints
 const tags = ["Work Experience"]; // OpenAPI tag for grouping routes in documentation
 
 /**

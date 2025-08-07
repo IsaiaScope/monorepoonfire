@@ -123,7 +123,7 @@ const SVG = ({
   );
 };
 
-// https://ui.aceternity.com/components/background-lines
+// 📝 NOTE: https://ui.aceternity.com/components/background-lines
 export const BackgroundLines = ({
   children,
   className,

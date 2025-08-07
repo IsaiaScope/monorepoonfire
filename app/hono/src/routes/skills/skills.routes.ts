@@ -12,11 +12,12 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
+import { APP_HONO } from "../../constant";
 import { notFoundSchema } from "../../constant/schema";
 import { insertSkillsSchema, selectSkillsSchema } from "../../database/schema/skills-schema";
 
 // Common configuration for all skill routes
-const path = "/skills"; // Base path for all skill endpoints
+const path = APP_HONO.ROUTES.SKILLS; // Base path for all skill endpoints
 const tags = ["Skills"]; // OpenAPI tag for grouping routes in documentation
 
 /**

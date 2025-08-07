@@ -37,7 +37,9 @@ export default function Projects() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [preview]);
 
-  if (isError || projectsData?.length === 0)
+  // Show loading skeletons if currently loading
+  // Return null only if there's an error or no data when not loading
+  if (isError || (!isLoading && (!projectsData || !Array.isArray(projectsData) || projectsData.length === 0)))
     return null;
 
   return (

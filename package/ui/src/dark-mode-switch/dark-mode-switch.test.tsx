@@ -5,31 +5,63 @@ import { describe, expect, it, vi } from "vitest";
 
 import UIDarkModeSwitch from "./dark-mode-switch";
 
-// Mock localStorage for testing
+// =============================================================================
+// BROWSER API MOCKS - Simulating Browser Features for Testing
+// =============================================================================
+// We need to mock browser APIs because the test environment (Node.js) doesn't
+// have access to real browser features like localStorage and matchMedia.
+// These mocks allow us to test how our component behaves with these APIs.
+
+/**
+ * Mock localStorage for testing theme persistence
+ *
+ * In real browsers, localStorage saves data that persists between sessions.
+ * Our dark mode component uses it to remember the user's theme choice.
+ * We mock it here so we can:
+ * 1. Test that themes are being saved correctly
+ * 2. Test that saved themes are loaded when the app starts
+ * 3. Control what "saved" data the component sees during tests
+ */
 const mockLocalStorage = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
+  getItem: vi.fn(), // Simulates reading saved data (like getting saved theme)
+  setItem: vi.fn(), // Simulates saving data (like saving user's theme choice)
+  removeItem: vi.fn(), // Simulates deleting saved data
+  clear: vi.fn(), // Simulates clearing all saved data
 };
 
+// Replace the browser's real localStorage with our mock version
+// This ensures all localStorage calls in tests go through our mock
 Object.defineProperty(window, "localStorage", {
   value: mockLocalStorage,
   writable: true,
 });
 
-// Mock matchMedia for testing system theme detection
+/**
+ * Mock matchMedia for testing system theme detection
+ *
+ * matchMedia is a browser API that detects user system preferences like:
+ * - Dark mode vs light mode preference
+ * - Screen size preferences
+ * - Motion preferences, etc.
+ *
+ * Our component uses matchMedia to detect if the user prefers dark mode
+ * at the system level (like macOS Dark Mode or Windows Dark Theme).
+ * We mock it so we can:
+ * 1. Test what happens when user prefers dark mode
+ * 2. Test what happens when user prefers light mode
+ * 3. Control the "system preference" during our tests
+ */
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(), // Deprecated
-    removeListener: vi.fn(), // Deprecated
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    matches: false, // Whether the query matches (we default to false)
+    media: query, // The query that was checked (like "(prefers-color-scheme: dark)")
+    onchange: null, // Event handler for when preference changes
+    addListener: vi.fn(), // Deprecated way to listen for changes
+    removeListener: vi.fn(), // Deprecated way to stop listening for changes
+    addEventListener: vi.fn(), // Modern way to listen for changes
+    removeEventListener: vi.fn(), // Modern way to stop listening for changes
+    dispatchEvent: vi.fn(), // Simulates triggering events
   })),
 });
 

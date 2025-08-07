@@ -13,7 +13,9 @@ function Work() {
   const { data: workExperienceData, isLoading, isError } = useGetWorkExperience();
   const skeletons = [1, 2, 3, 4, 5, 6];
 
-  if (isError || workExperienceData?.length === 0)
+  // Show loading skeletons if currently loading
+  // Return null only if there's an error or no data when not loading
+  if (isError || (!isLoading && (!workExperienceData || !Array.isArray(workExperienceData) || workExperienceData.length === 0)))
     return null;
 
   return (

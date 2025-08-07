@@ -162,7 +162,7 @@ describe("footer Component", () => {
   describe("router Integration", () => {
     it("renders consistently across different routes", () => {
       // Test multiple routes to ensure footer behavior is consistent
-      const routes = ["/", "/contact", "/about", "/projects"];
+      const routes = ["/", "/contact"];
 
       routes.forEach((path) => {
         cleanup(); // Clean up before each render

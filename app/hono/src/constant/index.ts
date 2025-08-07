@@ -17,4 +17,9 @@ export const APP_HONO = {
   BASE_PATH: "/api", // All API routes will be prefixed with /api
   PORTFOLIO: "/portfolio", // Portfolio static files served from this path
   PORT: 3075, // Default server port (development)
+  ROUTES: {
+    SKILLS: "/skills", // Skills API endpoint
+    PROJECTS: "/projects", // Projects API endpoint
+    WORK_EXPERIENCE: "/work-experience", // Work experience API endpoint
+  },
 } as const;

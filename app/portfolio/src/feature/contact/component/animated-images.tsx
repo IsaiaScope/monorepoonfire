@@ -10,7 +10,8 @@ import { useTranslation } from "react-i18next";
 type image = {
   src: string;
 };
-// https://ui.aceternity.com/components/animated-images
+
+// 📝 NOTE: https://ui.aceternity.com/components/animated-images
 export const AnimatedImages = ({
   images,
   autoplay = false,

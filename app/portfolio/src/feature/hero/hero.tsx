@@ -13,19 +13,30 @@ import HeroText from "./component/hero-text";
 
 // 📝 NOTE: 16 (4rem) is Navbar height
 function Hero() {
+  // Translation hook for internationalization
   const { t } = useTranslation();
+
+  // Check if screen is larger than large breakpoint for responsive design
   const isBiggerThanLarge = useMediaQuery({
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
+
   return (
     <UIWrapper tag="section" className="grow relative h-svh overflow-hidden" variant="primary" id={createSectionId(t("Home"))}>
-
+      {/* Text content overlay */}
       <HeroText />
+
+      {/* Background visual elements */}
       <HeroBackground />
+
+      {/* 3D scene container */}
       <figure className="absolute inset-0">
         <Canvas>
+          {/* Lighting setup for 3D scene */}
           <ambientLight intensity={1.5} />
           <directionalLight position={[5, 10, 7.5]} />
+
+          {/* 3D model with loading fallback */}
           <Suspense fallback={null}>
             <Float>
               <Alien
@@ -37,9 +48,7 @@ function Hero() {
           </Suspense>
         </Canvas>
       </figure>
-
     </UIWrapper>
-
   );
 }
 

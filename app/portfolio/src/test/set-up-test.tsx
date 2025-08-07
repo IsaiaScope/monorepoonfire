@@ -2,6 +2,11 @@
 // =============================================================================
 // Test utilities for React components with all necessary providers and mocks
 // This file centralizes all test setup, mocking, and provider configuration
+//
+// USAGE:
+// - Default render() function includes routing, media queries, and i18n mocks
+// - For motion animations, import { createFramerMotionMock } from './mocks' in individual test files
+// - Mock helpers are available from './mocks' for fine-grained control
 // =============================================================================
 
 // Extends Jest matchers with DOM-specific assertions like toBeInTheDocument()
@@ -12,83 +17,17 @@ import type { ReactElement } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, render } from "@testing-library/react";
-import i18n from "i18next";
 import React from "react";
-import { I18nextProvider, initReactI18next } from "react-i18next";
-import { afterEach, vi } from "vitest";
+import { I18nextProvider } from "react-i18next";
 
-// Import actual locale resources from the application's public folder
-// This ensures tests use the same translations as production
-import enGBCommon from "../../public/locales/en-GB/common.json";
-import itITCommon from "../../public/locales/it-IT/common.json";
+// Import mock modules
+import { i18n, setLanguage } from "./mocks/i18n.mock";
+import { setupIntersectionObserverMock } from "./mocks/intersection-observer.mock";
+import { setViewport } from "./mocks/media-query.mock";
+import { mockRouterContext } from "./mocks/router.mock";
+import { server } from "./mocks/server";
 
-// =============================================================================
-// I18N SETUP - Internationalization Configuration
-// =============================================================================
-
-// Configure i18next for test environment with actual locale data
-i18n.use(initReactI18next).init({
-  lng: "en-GB", // Default language for all tests
-  fallbackLng: "en-GB", // Language to use if requested language is unavailable
-  ns: ["common"], // Namespaces to load (matches production setup)
-  defaultNS: "common", // Default namespace when none specified
-  initImmediate: false, // Don't initialize immediately - wait for explicit init (important for tests)
-  interpolation: { escapeValue: false }, // Don't escape values (React already does this)
-  resources: {
-    "en-GB": {
-      common: enGBCommon, // Load actual English translations from JSON file
-    },
-    "it-IT": {
-      common: itITCommon, // Load actual Italian translations from JSON file
-    },
-  },
-});
-
-// =============================================================================
-// ROUTER MOCKS - TanStack Router Mocking
-// =============================================================================
-
-// Mock context object that simulates router state
-// This object will be mutated by tests to simulate different routes/states
-const mockRouterContext = {
-  location: { pathname: "/" }, // Current route path (default to home)
-  navigate: vi.fn(), // Mock navigation function (Vitest mock function)
-  search: {}, // URL search parameters (query strings)
-  params: {}, // Route parameters (e.g., /user/:id -> { id: "123" })
-};
-
-// Mock the entire @tanstack/react-router module
-vi.mock("@tanstack/react-router", async () => {
-  const actual = await vi.importActual("@tanstack/react-router"); // Import real module first
-  return {
-    ...actual, // Spread all actual exports
-    // Override specific hooks with mocked versions:
-    useLocation: vi.fn(() => mockRouterContext.location), // Returns mocked location
-    useNavigate: vi.fn(() => mockRouterContext.navigate), // Returns mocked navigate function
-    useSearch: vi.fn(() => mockRouterContext.search), // Returns mocked search params
-    useParams: vi.fn(() => mockRouterContext.params), // Returns mocked route params
-    // Mock Link component to render as simple anchor tag for testing
-    Link: ({ to, children, className, ...props }: any) =>
-      React.createElement("a", { href: to, className, ...props }, children),
-  };
-});
-
-// =============================================================================
-// MEDIA QUERY MOCKS - Responsive Design Testing
-// =============================================================================
-
-// Mock function for react-responsive's useMediaQuery hook
-// Mobile-first approach: Default returns false (mobile doesn't match min-width queries)
-const mockUseMediaQuery = vi.fn(() => false);
-
-// Mock the react-responsive module used for responsive design
-vi.mock("react-responsive", () => ({
-  useMediaQuery: mockUseMediaQuery, // Replace real hook with our mock
-}));
-
-// =============================================================================
-// TYPE DEFINITIONS - Custom Test Options
-// =============================================================================
+setupIntersectionObserverMock();
 
 // Extend React Testing Library's RenderOptions with our custom test options
 // Omit<RenderOptions, "wrapper"> removes the wrapper property since we provide our own
@@ -127,42 +66,11 @@ function TestProviders({
   // Update router mock to simulate the requested route
   mockRouterContext.location = location;
 
-  // MOBILE-FIRST: Configure media query responses based on viewport
-  // Mobile-first approach: media queries check for min-width, so larger viewports match
-  //
-  // Breakpoint behavior:
-  // Mobile (default): isBiggerThanMedium=false, isBiggerThanLarge=false
-  // Tablet (768px+): isBiggerThanMedium=true, isBiggerThanLarge=false
-  // Desktop (1024px+): isBiggerThanMedium=true, isBiggerThanLarge=true
-  //
-  // Example component usage:
-  // - Navbar uses isBiggerThanLarge (1024px+) to switch desktop/mobile layouts
-  // - Projects uses isBiggerThanMedium (768px+) for modal vs external link behavior
-  // - Footer uses CSS-only responsiveness (lg:block = 1024px+) without JS media queries
-  mockUseMediaQuery.mockImplementation((query?: { minWidth?: number }) => {
-    if (!query || typeof query.minWidth !== "number") {
-      return false; // Default behavior for invalid queries
-    }
-
-    const minWidth = query.minWidth;
-
-    if (viewport === "mobile") {
-      return false; // Mobile doesn't match any min-width breakpoints
-    }
-    else if (viewport === "tablet") {
-      return minWidth <= 768; // Tablet matches md (768px) but not lg (1024px)
-    }
-    else if (viewport === "desktop") {
-      return minWidth <= 1024; // Desktop matches both md (768px) and lg (1024px)
-    }
-
-    return false; // Fallback to mobile behavior
-  });
+  // Configure viewport for media queries
+  setViewport(viewport);
 
   // Change i18n language if different from current
-  if (language !== i18n.language) {
-    i18n.changeLanguage(language);
-  }
+  setLanguage(language);
 
   // =============================================================================
   // PROVIDER SETUP - Create fresh instances for each test
@@ -244,8 +152,20 @@ export { customRender as render };
 // GLOBAL TEST SETUP - Automatic cleanup after each test
 // =============================================================================
 
-// Automatically cleanup after each test to prevent DOM pollution
-// This ensures each test starts with a clean slate
+// MSW Server Setup - Enable request interception for all tests
+beforeAll(() => {
+  // Start MSW server to intercept HTTP requests
+  server.listen({ onUnhandledRequest: "warn" });
+});
+
+// Reset MSW handlers after each test to prevent test interference
 afterEach(() => {
   cleanup(); // Remove all rendered components from DOM
+  server.resetHandlers(); // Reset MSW handlers to defaults
+  vi.clearAllMocks();
+});
+
+// Clean up MSW server after all tests complete
+afterAll(() => {
+  server.close();
 });
