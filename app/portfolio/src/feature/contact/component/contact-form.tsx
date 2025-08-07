@@ -26,6 +26,7 @@ import { z } from "zod";
 
 import { useSendEmail } from "../utility/use-send-email";
 
+// 📝 NOTE: https://www.shadcn-form.com/
 export default function ContactForm() {
   const { t, i18n: { language } } = useTranslation();
 
@@ -172,7 +173,7 @@ export default function ContactForm() {
                 />
 
                 <Button type="submit" className="w-full py-6 cursor-pointer" disabled={isPending}>
-                  {isPending ? <Loader2Icon className="animate-spin mr-2" /> : <Send className="mr-2" />}
+                  {isPending ? <Loader2Icon className="animate-spin mr-2" data-testid="lucide-loader-circle" /> : <Send className="mr-2" />}
                   {isPending ? t("Sending") : t("Send Email")}
                 </Button>
               </div>

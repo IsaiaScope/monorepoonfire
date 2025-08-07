@@ -40,7 +40,7 @@ const GLOBE_CONFIG: COBEOptions = {
   ],
 };
 
-// https://magicui.design/docs/components/globe
+// 📝 NOTE: https://magicui.design/docs/components/globe
 export default function Globe({
   className,
   config = GLOBE_CONFIG,

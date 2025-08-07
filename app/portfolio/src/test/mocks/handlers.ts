@@ -15,6 +15,7 @@ import { http, HttpResponse } from "msw";
 
 import { env } from "../../environment/env";
 import { mockProjectsData } from "./data/projects";
+import { mockSkillsData } from "./data/skills";
 import { mockWorkExperiencesData } from "./data/work-experiences";
 
 // API endpoint URL - matches the test environment API endpoint
@@ -53,6 +54,22 @@ export const handlers = [
    */
   http.get(`${BASE_URL}${APP_HONO.ROUTES.WORK_EXPERIENCE}`, () => {
     return HttpResponse.json(mockWorkExperiencesData, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }),
+
+  /**
+   * GET /api/skills - Successful response with skills list
+   *
+   * This handler simulates a successful API call that returns an array
+   * of skills. It's used as the default behavior for testing components
+   * that load skills data on mount.
+   */
+  http.get(`${BASE_URL}${APP_HONO.ROUTES.SKILLS}`, () => {
+    return HttpResponse.json(mockSkillsData, {
       status: 200,
       headers: {
         "Content-Type": "application/json",

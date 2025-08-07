@@ -15,7 +15,6 @@
 
 import { APP_HONO } from "@app/hono/constant";
 import { http, HttpResponse } from "msw";
-import { describe, expect, it, vi } from "vitest";
 
 import { env } from "../../environment/env";
 import { mockProjectsData } from "../../test/mocks/data/projects";
@@ -249,7 +248,7 @@ describe("projects component", () => {
     it("should handle empty projects list and not render content", () => {
       const mockUseGetProjects = vi.spyOn(useProjectsModule, "useGetProjects");
       mockUseGetProjects.mockReturnValue({
-        data: [] as unknown,
+        data: [] as unknown[],
         isLoading: false,
         isError: false,
       } as ReturnType<typeof useProjectsModule.useGetProjects>);

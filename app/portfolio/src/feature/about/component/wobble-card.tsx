@@ -15,7 +15,8 @@ const Noise = () => {
   );
 };
 
-// 📝 NOTE: #1E3A8A is accent color, #f3f4f6 is secondary color
+// 📝 NOTE: https://ui.aceternity.com/components/wobble-card
+// #1E3A8A is accent color, #f3f4f6 is secondary color
 // https://oklch.com/#0.967,0.0029,264.5419,100 convert oklch to hex
 export const WobbleCard = ({
   children,

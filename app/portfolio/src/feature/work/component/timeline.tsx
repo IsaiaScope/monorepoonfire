@@ -159,6 +159,7 @@ const TimelineItem = ({ item, index, onVisibilityChange }: TimelineItemProps) =>
  * - Rendering the animated gradient line that grows to visible items
  * - Handling responsive layout and smooth animations
  */
+// 📝 NOTE: https://ui.aceternity.com/components/timeline
 export const Timeline = ({ data }: { data: TimelineEntry }) => {
   // Ref for the main timeline container (used for height calculation)
   const ref = useRef<HTMLDivElement>(null);

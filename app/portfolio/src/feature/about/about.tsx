@@ -17,7 +17,7 @@ function About() {
   const { t } = useTranslation();
   const skillContainer = useRef<HTMLDivElement | null>(null);
 
-  const { data: skills, isFetching, isError } = useGetSkills();
+  const { data: skills, isLoading, isError } = useGetSkills();
 
   return (
     <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
@@ -43,7 +43,7 @@ function About() {
 
         <WobbleCard containerClassName="min-h-80 relative overflow-hidden md:col-span-3" className="px-3 py-3 sm:px-3">
           <div ref={skillContainer} className="flex flex-col items-center justify-center h-full">
-            {isFetching
+            {isLoading
               ? (
                   <div
                     className="inline-block h-20 w-20 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em]  motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
@@ -55,14 +55,14 @@ function About() {
                   </div>
                 )
               : null}
-            {isError || skills?.length === 0
+            {!isLoading && (isError || !skills || !Array.isArray(skills) || skills.length === 0)
               ? (
                   <p className="text-center">
                     {t("Oops! Something went wrong while fetching the skills")}
                   </p>
                 )
               : null}
-            { skills
+            { !isLoading && skills && Array.isArray(skills) && skills.length > 0
               ? (
                   <>
                     <div className="flex justify-center items-center gap-2 opacity-65">
