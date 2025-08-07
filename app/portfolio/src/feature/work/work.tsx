@@ -43,7 +43,10 @@ function Work() {
         { workExperienceData
           ? (
               <Timeline
-                data={workExperienceData.filter(item => item.language === language)}
+                data={workExperienceData.filter(item => item.language === language).sort((a, b) => {
+                  // Sort by startDate string comparison (YYYY-MM format) - oldest first
+                  return a.startDate.localeCompare(b.startDate);
+                })}
               />
             )
           : null}
