@@ -15,6 +15,7 @@ jobs:
       ENV: ${{ vars.ENV }} # Custom variable, typically set in GitHub repo/environment.
       LOG_LEVEL: ${{ vars.LOG_LEVEL }} # Logging level for your app.
       DATABASE_URL: ${{ secrets.DATABASE_URL }} # Secret for your database connection string.
+      DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }} # Secret for database authentication.
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Secret for TurboRepo (if used).
       TURBO_TEAM: ${{ vars.TURBO_TEAM }} # TurboRepo team variable.
 
@@ -38,6 +39,7 @@ jobs:
           echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env.production
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env.production 
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env.production
+          echo "DATABASE_AUTH_TOKEN=${{ secrets.DATABASE_AUTH_TOKEN }}" >> app/hono/src/environment/.env.production
 
       # Step 4: Prints the project structure for debugging.
       # tree: Lists files in a tree-like format.
