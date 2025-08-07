@@ -9,7 +9,7 @@ jobs:
   build:
     name: Build # Name of the job that will run in this workflow.
     runs-on: ubuntu-latest # Uses the latest Ubuntu runner provided by GitHub Actions.
-    environment: env # Optionally specifies the environment for secrets/variables.
+    environment: env.production # Optionally specifies the environment for secrets/variables.
     env:
       # These environment variables are available to all steps in this job.
       ENV: ${{ vars.ENV }} # Custom variable, typically set in GitHub repo/environment.
