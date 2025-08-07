@@ -63,7 +63,7 @@ const Project = ({
           <p className="text-2xl lg:text-3xl font-semibold">
             {title}
           </p>
-          <div className="flex gap-5 mt-4">
+          <div className="flex flex-wrap gap-5 mt-4">
             {tags.map(tag => (
               <Badge variant="secondary" className="hover:scale-110 cursor-default text-secondary-foreground/80" key={tag.id}>
                 {`#${tag.name}`}
