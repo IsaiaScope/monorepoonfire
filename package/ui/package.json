@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:test": "vitest run"
+    "test:test": "vitest run",
+    "test:watch": "vitest watch"
+
   },
   "dependencies": {
     "@package/shadcn": "workspace:*",

@@ -1,151 +1,10 @@
 @import "tailwindcss";
 
+@import "./font.css";
 @import "@package/shadcn/css";
 
 @source '../node_modules/@package/shadcn';
 @source '../node_modules/@package/ui';
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Thin.ttf") format("truetype");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-ThinItalic.ttf") format("truetype");
-  font-weight: 100;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-ExtraLightItalic.ttf") format("truetype");
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-LightItalic.ttf") format("truetype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-MediumItalic.ttf") format("truetype");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-SemiBold.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-SemiBoldItalic.ttf") format("truetype");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-ExtraBoldItalic.ttf") format("truetype");
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-BlackItalic.ttf") format("truetype");
-  font-weight: 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/font/Montserrat/Montserrat-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@theme {
-  --font-Montserrat: "Montserrat", sans-serif;
-}
 
 body {
   @apply font-Montserrat;
@@ -158,8 +17,108 @@ html body[data-scroll-locked] {
 }
 
 @theme inline {
+  /* Grab gesture animations - Tailwind 4 compatible */
+  --animate-grab-gesture-hand: grab-gesture-hand 4.5s linear infinite;
+  --animate-grab-gesture-grab: grab-gesture-grab 4.5s linear infinite;
+
   /* https://magicui.design/docs/components/orbiting-circles */
   --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+
+  @keyframes grab-gesture-hand {
+    0% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0;
+    }
+    1% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.6;
+    }
+    2.08% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.7;
+    }
+    4.17% {
+      transform: translateX(2.8px) translateY(-2.8px);
+      opacity: 0.8;
+    }
+    6.25% {
+      transform: translateX(4px) translateY(0);
+      opacity: 0.9;
+    }
+    8.33% {
+      transform: translateX(2.8px) translateY(2.8px);
+      opacity: 1;
+    }
+    10.42% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0.8;
+    }
+    11.5% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0.6;
+    }
+    12.5% {
+      transform: translateX(0) translateY(4px);
+      opacity: 0;
+    }
+    13.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0;
+    }
+    66.67%,
+    100% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes grab-gesture-grab {
+    0%,
+    12.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0;
+    }
+    13.5% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0.5;
+    }
+    14.58% {
+      transform: translateX(-2.8px) translateY(2.8px);
+      opacity: 0.6;
+    }
+    16.67% {
+      transform: translateX(-4px) translateY(0);
+      opacity: 0.7;
+    }
+    18.75% {
+      transform: translateX(-2.8px) translateY(-2.8px);
+      opacity: 0.8;
+    }
+    20.83% {
+      transform: translateX(0) translateY(-4px);
+      opacity: 0.9;
+    }
+    22.92% {
+      transform: translateX(2.8px) translateY(-2.8px);
+      opacity: 1;
+    }
+    24% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    26% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+  }
 
   @keyframes orbit {
     0% {
@@ -171,4 +130,18 @@ html body[data-scroll-locked] {
         rotate(calc((var(--angle) * -1deg) - 360deg));
     }
   }
+}
+
+/* Hide scrollbar utility class */
+.hide-scrollbar {
+  /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Webkit browsers */
 }

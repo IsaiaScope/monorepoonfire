@@ -23,7 +23,7 @@ function isErrorFromRouter(from: From, errorData: FallbackProps | ErrorComponent
 
 function UIErrorWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <UIWrapper tag="main" variant="primary" className="bg-foreground flex flex-col items-center justify-center gap-10">
+    <UIWrapper tag="main" variant="primary" className="z-100 bg-foreground flex flex-col items-center justify-center gap-10">
       <h1 className=" text-9xl font-extrabold text-primary tracking-widest">404</h1>
       <div className="bg-primary-foreground text-primary px-2 text-sm rounded rotate-12 absolute">
         Page Not Found

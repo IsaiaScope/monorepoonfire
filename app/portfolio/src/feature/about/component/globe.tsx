@@ -1,89 +1,133 @@
-import World from "./world";
+/* eslint-disable react-web-api/no-leaked-timeout */
+/* eslint-disable react-hooks/exhaustive-deps */
 
-// https://ui.aceternity.com/components/github-globe
-export default function Globe() {
-  const globeConfig = {
-    pointSize: 4,
-    globeColor: "#062056",
-    showAtmosphere: true,
-    atmosphereColor: "#FFFFFF",
-    atmosphereAltitude: 0.1,
-    emissive: "#062056",
-    emissiveIntensity: 0.1,
-    shininess: 0.9,
-    polygonColor: "rgba(255,255,255,0.7)",
-    ambientLight: "#38bdf8",
-    directionalLeftLight: "#ffffff",
-    directionalTopLight: "#ffffff",
-    pointLight: "#ffffff",
-    arcTime: 1000,
-    arcLength: 0.9,
-    rings: 1,
-    maxRings: 3,
-    initialPosition: { lat: 45.7349, lng: 9.2733 },
+import type { COBEOptions } from "cobe";
 
-    autoRotate: true,
-    autoRotateSpeed: 0.5,
+import { cn } from "@package/utility/tailwind";
+import createGlobe from "cobe";
+import { useMotionValue, useSpring } from "motion/react";
+import { useEffect, useRef } from "react";
+
+const MOVEMENT_DAMPING = 1400;
+
+const GLOBE_CONFIG: COBEOptions = {
+  width: 800,
+  height: 800,
+  onRender: () => {},
+  devicePixelRatio: 2,
+  phi: 0,
+  theta: 0.3,
+  dark: 1,
+  diffuse: 0.4,
+  mapSamples: 16000,
+  mapBrightness: 1.2,
+  scale: 1.1,
+  opacity: 0.5,
+  baseColor: [1, 1, 1],
+  markerColor: [59 / 255, 130 / 255, 246 / 255],
+  glowColor: [0.4, 0.4, 0.4],
+  markers: [
+    { location: [34.6937, 135.5023], size: 0.10 }, // Osaka, Japan
+    { location: [43.6532, -79.3832], size: 0.10 }, // Toronto, Canada
+    { location: [33.7490, -84.3880], size: 0.10 }, // Atlanta, USA
+    { location: [45.4642, 9.1900], size: 0.10 }, // Milan, Italy
+    { location: [51.7592, 19.4560], size: 0.10 }, // Lodz, Poland
+    { location: [52.5200, 13.4050], size: 0.10 }, // Berlin, Germany
+    { location: [51.5074, -0.1278], size: 0.10 }, // London, England
+    { location: [-33.8688, 151.2093], size: 0.10 }, // Sydney, Australia
+    { location: [41.3851, 2.1734], size: 0.10 }, // Barcelona, Spain
+    { location: [38.9067, 1.4206], size: 0.10 }, // Ibiza, Spain
+  ],
+};
+
+// 📝 NOTE: https://magicui.design/docs/components/globe
+export default function Globe({
+  className,
+  config = GLOBE_CONFIG,
+}: {
+  className?: string;
+  config?: COBEOptions;
+}) {
+  let phi = 0;
+  let width = 0;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pointerInteracting = useRef<number | null>(null);
+  const pointerInteractionMovement = useRef(0);
+
+  const r = useMotionValue(0);
+  const rs = useSpring(r, {
+    mass: 1,
+    damping: 30,
+    stiffness: 100,
+  });
+
+  const updatePointerInteraction = (value: number | null) => {
+    pointerInteracting.current = value;
+    if (canvasRef.current) {
+      canvasRef.current.style.cursor = value !== null ? "grabbing" : "grab";
+    }
   };
-  const colors = ["#06b6d4", "#3b82f6", "#6366f1"];
-  const milanLat = 45.4642;
-  const milanLng = 9.19;
-  const arcs = [
-  // Osaka (Japan)
-    {
-      order: 1,
-      startLat: milanLat,
-      startLng: milanLng,
-      endLat: 34.6937,
-      endLng: 135.5023, // Osaka
-      arcAlt: 0.18,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-    // Sydney (Australia)
-    {
-      order: 2,
-      startLat: milanLat,
-      startLng: milanLng,
-      endLat: -33.8688,
-      endLng: 151.2093, // Sydney
-      arcAlt: 0.22,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-    // Berlin (Germany)
-    {
-      order: 3,
-      startLat: milanLat,
-      startLng: milanLng,
-      endLat: 52.52,
-      endLng: 13.405, // Berlin
-      arcAlt: 0.15,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-    // Atlanta (USA)
-    {
-      order: 4,
-      startLat: milanLat,
-      startLng: milanLng,
-      endLat: 33.749,
-      endLng: -84.388, // Atlanta
-      arcAlt: 0.17,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-    // Toronto (Canada)
-    {
-      order: 5,
-      startLat: milanLat,
-      startLng: milanLng,
-      endLat: 43.6532,
-      endLng: -79.3832, // Toronto
-      arcAlt: 0.19,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    },
-  ];
+
+  const updateMovement = (clientX: number) => {
+    if (pointerInteracting.current !== null) {
+      const delta = clientX - pointerInteracting.current;
+      pointerInteractionMovement.current = delta;
+      r.set(r.get() + delta / MOVEMENT_DAMPING);
+    }
+  };
+
+  useEffect(() => {
+    const onResize = () => {
+      if (canvasRef.current) {
+        width = canvasRef.current.offsetWidth;
+      }
+    };
+
+    window.addEventListener("resize", onResize);
+    onResize();
+
+    const globe = createGlobe(canvasRef.current!, {
+      ...config,
+      width: width * 2,
+      height: width * 2,
+      onRender: (state) => {
+        if (!pointerInteracting.current)
+          phi += 0.005;
+        state.phi = phi + rs.get();
+        state.width = width * 2;
+        state.height = width * 2;
+      },
+    });
+
+    setTimeout(() => (canvasRef.current!.style.opacity = "1"), 0);
+    return () => {
+      globe.destroy();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [rs, config]);
 
   return (
-    <figure className="absolute inset-0  translate-y-1/2 ">
-      <World data={arcs} globeConfig={globeConfig} />
-    </figure>
+    <div
+      className={cn(
+        "absolute inset-0 mx-auto aspect-[1/1] w-[600px] translate-y-1 translate-x-1/12 lg:translate-x-3/12",
+        className,
+      )}
+    >
+      <canvas
+        className={cn(
+          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]",
+        )}
+        ref={canvasRef}
+        onPointerDown={(e) => {
+          pointerInteracting.current = e.clientX;
+          updatePointerInteraction(e.clientX);
+        }}
+        onPointerUp={() => updatePointerInteraction(null)}
+        onPointerOut={() => updatePointerInteraction(null)}
+        onMouseMove={e => updateMovement(e.clientX)}
+        onTouchMove={e =>
+          e.touches[0] && updateMovement(e.touches[0].clientX)}
+      />
+    </div>
   );
 }

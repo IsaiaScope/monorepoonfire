@@ -11,6 +11,10 @@
       "dependsOn": ["^test:test"],
       "inputs": [".env*"]
     },
+    "test:watch": {
+      "dependsOn": ["^test:watch"],
+      "inputs": [".env*"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": [".env*"]

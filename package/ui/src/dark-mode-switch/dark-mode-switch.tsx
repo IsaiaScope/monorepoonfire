@@ -23,7 +23,7 @@ export default function UIDarkModeSwitch({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
         <Button variant="outline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
@@ -35,10 +35,10 @@ export default function UIDarkModeSwitch({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("light")}>
           {lightLabel}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("dark")}>
           {darkLabel}
         </DropdownMenuItem>
       </DropdownMenuContent>

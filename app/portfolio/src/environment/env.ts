@@ -1,3 +1,4 @@
+import { APP_HONO } from "@app/hono/constant";
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
@@ -15,6 +16,7 @@ export const env = createEnv({
     VITE_SERVER_PORT: z.string().length(4).refine(v => !Number.isNaN(Number(v)), {
       message: "PORT must be a number",
     }),
+    VITE_BASE_URL: z.string().url().default(`http://localhost:${APP_HONO.PORT}`),
   },
 
   /**
