@@ -12,13 +12,14 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { pinoLogger } from "hono-pino";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
-import { env } from "node:process";
 import pino from "pino";
 import pretty from "pino-pretty";
 import { notFound, onError, serveEmojiFavicon } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
 
 import type { AppEnv, AppOpenAPIHono } from "../@types/open-api-hono";
+
+import { env } from "../environment/env";
 
 /**
  * Create a base Hono application with OpenAPI support
@@ -69,13 +70,27 @@ export function initApp() {
   /**
    * Configure Cross-Origin Resource Sharing (CORS)
    *
-   * This middleware allows the API to be called from different domains,
-   * which is essential for frontend applications hosted on different ports
-   * or domains during development and production.
+   * This middleware allows the API to be called from specific domains based on
+   * the environment configuration. Only the domains specified in CORS_ORIGINS
+   * will be allowed, regardless of the environment.
    */
+  const getCorsOrigins = () => {
+    const corsOrigins = env.CORS_ORIGINS;
+
+    // If CORS_ORIGINS is "*", allow all origins
+    if (corsOrigins === "*") {
+      return "*";
+    }
+
+    // Split comma-separated origins - no automatic localhost addition
+    const origins = corsOrigins.split(",").map(origin => origin.trim());
+
+    return origins;
+  };
+
   app.use(
     cors({
-      origin: "*", // Allow requests from any origin
+      origin: getCorsOrigins(), // Environment-specific origins
       allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // HTTP methods to allow
       allowHeaders: ["Content-Type", "Authorization"], // Headers that can be sent
       credentials: true, // Allow cookies/auth headers

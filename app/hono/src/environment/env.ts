@@ -161,6 +161,15 @@ export const env = createEnv({
         message: "DATABASE_AUTH_TOKEN is required in test or production environments",
       },
     ),
+
+    /**
+     * CORS allowed origins configuration
+     *
+     * Comma-separated list of allowed origins for CORS. In development,
+     * this should include localhost for local development. In production,
+     * this should only include the specific domains that need access.
+     */
+    CORS_ORIGINS: z.string().default("*"),
   },
   /**
    * Runtime environment source
