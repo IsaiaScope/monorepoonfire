@@ -1,6 +1,6 @@
 import { UIImage, UIWrapper } from "@package/ui";
 import { Grab, Hand } from "lucide-react";
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { TextEffect } from "../../component/text-effect";
@@ -16,8 +16,15 @@ import { WobbleCard } from "./component/wobble-card";
 function About() {
   const { t } = useTranslation();
   const skillContainer = useRef<HTMLDivElement | null>(null);
+  const [isContainerReady, setIsContainerReady] = useState(false);
 
   const { data: skills, isLoading, isError } = useGetSkills();
+
+  // Use callback ref to ensure proper initialization after routing
+  const setSkillContainer = useCallback((node: HTMLDivElement | null) => {
+    skillContainer.current = node;
+    setIsContainerReady(!!node);
+  }, []);
 
   return (
     <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
@@ -42,7 +49,7 @@ function About() {
         </WobbleCard>
 
         <WobbleCard containerClassName="min-h-80 relative overflow-hidden md:col-span-3" className="px-3 py-3 sm:px-3">
-          <div ref={skillContainer} className="flex flex-col items-center justify-center h-full">
+          <div ref={setSkillContainer} className="flex flex-col items-center justify-center h-full">
             {isLoading
               ? (
                   <div
@@ -62,7 +69,7 @@ function About() {
                   </p>
                 )
               : null}
-            { !isLoading && skills && Array.isArray(skills) && skills.length > 0
+            { !isLoading && skills && Array.isArray(skills) && skills.length > 0 && isContainerReady
               ? (
                   <>
                     <div className="flex justify-center items-center gap-2 opacity-65">
