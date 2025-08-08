@@ -59,7 +59,7 @@ function Footer() {
             <Github />
           </ContactLink>
           <ContactLink
-            href="https://www.linkedin.com/in/isaia-riva-2452242ab/"
+            href="https://www.linkedin.com/in/isaia-riva/"
             label={t("LinkedIn")}
           >
             <Linkedin />

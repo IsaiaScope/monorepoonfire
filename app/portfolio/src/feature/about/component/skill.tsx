@@ -123,7 +123,7 @@ const Skill = ({ text, containerRef, index, total }: Props) => {
           src={`assets/${text.toLowerCase().replaceAll(" ", "-")}.svg`}
           alt="" // Decorative image, no alt text needed
           tabIndex={-1} // Remove from tab order
-          className="duration-200 rounded-sm hover:scale-110 w-7 mr-2 pointer-events-none"
+          className="duration-200 rounded-sm hover:scale-110 w-7 mr-2 pointer-events-none text-nowrap"
           loading="lazy" // Lazy load the image
           // Hide icon if it fails to load
           onError={() => setImageExists(false)}
