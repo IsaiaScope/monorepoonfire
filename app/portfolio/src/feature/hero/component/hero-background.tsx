@@ -68,7 +68,7 @@ const HeroBackground = () => {
         <div
           className="absolute inset-0 -z-14"
           style={{
-            backgroundImage: "url(/assets/sky.jpg)",
+            backgroundImage: "url(/assets/sky.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
           }}
@@ -84,7 +84,7 @@ const HeroBackground = () => {
         <motion.div
           className="absolute inset-0 -z-13"
           style={{
-            backgroundImage: "url(/assets/mountain-3.png)",
+            backgroundImage: "url(/assets/mountain-3.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
             y: mountain3Y, // Framer Motion's y transform property
@@ -101,7 +101,7 @@ const HeroBackground = () => {
         <motion.div
           className="absolute inset-0 -z-12"
           style={{
-            backgroundImage: "url(/assets/planets.png)",
+            backgroundImage: "url(/assets/planets.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
             x: planetsX, // Framer Motion's x transform property
@@ -118,7 +118,7 @@ const HeroBackground = () => {
         <motion.div
           className="absolute inset-0 -z-11"
           style={{
-            backgroundImage: "url(/assets/mountain-2.png)",
+            backgroundImage: "url(/assets/mountain-2.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
             y: mountain2Y, // Framer Motion's y transform property
@@ -135,7 +135,7 @@ const HeroBackground = () => {
         <motion.div
           className="absolute inset-0 -z-10"
           style={{
-            backgroundImage: "url(/assets/mountain-1.png)",
+            backgroundImage: "url(/assets/mountain-1.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
             y: mountain1Y, // Framer Motion's y transform property (no movement)

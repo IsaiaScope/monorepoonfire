@@ -81,20 +81,20 @@ const Skill = ({ text, containerRef, index, total }: Props) => {
     const row = Math.floor(index / cols); // Row index (0 to rows-1)
 
     // Calculate base positions with even distribution across container
-    const baseLeft = (col / (cols - 1 || 1)) * 65; // 0% to 65% horizontal
-    const baseTop = (row / (rows - 1 || 1)) * 70; // 0% to 70% vertical
+    const baseLeft = (col / (cols - 1 || 1)) * 60; // 0% to 60% horizontal (reduced from 65%)
+    const baseTop = (row / (rows - 1 || 1)) * 65; // 0% to 65% vertical (reduced from 70%)
 
     // Add controlled randomness to avoid perfect grid appearance
-    const randomOffsetX = (Math.random() - 0.5) * 15; // ±7.5% horizontal offset
-    const randomOffsetY = (Math.random() - 0.5) * 15; // ±7.5% vertical offset
+    const randomOffsetX = (Math.random() - 0.5) * 12; // ±6% horizontal offset (reduced from 15%)
+    const randomOffsetY = (Math.random() - 0.5) * 12; // ±6% vertical offset (reduced from 15%)
 
     return {
-      // Random rotation between -30 and +30 degrees
-      rotate: `${(Math.random() - 0.5) * 60}deg`,
-      // Vertical position with bounds checking (0% to 80%)
-      top: `${Math.max(0, Math.min(80, baseTop + randomOffsetY))}%`,
-      // Horizontal position with bounds checking (0% to 85%)
-      left: `${Math.max(0, Math.min(85, baseLeft + randomOffsetX))}%`,
+      // Random rotation between -20 and +20 degrees (reduced from ±30)
+      rotate: `${(Math.random() - 0.5) * 40}deg`,
+      // Vertical position with bounds checking (0% to 75%)
+      top: `${Math.max(0, Math.min(75, baseTop + randomOffsetY))}%`,
+      // Horizontal position with bounds checking (0% to 75%)
+      left: `${Math.max(0, Math.min(75, baseLeft + randomOffsetX))}%`,
     };
   }, [index, total]); // Recalculate when index or total changes
 
@@ -105,11 +105,9 @@ const Skill = ({ text, containerRef, index, total }: Props) => {
   return (
     <motion.div
       // Styling: Dark badge with light text, rounded corners, and subtle ring border
-      className="flex items-center absolute py-2 px-3 text-[#f3f4f6] bg-[#262626]/90 text-xl text-center rounded-md cursor-grab m-2 ring-1 ring-[#f3f4f6] "
+      className="flex items-center justify-start absolute py-2 px-3 text-[#f3f4f6] bg-[#262626]/90 text-xl rounded-md cursor-grab m-2 ring-1 ring-[#f3f4f6] whitespace-nowrap min-w-max"
       // Apply calculated positioning and rotation
-      style={randomStyle}
-
-      // Framer Motion animations
+      style={randomStyle} // Framer Motion animations
       whileHover={{ scale: 1.05 }} // Slight scale increase on hover
       drag // Enable dragging
       dragConstraints={containerRef} // Constrain dragging to container bounds
@@ -123,7 +121,7 @@ const Skill = ({ text, containerRef, index, total }: Props) => {
           src={`assets/${text.toLowerCase().replaceAll(" ", "-")}.svg`}
           alt="" // Decorative image, no alt text needed
           tabIndex={-1} // Remove from tab order
-          className="duration-200 rounded-sm hover:scale-110 w-7 mr-2 pointer-events-none text-nowrap"
+          className="duration-200 rounded-sm hover:scale-110 w-7 mr-2 pointer-events-none"
           loading="lazy" // Lazy load the image
           // Hide icon if it fails to load
           onError={() => setImageExists(false)}
