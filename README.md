@@ -74,6 +74,46 @@ monorepoonfire/
 - **Git Hooks**: Husky with lint-staged for quality gates
 - **CI/CD**: GitHub Actions for automated workflows
 
+## 📊 System Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "🏠 MonorepoOnFire"
+        subgraph "📱 Applications"
+            A[🎨 Portfolio Frontend<br/>React + TypeScript]
+            B[🔥 Hono Backend<br/>API Server + Database]
+        end
+
+        subgraph "📦 Shared Packages"
+            C[🎭 UI Components<br/>Reusable Interface Elements]
+            D[⚙️ Configuration<br/>Shared Settings]
+            E[🛠️ Utilities<br/>Helper Functions]
+        end
+
+        subgraph "🔧 Development Tools"
+            F[📋 TypeScript<br/>Type Safety]
+            G[⚡ Turborepo<br/>Build Orchestration]
+            H[🧪 Testing<br/>Quality Assurance]
+        end
+    end
+
+    A --> C
+    A --> D
+    A --> E
+    B --> D
+    B --> E
+
+    F --> A
+    F --> B
+    F --> C
+    G --> A
+    G --> B
+    H --> A
+    H --> B
+```
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -128,17 +168,10 @@ pnpm test:watch
 
 Comprehensive documentation is available in the [`doc/`](./doc/) directory:
 
-- **📁 [Project Structure](./doc/project-structure.md)** - Monorepo architecture and organization
-- **🔥 [Hono Backend](./doc/hono-backend.md)** - API development and database integration
-- **🎨 [Portfolio Frontend](./doc/portfolio-frontend.md)** - React application development
-- **🧪 [Testing with Vitest](./doc/vitest-testing.md)** - Testing strategies and setup
-- **🌍 [Internationalization](./doc/i18n-internationalization.md)** - i18n implementation and workflow
-- **🔄 [Tanstack Query](./doc/tanstack-query.md)** - Server state management
-- **🎭 [shadcn/ui](./doc/shadcn-ui.md)** - Component library usage
-- **🚀 [CI/CD](./doc/ci-cd.md)** - Deployment and automation
-- **🔍 [Linting & Type Safety](./doc/linting-type-safety.md)** - Code quality and validation
-- **🎨 [Tailwind CSS](./doc/tailwind-css.md)** - Styling and design system
-- **📦 [Packages Overview](./doc/packages-overview.md)** - Shared packages documentation
+- **[Architecture Overview](./doc/architecture-overview.md)** - High-level system design and component relationships
+- **[Frontend Guide](./doc/frontend-guide.md)** - React portfolio application development
+- **[Backend Guide](./doc/backend-guide.md)** - Hono API server and database management
+- **[Shared Packages Guide](./doc/shared-packages-guide.md)** - Reusable components and utilities
 
 ## 📞 Support
 
