@@ -11,17 +11,17 @@ function Contact() {
   const { theme } = useDarkMode();
 
   const images = [{
-    src: "/assets/me-0.jpg",
+    src: "/assets/me-0.webp",
   }, {
-    src: "/assets/me-1.jpg",
+    src: "/assets/me-1.webp",
   }, {
-    src: "/assets/me-2.jpg",
+    src: "/assets/me-2.webp",
   }, {
-    src: "/assets/me-3.jpg",
+    src: "/assets/me-3.webp",
   }, {
-    src: "/assets/me-4.jpg",
+    src: "/assets/me-4.webp",
   }, {
-    src: "/assets/me-5.jpg",
+    src: "/assets/me-5.webp",
   }];
 
   return (

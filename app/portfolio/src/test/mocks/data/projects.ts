@@ -13,7 +13,7 @@ export const mockProjectsData = [
     ],
     href: "https://test-msw-ecommerce.vercel.app/",
     repo: "https://github.com/IsaiaScope/test-msw-ecommerce",
-    image: "/assets/test-msw-ecommerce.png",
+    image: "/assets/test-msw-ecommerce.webp",
     tags: [
       { id: 1, name: "React" },
       { id: 2, name: "TypeScript" },
@@ -35,7 +35,7 @@ export const mockProjectsData = [
     ],
     href: "https://test-msw-portfolio.up.railway.app",
     repo: "https://github.com/IsaiaScope/test-msw-portfolio",
-    image: "/assets/test-msw-portfolio.png",
+    image: "/assets/test-msw-portfolio.webp",
     tags: [
       { id: 1, name: "React" },
       { id: 2, name: "SQLite" },
@@ -58,7 +58,7 @@ export const mockProjectsData = [
     ],
     href: "https://test-msw-sistema-italiano.up.railway.app",
     repo: "https://github.com/IsaiaScope/test-msw-sistema-italiano",
-    image: "/assets/test-msw-sistema-italiano.png",
+    image: "/assets/test-msw-sistema-italiano.webp",
     tags: [
       { id: 1, name: "React" },
       { id: 2, name: "SQLite" },
@@ -80,7 +80,7 @@ export const mockProjectsData = [
     ],
     href: "https://test-msw-blog-italiano.vercel.app/",
     repo: "https://github.com/IsaiaScope/test-msw-blog-italiano",
-    image: "/assets/test-msw-blog-italiano.png",
+    image: "/assets/test-msw-blog-italiano.webp",
     tags: [
       { id: 1, name: "Next.js" },
       { id: 2, name: "TypeScript" },

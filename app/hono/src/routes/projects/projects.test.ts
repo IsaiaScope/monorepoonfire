@@ -105,7 +105,7 @@ describe("[projects] routes tests", () => {
         ],
         href: "https://example.com/test-project",
         repo: "https://github.com/test/test-project",
-        image: "https://example.com/test-project.png",
+        image: "https://example.com/test-project.webp",
         tags: [{ id: 1, name: "React" }, { id: 2, name: "TypeScript" }],
       },
     });
@@ -242,7 +242,7 @@ describe("[projects] routes tests", () => {
         ],
         href: "https://example.com/updated-project",
         repo: "https://github.com/test/updated-project",
-        image: "https://example.com/updated-project.png",
+        image: "https://example.com/updated-project.webp",
         tags: [{ id: 1, name: "Vue" }, { id: 2, name: "JavaScript" }],
       },
     });
@@ -278,7 +278,7 @@ describe("[projects] routes tests", () => {
         ],
         href: "https://example.com/updated-project",
         repo: "https://github.com/test/updated-project",
-        image: "https://example.com/updated-project.png",
+        image: "https://example.com/updated-project.webp",
         tags: [{ id: 1, name: "Vue" }, { id: 2, name: "JavaScript" }],
       },
     });
@@ -317,7 +317,7 @@ describe("[projects] routes tests", () => {
         ],
         href: "https://example.com/updated-project",
         repo: "https://github.com/test/updated-project",
-        image: "https://example.com/updated-project.png",
+        image: "https://example.com/updated-project.webp",
         tags: [{ id: 1, name: "Vue" }, { id: 2, name: "JavaScript" }],
       },
     });

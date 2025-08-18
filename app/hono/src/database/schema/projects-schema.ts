@@ -128,7 +128,7 @@ const projectsTableSchema = z.object({
   image: z.string({
     description: "The image URL of the project",
   }).nonempty().max(200).openapi({
-    example: "/assets/garden-on-fire.png",
+    example: "/assets/garden-on-fire.webp",
   }),
 
   // Creation timestamp as string

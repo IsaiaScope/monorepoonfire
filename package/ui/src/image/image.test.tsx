@@ -1,13 +1,12 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it, vi } from "vitest";
 
 import UIImage from "./image";
 
-describe("testing UIImage", () => {
+describe("uIImage component", () => {
   // Test basic image rendering with required src attribute
-  // This ensures the component renders as an img element with the correct source
-  it("renders with src attribute", () => {
+  it("renders simple img element with src and alt", () => {
     const testSrc = "https://example.com/image.jpg";
     render(<UIImage src={testSrc} alt="Test image" />);
 
@@ -17,8 +16,52 @@ describe("testing UIImage", () => {
     expect(image).toHaveAttribute("alt", "Test image");
   });
 
-  // Test that images are lazy loaded by default for performance
-  // This improves page load times by only loading images when needed
+  // Test that without sources, it renders a simple img element
+  it("renders simple img element when no sources provided", () => {
+    render(<UIImage src="/test/image.png" alt="PNG image" />);
+
+    // Should render a simple img element, not picture
+    const picture = document.querySelector("picture");
+    expect(picture).not.toBeInTheDocument();
+
+    const image = screen.getByRole("img");
+    expect(image).toHaveAttribute("src", "/test/image.png");
+    expect(image).toHaveAttribute("alt", "PNG image");
+  });
+
+  // Test with custom sources - should render picture element
+  it("renders picture element with custom sources", () => {
+    const customSources = [
+      { srcset: "/test/image.webp", type: "image/webp" },
+      { srcset: "/test/image.jpg", type: "image/jpeg" },
+    ];
+
+    render(
+      <UIImage
+        src="/test/image.jpg"
+        alt="Custom sources image"
+        sources={customSources}
+      />,
+    );
+
+    // Should render a picture element
+    const picture = document.querySelector("picture");
+    expect(picture).toBeInTheDocument();
+
+    // Should have the custom sources
+    const sources = document.querySelectorAll("source");
+    expect(sources).toHaveLength(2);
+    expect(sources[0]).toHaveAttribute("srcset", "/test/image.webp");
+    expect(sources[0]).toHaveAttribute("type", "image/webp");
+    expect(sources[1]).toHaveAttribute("srcset", "/test/image.jpg");
+    expect(sources[1]).toHaveAttribute("type", "image/jpeg");
+
+    // Fallback img should have the original src
+    const image = screen.getByRole("img");
+    expect(image).toHaveAttribute("src", "/test/image.jpg");
+  });
+
+  // Test that images are lazy loaded by default
   it("applies lazy loading by default", () => {
     render(<UIImage src="test.jpg" alt="Lazy image" />);
 
@@ -26,8 +69,7 @@ describe("testing UIImage", () => {
     expect(image).toHaveAttribute("loading", "lazy");
   });
 
-  // Test custom className application for styling
-  // This ensures the component supports custom styling
+  // Test custom className application
   it("applies custom className", () => {
     render(
       <UIImage
@@ -41,76 +83,124 @@ describe("testing UIImage", () => {
     expect(image).toHaveClass("custom-image-class");
   });
 
-  // Test fallback image functionality when main image fails to load
-  // This provides graceful degradation when images are unavailable
-  it("shows fallback image on error", async () => {
-    const mainSrc = "broken-image.jpg";
-    const fallbackSrc = "fallback-image.jpg";
+  // Test with empty sources array - should render simple img
+  it("renders simple img when sources is empty array", () => {
+    render(<UIImage src="/test/image.jpg" alt="Empty sources" sources={[]} />);
 
-    render(
-      <UIImage
-        src={mainSrc}
-        fallbackSrc={fallbackSrc}
-        alt="Image with fallback"
-      />,
-    );
+    const picture = document.querySelector("picture");
+    expect(picture).not.toBeInTheDocument();
 
     const image = screen.getByRole("img");
-
-    // Initially should have the main source
-    expect(image).toHaveAttribute("src", mainSrc);
-
-    // Simulate image load error
-    fireEvent.error(image);
-
-    // Should switch to fallback source
-    await waitFor(() => {
-      expect(image).toHaveAttribute("src", fallbackSrc);
-    });
+    expect(image).toHaveAttribute("src", "/test/image.jpg");
   });
 
-  // Test that fallback only happens once to prevent infinite loops
-  // This prevents the component from repeatedly trying fallbacks
-  it("does not retry fallback on second error", async () => {
-    const mainSrc = "broken-image.jpg";
-    const fallbackSrc = "also-broken.jpg";
-
-    render(
-      <UIImage
-        src={mainSrc}
-        fallbackSrc={fallbackSrc}
-        alt="Double error image"
-      />,
-    );
+  // Test loading state initially
+  it("shows loading state initially", () => {
+    render(<UIImage src="test.jpg" alt="Loading image" />);
 
     const image = screen.getByRole("img");
-
-    // First error - should switch to fallback
-    fireEvent.error(image);
-    await waitFor(() => {
-      expect(image).toHaveAttribute("src", fallbackSrc);
-    });
-
-    // Second error - should stay on fallback, not retry
-    fireEvent.error(image);
-    expect(image).toHaveAttribute("src", fallbackSrc);
+    expect(image).toHaveAttribute("data-loading", "true");
+    expect(image).toHaveAttribute("data-error", "false");
   });
 
-  // Test behavior when no fallback is provided
-  // This ensures the component handles errors gracefully even without fallback
-  it("handles error without fallback gracefully", () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-
-    render(<UIImage src="broken-image.jpg" alt="No fallback image" />);
+  // Test error handling
+  it("shows error state on image load failure", () => {
+    render(<UIImage src="broken-image.jpg" alt="Broken image" />);
 
     const image = screen.getByRole("img");
 
     // Simulate image load error
     fireEvent.error(image);
 
-    // Should still have original src (no fallback available)
-    expect(image).toHaveAttribute("src", "broken-image.jpg");
+    expect(image).toHaveAttribute("data-error", "true");
+    expect(image).toHaveAttribute("data-loading", "false");
+  });
 
-    consoleSpy.mockRestore();
+  // Test successful load handling
+  it("shows loaded state on successful image load", () => {
+    render(<UIImage src="valid-image.jpg" alt="Valid image" />);
+
+    const image = screen.getByRole("img");
+
+    // Simulate successful image load
+    fireEvent.load(image);
+
+    expect(image).toHaveAttribute("data-loading", "false");
+    expect(image).toHaveAttribute("data-error", "false");
+  });
+
+  // Test onLoad callback
+  it("calls onLoad callback when image loads successfully", () => {
+    const onLoadMock = vi.fn();
+    render(<UIImage src="valid-image.jpg" alt="Valid image" onLoad={onLoadMock} />);
+
+    const image = screen.getByRole("img");
+    fireEvent.load(image);
+
+    expect(onLoadMock).toHaveBeenCalledTimes(1);
+  });
+
+  // Test onError callback
+  it("calls onError callback when image fails to load", () => {
+    const onErrorMock = vi.fn();
+    render(<UIImage src="broken-image.jpg" alt="Broken image" onError={onErrorMock} />);
+
+    const image = screen.getByRole("img");
+    fireEvent.error(image);
+
+    expect(onErrorMock).toHaveBeenCalledTimes(1);
+  });
+
+  // Test with source attributes - media, sizes
+  it("renders source with media and sizes attributes", () => {
+    const customSources = [
+      {
+        srcset: "/test/image-small.webp",
+        type: "image/webp",
+        media: "(max-width: 600px)",
+        sizes: "100vw",
+      },
+      {
+        srcset: "/test/image-large.webp",
+        type: "image/webp",
+        sizes: "50vw",
+      },
+    ];
+
+    render(
+      <UIImage
+        src="/test/image.jpg"
+        alt="Responsive image"
+        sources={customSources}
+      />,
+    );
+
+    const sources = document.querySelectorAll("source");
+    expect(sources).toHaveLength(2);
+
+    expect(sources[0]).toHaveAttribute("media", "(max-width: 600px)");
+    expect(sources[0]).toHaveAttribute("sizes", "100vw");
+    expect(sources[1]).toHaveAttribute("sizes", "50vw");
+    expect(sources[1]).not.toHaveAttribute("media");
+  });
+
+  // Test that additional img props are passed through
+  it("passes through additional img props", () => {
+    render(
+      <UIImage
+        src="test.jpg"
+        alt="Props test"
+        width={200}
+        height={100}
+        draggable={false}
+        data-testid="custom-image"
+      />,
+    );
+
+    const image = screen.getByRole("img");
+    expect(image).toHaveAttribute("width", "200");
+    expect(image).toHaveAttribute("height", "100");
+    expect(image).toHaveAttribute("draggable", "false");
+    expect(image).toHaveAttribute("data-testid", "custom-image");
   });
 });

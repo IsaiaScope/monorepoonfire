@@ -38,7 +38,11 @@ function About() {
           <div
             className="absolute inset-0 flex h-full justify-end flex-col p-3 md:p-8 gap-3"
           >
-            <UIImage src="/assets/coding-pov.png" className="absolute inset-0 w-full h-full object-contain object-center bg-no-repeat translate-x-5 -translate-y-25 scale-180 md:-translate-y-38 md:scale-200" alt="" />
+            <UIImage
+              src="/assets/coding-pov.webp"
+              className="absolute inset-0 w-full h-full object-contain object-center bg-no-repeat translate-x-5 -translate-y-25 scale-180 md:-translate-y-38 md:scale-200"
+              alt=""
+            />
             <h3 className="text-xl md:text-3xl font-bold z-10 font-LibreFranklin">
               {t("Hi, I'm Isaia")}
             </h3>

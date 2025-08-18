@@ -38,7 +38,7 @@ describe("footer Component", () => {
 
       // Test each platform individually with explicit expectations
       expect(screen.getByRole("link", { name: "GitHub" })).toHaveAttribute("href", "https://github.com/IsaiaScope");
-      expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://www.linkedin.com/in/isaia-riva-2452242ab/");
+      expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://www.linkedin.com/in/isaia-riva/");
       expect(screen.getByRole("link", { name: "Twitch" })).toHaveAttribute("href", "https://www.twitch.tv/iso_on_fire");
       expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", "https://www.instagram.com/iso_on_fire");
       expect(screen.getByRole("link", { name: "Facebook" })).toHaveAttribute("href", "https://www.facebook.com/isaia.riva/");
