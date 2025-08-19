@@ -1,5 +1,7 @@
 import { PACKAGE_UTILITY } from "@package/utility/constant";
+import { cn } from "@package/utility/tailwind";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 
@@ -15,9 +17,32 @@ const HeroText = () => {
   const isBiggerThanLarge = useMediaQuery({
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.LG,
   });
+
+  const [isSmallViewport, setIsSmallViewport] = useState(false);
+
+  useEffect(() => {
+    const checkViewportSize = () => {
+      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
+      setIsSmallViewport(window.innerHeight < PACKAGE_UTILITY.MEDIA_QUERY.SM && window.innerWidth < PACKAGE_UTILITY.MEDIA_QUERY.LG);
+    };
+
+    // Check on mount
+    checkViewportSize();
+
+    // Add resize listener
+    window.addEventListener("resize", checkViewportSize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkViewportSize);
+  }, []);
+
   return (
     <section className="text-white z-10 text-center lg:text-left inset-0 absolute">
-      <h1 className="flex flex-col space-y-4 lg:justify-center h-full lg:ml-[25%] mt-28 md:mt-36 lg:mt-0">
+      <h1 className={cn("flex flex-col space-y-4 lg:justify-center h-full lg:ml-[25%]", {
+        "mt-20": isSmallViewport,
+        "mt-28 md:mt-36 lg:mt-0": !isSmallViewport,
+      })}
+      >
         <motion.p
           className="text-5xl font-semibold font-LibreFranklin"
           variants={variants}
@@ -34,6 +59,7 @@ const HeroText = () => {
             initial="hidden"
             animate="visible"
             transition={{ delay: 1.2 }}
+            data-lcp-element // Mark for LCP priority
           >
             {
               isBiggerThanLarge
