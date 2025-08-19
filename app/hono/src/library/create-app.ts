@@ -10,6 +10,7 @@ import type { Schema } from "hono";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { pinoLogger } from "hono-pino";
+import { compress } from "hono/compress";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import pino from "pino";
@@ -61,6 +62,9 @@ export function initApp() {
   // Create the base application
   const app = createApp();
 
+  app.use(
+    compress(), // Enable response compression for better performance
+  );
   /**
    * Serve a fire emoji (🔥) as favicon
    * Provides a simple favicon without needing a static file

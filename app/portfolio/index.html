@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Declares this as an HTML5 document -->
-<html lang="en-GB">
+<html lang="en-GB" translate="no">
   <!-- Sets the document language to British English for accessibility and SEO -->
   <head>
     <!-- Document character encoding - UTF-8 supports all Unicode characters -->
@@ -9,6 +9,18 @@
     <!-- Tells the browser to respect system dark/light mode preferences -->
     <!-- This enables automatic theme switching based on user's OS settings -->
     <meta name="color-scheme" content="light dark" />
+
+    <!-- Preconnect to external resources for performance optimization -->
+    <!-- Preconnect establishes early connections to improve loading speed -->
+    <link rel="preconnect" href="https://monorepoonfire.up.railway.app" crossorigin />
+    <link rel="preconnect" href="https://railway.app" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://monorepoonfire.up.railway.app" />
+    <link rel="dns-prefetch" href="https://railway.app" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+    <!-- Preload critical fonts for faster LCP -->
+    <link rel="preload" href="/src/assets/fonts/Montserrat-Regular.ttf" as="font" type="font/ttf" crossorigin />
 
     <!-- Enhanced viewport configuration for mobile devices with accessibility support -->
     <!-- viewport-fit=cover: Content extends to screen edges (handles notches on iPhone X+) -->
