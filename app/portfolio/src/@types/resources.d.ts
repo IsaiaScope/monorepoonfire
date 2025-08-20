@@ -75,6 +75,7 @@ interface Resources {
     },
     "Your message": "Your message",
     "Menu": "Menu",
+    "Your name": "Your name",
   }
 }
 

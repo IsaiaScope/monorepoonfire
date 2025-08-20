@@ -120,7 +120,7 @@ export default function ContactForm() {
                       <FormControl>
                         <Input
                           id="name"
-                          placeholder="John Doe"
+                          placeholder={t("Your name")}
                           type="text"
                           autoComplete="name"
                           {...field}
