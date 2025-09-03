@@ -166,7 +166,7 @@ describe("contactForm Component", () => {
       expect(messageTextarea).toHaveAttribute("autocomplete", "off");
 
       // Check placeholders
-      expect(nameInput).toHaveAttribute("placeholder", "John Doe");
+      expect(nameInput).toHaveAttribute("placeholder", "Your name");
       expect(emailInput).toHaveAttribute("placeholder", "yourEmail@mail.com");
       expect(messageTextarea).toHaveAttribute("placeholder", "Your message");
     });
