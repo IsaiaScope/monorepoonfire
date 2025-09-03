@@ -1,9 +1,9 @@
 import { Skeleton } from "@package/shadcn";
 import { UIWrapper } from "@package/ui";
 import { cn } from "@package/utility/tailwind";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { TextEffect } from "../../component/text-effect";
 import { createSectionId } from "../../utility/create-section-id";
 import { useGetWorkExperience } from "./api/use-work-experiences";
 import Timeline from "./component/timeline";
@@ -13,6 +13,15 @@ function Work() {
   const { data: workExperienceData, isLoading, isError } = useGetWorkExperience();
   const skeletons = [1, 2, 3, 4, 5, 6];
 
+  // Memoize filtered and sorted data to prevent recalculation
+  const filteredWorkData = useMemo(() => {
+    if (!workExperienceData || !Array.isArray(workExperienceData))
+      return [];
+    return workExperienceData
+      .filter(item => item.language === language)
+      .sort((a, b) => a.startDate.localeCompare(b.startDate));
+  }, [workExperienceData, language]);
+
   // Show loading skeletons if currently loading
   // Return null only if there's an error or no data when not loading
   if (isError || (!isLoading && (!workExperienceData || !Array.isArray(workExperienceData) || workExperienceData.length === 0)))
@@ -20,9 +29,9 @@ function Work() {
 
   return (
     <UIWrapper tag="section" id={createSectionId(t("Work"))} className={cn("scroll-mt-16 max-w-screen-xl mx-auto p-6 w-full")}>
-      <TextEffect as="h2" per="char" preset="fade" className="my-10 font-bold text-4xl font-LibreFranklin">
+      <h2 className="my-10 font-bold text-4xl font-LibreFranklin animate-in fade-in zoom-in duration-500">
         {t("Work Experience")}
-      </TextEffect>
+      </h2>
 
       <section className="flex flex-col space-y-6 md:space-y-8 pt-10">
         {isLoading
@@ -42,12 +51,7 @@ function Work() {
           : null}
         { workExperienceData
           ? (
-              <Timeline
-                data={workExperienceData.filter(item => item.language === language).sort((a, b) => {
-                  // Sort by startDate string comparison (YYYY-MM format) - oldest first
-                  return a.startDate.localeCompare(b.startDate);
-                })}
-              />
+              <Timeline data={filteredWorkData} />
             )
           : null}
       </section>

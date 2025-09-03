@@ -353,19 +353,19 @@ describe("projects component", () => {
         expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
       });
 
-      // Initially, preview should be hidden
-      const previewImage = document.querySelector("img.fixed");
-      expect(previewImage).toBeInTheDocument();
-      expect(previewImage).toHaveStyle({ visibility: "hidden" });
+      // Initially, preview image should not exist in DOM (no preview active)
+      let previewImage = document.querySelector("img.fixed");
+      expect(previewImage).not.toBeInTheDocument();
 
       // Hover over first project to activate preview
       const projectContainers = screen.getAllByTestId("project-container");
       const firstProjectContainer = projectContainers[0];
       fireEvent.mouseEnter(firstProjectContainer);
 
-      // After hover, preview should be visible
+      // After hover, preview image should appear in DOM
       await waitFor(() => {
-        expect(previewImage).toHaveStyle({ visibility: "visible" });
+        previewImage = document.querySelector("img.fixed");
+        expect(previewImage).toBeInTheDocument();
       });
     });
 
@@ -389,18 +389,21 @@ describe("projects component", () => {
 
       const projectContainers = screen.getAllByTestId("project-container");
       const firstProjectContainer = projectContainers[0];
-      const previewImage = document.querySelector("img.fixed");
 
       // Hover to show preview
       fireEvent.mouseEnter(firstProjectContainer);
+
+      // Wait for preview to appear
       await waitFor(() => {
-        expect(previewImage).toHaveStyle({ visibility: "visible" });
+        const previewImage = document.querySelector("img.fixed");
+        expect(previewImage).toBeInTheDocument();
       });
 
-      // Mouse leave should hide preview
+      // Mouse leave should remove preview from DOM
       fireEvent.mouseLeave(firstProjectContainer);
       await waitFor(() => {
-        expect(previewImage).toHaveStyle({ visibility: "hidden" });
+        const previewImage = document.querySelector("img.fixed");
+        expect(previewImage).not.toBeInTheDocument();
       });
     });
 
@@ -424,18 +427,21 @@ describe("projects component", () => {
 
       const projectContainers = screen.getAllByTestId("project-container");
       const firstProjectContainer = projectContainers[0];
-      const previewImage = document.querySelector("img.fixed");
 
       // Activate preview
       fireEvent.mouseEnter(firstProjectContainer);
+
+      // Wait for preview to appear
       await waitFor(() => {
-        expect(previewImage).toHaveStyle({ visibility: "visible" });
+        const previewImage = document.querySelector("img.fixed");
+        expect(previewImage).toBeInTheDocument();
       });
 
-      // Scroll should clear preview
+      // Scroll should remove preview from DOM
       fireEvent.scroll(window);
       await waitFor(() => {
-        expect(previewImage).toHaveStyle({ visibility: "hidden" });
+        const previewImage = document.querySelector("img.fixed");
+        expect(previewImage).not.toBeInTheDocument();
       });
     });
 
@@ -459,13 +465,14 @@ describe("projects component", () => {
 
       const projectContainers = screen.getAllByTestId("project-container");
       const firstProjectContainer = projectContainers[0];
-      const previewImage = document.querySelector("img.fixed");
 
       // Mouse enter on mobile should not activate preview
       fireEvent.mouseEnter(firstProjectContainer);
 
-      // Preview should remain hidden on mobile
-      expect(previewImage).toHaveStyle({ visibility: "hidden" });
+      // On mobile, preview image should not exist in DOM at all
+      // because canHover is false, so setPreview is never called
+      const previewImage = document.querySelector("img.fixed");
+      expect(previewImage).not.toBeInTheDocument();
     });
   });
 });

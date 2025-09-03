@@ -11,17 +11,17 @@ import { useEffect, useRef } from "react";
 const MOVEMENT_DAMPING = 1400;
 
 const GLOBE_CONFIG: COBEOptions = {
-  width: 800,
-  height: 800,
+  width: 500, // Further reduced from 600
+  height: 500, // Further reduced from 600
   onRender: () => {},
-  devicePixelRatio: 2,
+  devicePixelRatio: 1, // Adjusted to 1 to ensure full visibility at low pixel ratios
   phi: 0,
   theta: 0.3,
   dark: 1,
   diffuse: 0.4,
-  mapSamples: 16000,
+  mapSamples: 4000, // Reduced from 8000 (50% further reduction)
   mapBrightness: 1.2,
-  scale: 1.1,
+  scale: 1,
   opacity: 0.5,
   baseColor: [1, 1, 1],
   markerColor: [59 / 255, 130 / 255, 246 / 255],
@@ -57,8 +57,8 @@ export default function Globe({
   const r = useMotionValue(0);
   const rs = useSpring(r, {
     mass: 1,
-    damping: 30,
-    stiffness: 100,
+    damping: 50, // Increased damping for less bouncy physics
+    stiffness: 70, // Reduced stiffness for smoother motion
   });
 
   const updatePointerInteraction = (value: number | null) => {
@@ -88,14 +88,15 @@ export default function Globe({
 
     const globe = createGlobe(canvasRef.current!, {
       ...config,
-      width: width * 2,
-      height: width * 2,
+      width,
+      height: width,
       onRender: (state) => {
-        if (!pointerInteracting.current)
-          phi += 0.005;
+        if (!pointerInteracting.current) {
+          phi += 0.001; // Reduced from 0.003 - 70% slower rotation
+        }
         state.phi = phi + rs.get();
-        state.width = width * 2;
-        state.height = width * 2;
+        state.width = width;
+        state.height = width;
       },
     });
 
@@ -109,7 +110,7 @@ export default function Globe({
   return (
     <div
       className={cn(
-        "absolute inset-0 mx-auto aspect-[1/1] w-[600px] translate-y-1 translate-x-1/12 lg:translate-x-3/12",
+        "absolute inset-0 mx-auto aspect-[1/1] w-[500px] translate-y-6 translate-x-1/12 lg:translate-x-3/12",
         className,
       )}
     >

@@ -3,7 +3,6 @@ import { Grab, Hand } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { TextEffect } from "../../component/text-effect";
 import { createSectionId } from "../../utility/create-section-id";
 import { useGetSkills } from "./api/use-skills";
 import Download from "./component/download";
@@ -28,9 +27,9 @@ function About() {
 
   return (
     <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
-      <TextEffect as="h2" per="char" preset="fade" className="my-10 font-bold text-4xl font-LibreFranklin">
+      <h2 className="my-10 font-bold text-4xl font-LibreFranklin animate-in fade-in zoom-in duration-500">
         {t("About me")}
-      </TextEffect>
+      </h2>
 
       <section className="grid grid-cols-1 md:grid-cols-6 md:grid-rows-3 gap-4 ">
 
