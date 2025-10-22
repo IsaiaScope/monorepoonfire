@@ -89,9 +89,10 @@ Disallow: /
 
 # Host directive tells search engines which domain to prefer in results
 # Even though the site is hosted on monorepoonfire.up.railway.app,
-# we want Google to show https://www.isaiariva.com in search results
+# we want Google to show www.isaiariva.com in search results
 # This works together with canonical tags in HTML <head>
-Host: https://www.isaiariva.com
+# NOTE: Host directive should be domain-only (no protocol)
+Host: www.isaiariva.com
 
 # =============================================================================
 # SITEMAP LOCATIONS - Help Search Engines Find Content Structure
@@ -100,12 +101,11 @@ Host: https://www.isaiariva.com
 # Primary sitemap using canonical domain
 # This is the main sitemap that search engines should use
 # Contains homepage and contact page with proper SEO metadata
+# IMPORTANT: Only canonical domain sitemap to avoid confusion
 Sitemap: https://www.isaiariva.com/sitemap.xml
 
-# Secondary sitemap using Railway hosting domain
-# Helps with initial discovery when the canonical domain isn't set up yet
-# Search engines can find the site through either domain
-Sitemap: https://monorepoonfire.up.railway.app/sitemap.xml
+# Note: Railway domain sitemap removed to prevent duplicate discovery
+# Once proper redirects are in place, only canonical domain should be referenced
 
 # =============================================================================
 # HOW THIS HELPS WITH SEO
