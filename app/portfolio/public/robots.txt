@@ -1,3 +1,122 @@
-# https://www.robotstxt.org/robotstxt.html
+# =============================================================================
+# ROBOTS.TXT - Web Crawler Instructions for Isaia Riva Portfolio
+# =============================================================================
+# This file tells web crawlers (search engine bots) how to interact with 
+# this website. It controls what pages they can access, how fast they should
+# crawl, and where to find important files like sitemaps.
+#
+# Reference: https://www.robotstxt.org/robotstxt.html
+# Google's Guide: https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt
+#
+# Site Details:
+# - Hosted on: monorepoonfire.up.railway.app (Railway deployment)
+# - Canonical domain: https://www.isaiariva.com (preferred for search results)
+# - Target searches: "Isaia Riva", "Riva Isaia", "Isaia Riva Portfolio", "Senior Front End Developer"
+# - Pages: Homepage (/) and Contact (/contact)
+
+# =============================================================================
+# GLOBAL CRAWLING RULES - Applies to All Search Engine Bots
+# =============================================================================
+
+# User-agent: * means these rules apply to ALL web crawlers
+# This is the default section that covers Google, Bing, Yahoo, etc.
 User-agent: *
+
+# Disallow: (empty) means allow crawling of ALL pages
+# This makes the entire site discoverable by search engines
+# Alternative would be "Disallow: /" to block everything
 Disallow:
+
+# =============================================================================
+# EXPLICIT PERMISSIONS - Ensure Important Files Are Crawlable
+# =============================================================================
+
+# Allow: explicitly permits access to specific paths
+# While "Disallow:" already allows everything, these are for clarity and
+# to override any potential conflicts from other rules
+
+Allow: /                    # Homepage - most important page for SEO
+Allow: /robots.txt          # This file itself - standard practice
+Allow: /sitemap.xml         # Sitemap for search engine discovery
+Allow: /manifest.json       # PWA manifest - helps with app-like features
+Allow: /contact            # Contact page - second most important page
+
+# =============================================================================
+# CRAWL POLITENESS - Rate Limiting to Protect Server Resources
+# =============================================================================
+
+# Crawl-delay: 1 means wait 1 second between requests
+# This prevents bots from overwhelming the Railway server
+# Balance between fast indexing and server performance
+# Google generally ignores this, but other search engines respect it
+Crawl-delay: 1
+
+# =============================================================================
+# AGGRESSIVE BOT BLOCKING - Prevent Resource Abuse
+# =============================================================================
+
+# These bots are known for aggressive crawling that can slow down sites
+# They don't contribute to search rankings but consume server resources
+# Each gets a specific "Disallow: /" to block all access
+
+# AhrefsBot - SEO analysis tool (very aggressive crawler)
+User-agent: AhrefsBot
+Disallow: /
+
+# MJ12bot - Majestic SEO crawler (high resource usage)
+User-agent: MJ12bot
+Disallow: /
+
+# SemrushBot - SEO tool crawler (frequent requests)
+User-agent: SemrushBot
+Disallow: /
+
+# DotBot - OpenSiteExplorer crawler (resource heavy)
+User-agent: DotBot
+Disallow: /
+
+# BLEXBot - SEO crawler (known for high server load)
+User-agent: BLEXBot
+Disallow: /
+
+# MegaIndex - Russian search crawler (aggressive behavior)
+User-agent: MegaIndex
+Disallow: /
+
+# =============================================================================
+# DOMAIN PREFERENCE - Canonical URL Configuration
+# =============================================================================
+
+# Host directive tells search engines which domain to prefer in results
+# Even though the site is hosted on monorepoonfire.up.railway.app,
+# we want Google to show https://www.isaiariva.com in search results
+# This works together with canonical tags in HTML <head>
+Host: https://www.isaiariva.com
+
+# =============================================================================
+# SITEMAP LOCATIONS - Help Search Engines Find Content Structure
+# =============================================================================
+
+# Primary sitemap using canonical domain
+# This is the main sitemap that search engines should use
+# Contains homepage and contact page with proper SEO metadata
+Sitemap: https://www.isaiariva.com/sitemap.xml
+
+# Secondary sitemap using Railway hosting domain
+# Helps with initial discovery when the canonical domain isn't set up yet
+# Search engines can find the site through either domain
+Sitemap: https://monorepoonfire.up.railway.app/sitemap.xml
+
+# =============================================================================
+# HOW THIS HELPS WITH SEO
+# =============================================================================
+# 
+# 1. DISCOVERABILITY: Allows all major search engines to find and index pages
+# 2. PERFORMANCE: Crawl-delay prevents server overload during indexing
+# 3. EFFICIENCY: Blocks non-essential bots to save resources for real users
+# 4. BRANDING: Host directive ensures www.isaiariva.com appears in search results
+# 5. STRUCTURE: Sitemaps help search engines understand site organization
+# 6. TARGETING: Optimized for "Isaia Riva" name searches and developer keywords
+#
+# Expected Result: When someone searches "Isaia Riva" or "Riva Isaia", 
+# Google should show www.isaiariva.com with proper title and description
