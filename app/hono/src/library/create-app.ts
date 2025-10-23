@@ -77,30 +77,28 @@ export function initApp() {
   /**
    * Configure Cross-Origin Resource Sharing (CORS)
    *
-   * This middleware allows the API to be called from specific domains based on
-   * the environment configuration. Only the domains specified in CORS_ORIGINS
-   * will be allowed, regardless of the environment.
+   * Since redirect middleware now skips API calls, we can use simple CORS configuration.
+   * CORS_ORIGINS should include all domains that need access to the API.
    */
   const getCorsOrigins = () => {
     const corsOrigins = env.CORS_ORIGINS;
 
-    // If CORS_ORIGINS is "*", allow all origins
+    // If CORS_ORIGINS is "*", allow all origins (development)
     if (corsOrigins === "*") {
       return "*";
     }
 
-    // Split comma-separated origins - no automatic localhost addition
-    const origins = corsOrigins.split(",").map(origin => origin.trim());
-
-    return origins;
+    // Return array of allowed origins
+    return corsOrigins.split(",").map(origin => origin.trim()).filter(origin => origin);
   };
 
   app.use(
     cors({
       origin: getCorsOrigins(), // Environment-specific origins
-      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // HTTP methods to allow
-      allowHeaders: ["Content-Type", "Authorization"], // Headers that can be sent
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], // HTTP methods to allow
+      allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"], // Headers that can be sent
       credentials: true, // Allow cookies/auth headers
+      maxAge: 86400, // Cache preflight for 24 hours
     }),
   );
 

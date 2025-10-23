@@ -8,6 +8,7 @@
 
 import type { Context } from "hono";
 
+import { APP_HONO } from "../constant";
 import env from "../environment/env";
 
 /**
@@ -19,8 +20,15 @@ import env from "../environment/env";
  */
 export async function redirectHost(c: Context, next: () => Promise<void>) {
   const host = (c.req.header("host") || "").toLowerCase();
+  const path = c.req.path;
 
-  // Redirect Railway-provided domain to canonical host
+  // Skip redirect for ALL API calls to avoid CORS issues
+  // This is critical: API calls should NEVER be redirected
+  if (path.startsWith(APP_HONO.BASE_PATH)) {
+    return next();
+  }
+
+  // Only redirect non-API requests (HTML pages, assets) from Railway domain
   if (host.includes(env.RAILWAY_HOST_SNIPPET)) {
     // preserve path and query
     const url = new URL(c.req.url);
