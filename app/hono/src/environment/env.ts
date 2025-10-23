@@ -170,6 +170,16 @@ export const env = createEnv({
      * this should only include the specific domains that need access.
      */
     CORS_ORIGINS: z.string().default("*"),
+
+    /**
+     * SEO domain configuration for Railway hosting
+     *
+     * CANONICAL_HOST: The primary domain for SEO (www.isaiariva.com)
+     * RAILWAY_HOST_SNIPPET: Railway domain pattern to detect and redirect
+     */
+    CANONICAL_HOST: z.string().default("www.isaiariva.com"),
+    RAILWAY_HOST_SNIPPET: z.string().default("up.railway.app"),
+
   },
   /**
    * Runtime environment source

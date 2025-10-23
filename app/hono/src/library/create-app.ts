@@ -13,6 +13,8 @@ import { pinoLogger } from "hono-pino";
 import { compress } from "hono/compress";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
+import { secureHeaders } from "hono/secure-headers";
+import { timing } from "hono/timing";
 import pino from "pino";
 import pretty from "pino-pretty";
 import { notFound, onError, serveEmojiFavicon } from "stoker/middlewares";
@@ -21,6 +23,7 @@ import { defaultHook } from "stoker/openapi";
 import type { AppEnv, AppOpenAPIHono } from "../@types/open-api-hono";
 
 import { env } from "../environment/env";
+import { redirectHost } from "../middleware/redirect-host";
 
 /**
  * Create a base Hono application with OpenAPI support
@@ -130,6 +133,27 @@ export function initApp() {
       }, env.ENV === "production" ? undefined : pretty()), // Pretty print in development
     }),
   );
+
+  /**
+   * Additional middleware for SEO, security, and performance
+   *
+   * These middleware are applied after the base middleware stack:
+   * 1. redirectHost - SEO critical: redirects Railway domain to canonical domain
+   * 2. secureHeaders - Security: adds security headers (CSP, HSTS, etc.)
+   * 3. timing - Performance: adds Server-Timing headers for debugging
+   */
+
+  // SEO Critical: Redirect Railway hosting domain to canonical domain
+  // This ensures www.isaiariva.com appears in search results, not Railway subdomain
+  // Uses env.RAILWAY_HOST_SNIPPET and env.CANONICAL_HOST from environment config
+  app.use("*", redirectHost);
+
+  // Security: Add security headers to all responses
+  app.use("*", secureHeaders());
+
+  // Performance: Add timing information for debugging
+  // Helps identify slow API endpoints and middleware
+  app.use("*", timing());
 
   /**
    * Configure global error handlers
