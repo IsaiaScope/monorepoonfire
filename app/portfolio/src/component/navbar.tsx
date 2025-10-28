@@ -105,7 +105,7 @@ function NavbarMobile({ isHome }: { isHome: boolean }) {
               variant="link"
               className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
-              <Link to="/">
+              <Link to="/" aria-label={t("Back to Home")}>
                 {t("Home")}
               </Link>
             </Button>
@@ -191,7 +191,7 @@ function NavbarDesktop({ isHome }: { isHome: boolean }) {
               variant="link"
               className="text-2xl font-bold animate-in fade-in zoom-in duration-300 text-secondary-foreground font-LibreFranklin"
             >
-              <Link to="/">
+              <Link to="/" aria-label={t("Back to Home")}>
                 {t("Home")}
               </Link>
             </Button>
