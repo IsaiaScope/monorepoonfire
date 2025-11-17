@@ -9,7 +9,7 @@ function Download() {
   const isBiggerThanMedium = useMediaQuery({
     minWidth: PACKAGE_UTILITY.MEDIA_QUERY.MD,
   });
-  const cvUrl = "https://1drv.ms/b/c/ce94a875eefa9f39/EW1jGNcVV59MtB30LDkGqw4BdCc1iDppLM9XShslAdwltg?e=aqR9I4";
+  const cvUrl = "https://1drv.ms/b/c/ce94a875eefa9f39/EVX21h9fM-BMoUZ3Klzq5O8BHIOpPcMe8PPUe8zj3U5EhA?e=JcRlwN";
   const { t } = useTranslation();
 
   return (
