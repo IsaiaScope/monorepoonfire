@@ -34,4 +34,7 @@ yarn-error.log*
 
 # Misc
 .DS_Store
+._*
 *.pem
+
+.claude/*.local.json
