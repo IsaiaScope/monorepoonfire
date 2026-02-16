@@ -25,6 +25,9 @@ export const TANSTACK = {
   // Using string constants prevents typos and makes refactoring safer
   // Query keys are used for cache identification, invalidation, and prefetching
   QUERY_KEY: {
+    // Curriculum URL query key - used for fetching CV download URL
+    GET_CURRICULUM: "get-curriculum",
+
     // Skills data query key - used for fetching user's technical skills
     GET_SKILLS: "get-skills",
 

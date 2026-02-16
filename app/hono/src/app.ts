@@ -12,6 +12,7 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import { APP_HONO } from "./constant";
 import { configureOpenApi } from "./library/configure-open-api";
 import { initApp } from "./library/create-app";
+import curriculum from "./routes/curriculum/curriculum.index";
 import projects from "./routes/projects/projects.index";
 import skills from "./routes/skills/skills.index";
 import workExperience from "./routes/work-experience/work-experience.index";
@@ -31,6 +32,9 @@ configureOpenApi(app);
  * defined in their individual router configurations
  */
 const _routes = app.route(
+  "/",
+  curriculum, // Mounts /api/curriculum routes
+).route(
   "/",
   skills, // Mounts /api/skills routes
 ).route(

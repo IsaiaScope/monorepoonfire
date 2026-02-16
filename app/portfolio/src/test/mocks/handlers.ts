@@ -14,6 +14,7 @@ import { APP_HONO } from "@app/hono/constant";
 import { http, HttpResponse } from "msw";
 
 import { env } from "../../environment/env";
+import { mockCurriculumData } from "./data/curriculum";
 import { mockProjectsData } from "./data/projects";
 import { mockSkillsData } from "./data/skills";
 import { mockWorkExperiencesData } from "./data/work-experiences";
@@ -70,6 +71,15 @@ export const handlers = [
    */
   http.get(`${BASE_URL}${APP_HONO.ROUTES.SKILLS}`, () => {
     return HttpResponse.json(mockSkillsData, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }),
+
+  http.get(`${BASE_URL}${APP_HONO.ROUTES.CURRICULUM}`, () => {
+    return HttpResponse.json(mockCurriculumData, {
       status: 200,
       headers: {
         "Content-Type": "application/json",

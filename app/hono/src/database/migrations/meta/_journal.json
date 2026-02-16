@@ -29,6 +29,13 @@
       "when": 1754133794417,
       "tag": "0003_omniscient_inertia",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1771261125125,
+      "tag": "0004_strange_shatterstar",
+      "breakpoints": true
     }
   ]
 }

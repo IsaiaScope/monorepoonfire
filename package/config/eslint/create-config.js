@@ -24,6 +24,12 @@ export default function createConfig(options, ...userConfigs) {
       quotes: "double",
     },
     ...options,
+    ignores: [
+      ...(options?.ignores ?? []),
+      "**/CLAUDE.md",
+      "**/README.md",
+      "**/._*",
+    ],
   }, {
     rules: {
       "ts/consistent-type-definitions": ["error", "type"],
@@ -36,7 +42,7 @@ export default function createConfig(options, ...userConfigs) {
       }],
       "unicorn/filename-case": ["error", {
         case: "kebabCase",
-        ignore: ["README.md"],
+        ignore: ["README.md", "CLAUDE.md"],
       }],
     },
   }, ...userConfigs);

@@ -18,6 +18,7 @@ export const APP_HONO = {
   PORTFOLIO: "/portfolio", // Portfolio static files served from this path
   PORT: 3075, // Default server port (development)
   ROUTES: {
+    CURRICULUM: "/curriculum", // Curriculum URL API endpoint
     SKILLS: "/skills", // Skills API endpoint
     PROJECTS: "/projects", // Projects API endpoint
     WORK_EXPERIENCE: "/work-experience", // Work experience API endpoint
