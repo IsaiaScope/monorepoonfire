@@ -47,11 +47,14 @@ Or copy from the example: `src/environment/.env.example`
 Uses Drizzle ORM with Turso (LibSQL/SQLite).
 
 ```bash
-# Apply schema changes
-pnpm update:database
+# Generate migration SQL from schema changes
+pnpm db:generate
+
+# Push schema directly (local prototyping)
+pnpm db:push
 
 # Open visual database browser
-pnpm see:db
+pnpm db:studio
 ```
 
 Schemas are defined in `src/database/schema/` — each entity has a Drizzle table definition and Zod validation schemas used for both runtime validation and OpenAPI documentation.
@@ -71,4 +74,4 @@ Tests run sequentially to prevent database lock conflicts. Each route module has
 pnpm build    # TypeScript compile + path alias resolution
 ```
 
-The build process: `drizzle-kit generate` + `drizzle-kit push` + `tsc` + `tsc-alias`. Output goes to `dist/`.
+The build process: `tsc` + `tsc-alias`. Output goes to `dist/`. Database migrations are run separately via CI or `pnpm db:migrate`.

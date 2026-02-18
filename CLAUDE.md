@@ -21,10 +21,12 @@ pnpm --filter @app/hono test
 pnpm --filter @app/portfolio test:watch
 
 # Database (run from app/hono/)
-pnpm update:database              # Generate + push schema (dev)
-pnpm update:database:test         # Generate + push schema (test)
-pnpm update:database:production   # Generate + push schema (prod)
-pnpm see:db                       # Open Drizzle Studio
+pnpm db:generate                  # Generate migration SQL from schema diffs
+pnpm db:migrate                   # Apply committed migrations (dev, uses .env)
+pnpm db:migrate:test              # Apply committed migrations (test)
+pnpm db:migrate:production        # Apply committed migrations (production)
+pnpm db:push                      # Push schema directly (local prototyping)
+pnpm db:studio                    # Open Drizzle Studio
 
 # Single test file
 pnpm --filter @app/hono exec vitest run path/to/file.test.ts
@@ -113,10 +115,11 @@ src/feature/{name}/
 
 ## CI/CD
 
-| Branch | Workflow | Env File | Tests | Build |
-|--------|----------|----------|-------|-------|
-| `dev` | ci-dev.yaml | `.env` | Yes | `pnpm build` |
-| `test` | ci-test.yaml | `.env.test` | Yes | `pnpm build:test` |
-| `production` | ci-production.yaml | `.env.production` | No | `pnpm build:production` |
+| Branch | Workflow | Env File | Migrations | Tests | Build |
+|--------|----------|----------|------------|-------|-------|
+| `dev` | ci-dev.yaml | `.env` | `db:migrate` | Yes | `pnpm build` |
+| `test` | ci-test.yaml | `.env.test` | `db:migrate:test` | Yes | `pnpm build:test` |
+| `production` | ci-production.yaml | `.env.production` | `db:migrate:production` | No | No (Dokploy) |
+| `production` | ci-docker.yaml | — | No | No | `docker build` (verify only) |
 
-CI creates env files from GitHub secrets/vars, installs pnpm + Node 20, runs tests then build.
+All CI workflows create env files from GitHub secrets/vars. Dev uses an ephemeral local SQLite file (validates migration SQL + sets up schema for tests). Test and production target persistent Turso databases. Docker build verification runs independently — no secrets needed since TypeScript compilation doesn't execute app code.

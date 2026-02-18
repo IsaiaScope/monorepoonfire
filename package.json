@@ -8,6 +8,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:test": "turbo run build:test",
+    "build:docker": "turbo run build:docker",
     "build:production": "turbo run build:production",
     "test": "turbo run test",
     "test:test": "turbo run test:test",
@@ -20,7 +21,10 @@
     "check-types": "turbo run check-types",
     "prepare": "husky",
     "deploy:test": "cross-env NODE_ENV=test node script/create-env.mjs",
-    "deploy:production": "cross-env NODE_ENV=production node script/create-env.mjs"
+    "deploy:production": "cross-env NODE_ENV=production node script/create-env.mjs",
+    "docker:up": "docker compose up --build --force-recreate -d",
+    "docker:down": "docker compose down --rmi local",
+    "docker:logs": "docker compose logs -f"
   },
   "dependencies": {
     "cross-env": "^7.0.3"

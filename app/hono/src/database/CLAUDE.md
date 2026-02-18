@@ -49,15 +49,17 @@ export const insertProjectsSchema = projectsTableSchema.omit({ id: true, created
 ## Commands
 
 ```bash
-pnpm update:database              # Generate + push (dev)
-pnpm update:database:test         # Generate + push (test)
-pnpm update:database:production   # Generate + push (prod)
-pnpm see:db                       # Open Drizzle Studio
+pnpm db:generate             # Generate migration SQL from schema diffs
+pnpm db:migrate              # Apply committed migrations (dev, uses .env)
+pnpm db:migrate:test         # Apply committed migrations (test)
+pnpm db:migrate:production   # Apply committed migrations (production)
+pnpm db:push                 # Push schema directly (local prototyping)
+pnpm db:studio               # Open Drizzle Studio
 ```
 
 ## Adding a New Table
 
 1. Create `schema/{entity}-schema.ts` with Drizzle table + Zod schemas
 2. Import and spread in `index.ts` database schema object
-3. Run `pnpm update:database` to apply
+3. Run `pnpm db:generate` to create migration SQL, review it, then commit
 4. Config: `drizzle.config.ts` at project root

@@ -9,10 +9,12 @@ pnpm --filter @app/hono test             # Run tests (sequential, no parallelism
 pnpm --filter @app/hono test:watch       # Watch mode
 
 # Database
-pnpm --filter @app/hono update:database              # Generate + push (dev)
-pnpm --filter @app/hono update:database:test          # Generate + push (test)
-pnpm --filter @app/hono update:database:production    # Generate + push (prod)
-pnpm --filter @app/hono see:db                        # Open Drizzle Studio
+pnpm --filter @app/hono db:generate             # Generate migration SQL from schema diffs
+pnpm --filter @app/hono db:migrate              # Apply committed migrations (dev, uses .env)
+pnpm --filter @app/hono db:migrate:test         # Apply committed migrations (test)
+pnpm --filter @app/hono db:migrate:production   # Apply committed migrations (production)
+pnpm --filter @app/hono db:push                 # Push schema directly (local prototyping)
+pnpm --filter @app/hono db:studio               # Open Drizzle Studio
 
 # Single test
 pnpm --filter @app/hono exec vitest run src/routes/projects/projects.test.ts
@@ -49,7 +51,7 @@ export type Routes = typeof _routes;
 
 **Static file serving** — Portfolio SPA builds into `./portfolio/` directory, served by Hono as catch-all with SPA fallback
 
-**Build pipeline**: `drizzle-kit generate && drizzle-kit push && tsc && tsc-alias`
+**Build pipeline**: `tsc && tsc-alias` (migrations run separately in CI or via `db:migrate`)
 
 **Middleware stack** (order matters): compress > favicon > CORS > requestId > pinoLogger > redirectHost > secureHeaders > timing
 

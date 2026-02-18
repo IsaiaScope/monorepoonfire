@@ -1,0 +1,21 @@
+networks:
+  monorepo-net:
+    driver: bridge
+
+services:
+  hono:
+    container_name: monorepoonfire
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_BASE_URL: "http://localhost:${DOCKER_HOST_PORT:-3076}"
+    ports:
+      - "${DOCKER_HOST_PORT:-3076}:3075"
+    env_file:
+      - ./app/hono/src/environment/.env.production
+    environment:
+      - NODE_ENV=production
+    networks:
+      - monorepo-net
+    restart: unless-stopped

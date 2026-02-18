@@ -30,6 +30,10 @@
       "inputs": [".env*"]
 
     },
+    "build:docker": {
+      "dependsOn": ["^build:docker"],
+      "inputs": [".env*"]
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },

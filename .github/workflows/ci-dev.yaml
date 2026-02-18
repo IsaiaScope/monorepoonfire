@@ -3,95 +3,51 @@ run-name: ${{ github.actor }} is running CI-dev
 
 on:
   push:
-    branches: [dev] # Triggers workflow only for pushes to the 'dev' branch.
+    branches: [dev]
 
 jobs:
   build:
-    name: Test and Build # Name of the job that will run in this workflow.
-    runs-on: ubuntu-latest # Uses the latest Ubuntu runner provided by GitHub Actions.
-    environment: env # Optionally specifies the environment for secrets/variables.
+    name: Migrate, Test and Build
+    runs-on: ubuntu-latest
+    environment: env
     env:
-      # These environment variables are available to all steps in this job.
-      ENV: ${{ vars.ENV }} # Custom variable, typically set in GitHub repo/environment.
-      LOG_LEVEL: ${{ vars.LOG_LEVEL }} # Logging level for your app.
-      DATABASE_URL: ${{ secrets.DATABASE_URL }} # Secret for your database connection string.
-      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Secret for TurboRepo (if used).
-      TURBO_TEAM: ${{ vars.TURBO_TEAM }} # TurboRepo team variable.
+      ENV: ${{ vars.ENV }}
+      LOG_LEVEL: ${{ vars.LOG_LEVEL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
     steps:
-      # Step 1: Checks out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
       - name: Checkout code
-        uses: actions/checkout@v2 # Uses the official GitHub Action to clone your repo.
+        uses: actions/checkout@v4
 
-      # Step 2: Ensures the directory for environment files exists.
-      # mkdir: Command to create directories.
-      # -p: No error if existing, make parent directories as needed.
-      - name: Create environment directory
-        run: mkdir -p app/hono/src/environment # -p ensures no error if the directory exists.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.1.1
 
-      # Step 3: Creates the .env file with required variables.
-      # echo: Writes environment variables to the file.
-      # >: Overwrites the file if it exists.
-      # >>: Appends to the file.
-      - name: Create .env file
-        run: |
-          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
-          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env 
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
-
-      # Step 4: Prints the project structure for debugging.
-      # tree: Lists files in a tree-like format.
-      # -a: All files, including hidden ones.
-      # -L 8: Limit depth to 8 levels.
-      # If tree is not available, fallback to find and head.
-      # find: Lists all files and directories recursively.
-      # head -40: Limits output to first 40 lines.
-      - name: Print project tree before running tests and build
-        run: tree -a -L 8 app/hono || find app/hono | head -40
-
-      # Step 5: Prints the contents of the .env file for debugging.
-      # cat: Displays file contents.
-      # If the file does not exist, prints a message instead.
-      - name: Print .env file for debugging
-        run: cat app/hono/src/environment/.env || echo ".env not found in app/hono/src/environment/"
-
-      # Step 6: Sets up the Node.js environment.
-      # Uses the official GitHub Action for Node.js.
-      # node-version: Specifies which version of Node.js to use.
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: "20" # Specifies Node.js version 20.
+          node-version: "22"
+          cache: pnpm
 
-      # Step 7: Installs pnpm globally using npm.
-      # npm: Node package manager.
-      # install -g: Installs package globally.
-      - name: Install pnpm
-        run: npm install -g pnpm # Installs pnpm globally for use in later steps.
-
-      # Step 8: Installs project dependencies using pnpm.
-      # pnpm: Fast, disk space efficient package manager.
       - name: Install dependencies
-        run: pnpm install # Installs all dependencies listed in package.json.
+        run: pnpm install --frozen-lockfile
 
-      # Step 9: Runs your test suite using pnpm.
-      # pnpm run: Runs a script defined in package.json.
+      - name: Create environment directory
+        run: mkdir -p app/hono/src/environment
+
+      - name: Create .env file
+        run: |
+          echo "ENV=${{ vars.ENV }}" > app/hono/src/environment/.env
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> app/hono/src/environment/.env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> app/hono/src/environment/.env
+
+      - name: Run database migrations
+        run: pnpm --filter @app/hono db:migrate
+
       - name: Run tests
-        run: pnpm run test # Runs the test script.
+        run: pnpm run test
 
-      # Step 10: Builds your project using pnpm.
-      # pnpm run: Runs a script defined in package.json.
       - name: Run build
-        run: pnpm run build # Runs the build script.
-
-      # Step 11: Prints the project structure for debugging after build.
-      # tree: Lists files in a tree-like format.
-      # -a: All files, including hidden ones.
-      # -I 'node_modules': Ignores node_modules directories.
-      # -L 8: Limit depth to 8 levels.
-      # If tree is not available, fallback to find and head.
-      # find: Lists all files and directories recursively.
-      # grep -v node_modules: Excludes lines containing 'node_modules'.
-      # head -40: Limits output to first 40 lines.
-      - name: Print project tree after build
-        run: tree -a -I 'node_modules' -L 8 app/hono || find app/hono | grep -v node_modules | head -40
+        run: pnpm run build
