@@ -17,7 +17,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "cross-env NODE_ENV=development drizzle-kit migrate",
     "db:migrate:test": "cross-env NODE_ENV=test drizzle-kit migrate",
     "db:migrate:production": "cross-env NODE_ENV=production drizzle-kit migrate",
     "db:push": "drizzle-kit push",
