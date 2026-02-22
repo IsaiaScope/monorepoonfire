@@ -18,7 +18,7 @@ Already included as `"@package/utility": "workspace:*"` in consuming packages.
 | `@package/utility/tailwind` | `cn()` class name merger (clsx + tailwind-merge) |
 | `@package/utility/constant` | Tailwind breakpoint constants |
 | `@package/utility/@types` | TypeScript utility types (Maybe, Nullable, Prettify, etc.) |
-| `@package/utility/javascript` | Type-safe Object.keys, query param helpers |
+| `@package/utility/javascript` | `ObjectKeys<T>()` — type-safe `Object.keys` wrapper |
 
 ## Usage
 

@@ -45,7 +45,7 @@ src/
 
 **RPC type export** — `app.ts` exports `Routes` type consumed by the portfolio frontend:
 ```typescript
-const _routes = app.route("/", skills).route("/", workExperience).route("/", projects);
+const _routes = app.route("/", curriculum).route("/", skills).route("/", workExperience).route("/", projects);
 export type Routes = typeof _routes;
 ```
 
@@ -61,6 +61,8 @@ export type Routes = typeof _routes;
 
 ## API Endpoints
 
+- `GET/POST /api/curriculum` — List or create curriculum entries
+- `GET/PATCH/DELETE /api/curriculum/:id` — Single curriculum entry CRUD
 - `GET /api/skills` — All skills
 - `GET/POST /api/projects` — List or create projects
 - `GET/PATCH/DELETE /api/projects/:id` — Single project CRUD

@@ -10,6 +10,7 @@ Drizzle ORM + Turso (LibSQL/SQLite). Connection configured in `index.ts` using `
 database/
 ├── index.ts           # Database client + drizzle instance (imports all schemas)
 ├── schema/            # Drizzle table definitions + Zod validation schemas
+│   ├── curriculum-schema.ts
 │   ├── projects-schema.ts
 │   ├── skills-schema.ts
 │   └── work-experience-schema.ts

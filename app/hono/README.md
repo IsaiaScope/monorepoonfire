@@ -34,7 +34,7 @@ Or copy from the example: `src/environment/.env.example`
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/routes/` | API route modules (skills, projects, work-experience) |
+| `src/routes/` | API route modules (curriculum, skills, projects, work-experience) |
 | `src/database/` | Drizzle ORM schemas, migrations, seed data |
 | `src/environment/` | Environment validation and .env files |
 | `src/library/` | App factory, OpenAPI config, RPC client export |

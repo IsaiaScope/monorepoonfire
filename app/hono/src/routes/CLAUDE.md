@@ -58,6 +58,7 @@ export default router;
 
 | Module | Endpoints | Schema Source |
 |--------|-----------|--------------|
+| `curriculum/` | GET, POST, GET/:id, PATCH/:id, DELETE/:id | `database/schema/curriculum-schema.ts` |
 | `projects/` | GET, POST, GET/:id, PATCH/:id, DELETE/:id, DELETE all | `database/schema/projects-schema.ts` |
 | `skills/` | GET, POST, GET/:id, PATCH/:id, DELETE/:id, DELETE all | `database/schema/skills-schema.ts` |
 | `work-experience/` | GET, POST, GET/:id, PATCH/:id, DELETE/:id, DELETE all | `database/schema/work-experience-schema.ts` |

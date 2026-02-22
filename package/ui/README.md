@@ -14,16 +14,16 @@ import { UIWrapper, UIDarkModeSwitch, UILink, UIFullPageDotsLoaderOnFire } from 
 
 ## Components
 
-| Component | Description |
-|-----------|-------------|
-| `UIDarkModeSwitch` | Theme toggle (light/dark mode) |
-| `UIBoundaryError` | Error boundary fallback |
-| `UIRouterError` | Router error display |
-| `UIImage` | Custom image component |
-| `UILanguageSelector` | Language picker with flags |
-| `UILink` | TanStack Router link wrapper |
-| `UIFullPageDotsLoaderOnFire` | Full-page loading indicator |
-| `UIWrapper` | Page section wrapper |
+| Component | Description | Key Dependencies |
+|-----------|-------------|------------------|
+| `UIDarkModeSwitch` | Theme toggle dropdown (light/dark) | DropdownMenu, `useDarkMode` |
+| `UIBoundaryError` | Error boundary fallback component | react-error-boundary |
+| `UIRouterError` | TanStack Router error display | @tanstack/react-router |
+| `UIImage` | Custom image component | — |
+| `UILanguageSelector` | Language picker with country flags | DropdownMenu, i18next |
+| `UILink` | TanStack Router link wrapper | @tanstack/react-router |
+| `UIFullPageDotsLoaderOnFire` | Full-page loading indicator | — |
+| `UIWrapper` | Page section layout wrapper | — |
 
 ## Development
 

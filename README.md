@@ -118,7 +118,7 @@ graph TB
 
 ### Prerequisites
 
-- **Node.js** ≥ 18
+- **Node.js** ≥ 22
 - **pnpm** ≥ 9.1.1
 
 ### Installation
@@ -164,6 +164,21 @@ pnpm test
 pnpm test:watch
 ```
 
+### Docker
+
+```bash
+# Build and start the container (production image)
+pnpm docker:up
+
+# Stop and remove container + image
+pnpm docker:down
+
+# Follow container logs
+pnpm docker:logs
+```
+
+Both apps are containerized into a single image — the Hono backend serves the portfolio SPA as static files. See the [Docker Deployment Guide](./doc/docker-deployment-guide.md) for details.
+
 ## 📚 Documentation
 
 Comprehensive documentation is available in the [`doc/`](./doc/) directory:
@@ -172,6 +187,9 @@ Comprehensive documentation is available in the [`doc/`](./doc/) directory:
 - **[Frontend Guide](./doc/frontend-guide.md)** - React portfolio application development
 - **[Backend Guide](./doc/backend-guide.md)** - Hono API server and database management
 - **[Shared Packages Guide](./doc/shared-packages-guide.md)** - Reusable components and utilities
+- **[Docker Deployment Guide](./doc/docker-deployment-guide.md)** - Containerization and Docker workflows
+- **[Development Workflows Guide](./doc/development-workflows-guide.md)** - Step-by-step guides for common tasks
+- **[Environment System Guide](./doc/environment-system-guide.md)** - Environment variable management
 
 ## 📞 Support
 
