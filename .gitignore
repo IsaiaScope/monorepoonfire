@@ -39,3 +39,6 @@ yarn-error.log*
 *.db
 
 .claude/*.local.json
+
+# Worktrees
+.worktrees
