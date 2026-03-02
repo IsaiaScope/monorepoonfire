@@ -6,10 +6,9 @@ on:
     branches: [production]
 
 jobs:
-  validate:
-    name: Lint, Test and Build
+  pre-deploy:
+    name: Lint, Build and Verify Docker
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -24,14 +23,5 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
-      - run: pnpm test
       - run: pnpm build:docker
-
-  docker:
-    name: Verify Docker Build
-    needs: validate
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - run: docker build -t monorepoonfire:ci-check .
+      - run: docker build -t monorepoonfire:cd-check .

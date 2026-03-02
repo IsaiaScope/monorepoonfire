@@ -19,6 +19,9 @@
     "check-types": "turbo run check-types",
     "prepare": "husky",
     "db": "docker compose up db -d",
+    "dev:setup": "docker compose up db -d && ./scripts/wait-for-db.sh && pnpm --filter @app/hono db:migrate",
+    "dev:full": "pnpm dev:setup && pnpm dev",
+    "predocker:up": "find . -name '._*' -not -path './node_modules/*' -delete 2>/dev/null || true",
     "docker:up": "docker compose up --build --force-recreate -d",
     "docker:down": "docker compose down --rmi local",
     "docker:logs": "docker compose logs -f"

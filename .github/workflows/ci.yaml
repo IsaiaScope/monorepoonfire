@@ -51,3 +51,10 @@ jobs:
       - run: pnpm lint
       - run: pnpm test
       - run: pnpm build
+
+  docker:
+    name: Verify Docker Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t monorepoonfire:ci-check .

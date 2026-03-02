@@ -49,9 +49,6 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
 
     CORS_ORIGINS: z.string().default("*"),
-
-    CANONICAL_HOST: z.string().default("www.isaiariva.com"),
-    RAILWAY_HOST_SNIPPET: z.string().default("up.railway.app"),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,

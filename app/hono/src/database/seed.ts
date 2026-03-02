@@ -21,11 +21,13 @@ function readJSON<T>(filename: string): T {
 type SkillRow = { id: number; name: string; createdAt: string; updatedAt: string };
 type ProjectRow = { id: number; language: string; subDescription: string; description: string; href: string; repo: string; image: string; title: string; tags: string; createdAt: string; updatedAt: string };
 type WorkExperienceRow = { id: number; language: string; name: string; company: string; location: string; description: string; shortDescription: string; startDate: string; endDate: string; createdAt: string; updatedAt: string };
+type CurriculumRow = { id: number; url: string };
 
 async function seed() {
   const skillsData = readJSON<SkillRow[]>("skills.json");
   const projectsData = readJSON<ProjectRow[]>("projects.json");
   const workExperienceData = readJSON<WorkExperienceRow[]>("work-experience.json");
+  const curriculumData = readJSON<CurriculumRow[]>("curriculum.json");
 
   // Clear tables
   // eslint-disable-next-line drizzle/enforce-delete-with-where
@@ -68,6 +70,11 @@ async function seed() {
       startDate: w.startDate,
       endDate: w.endDate,
     })),
+  );
+
+  // Insert curriculum
+  await db.insert(curriculum).values(
+    curriculumData.map(c => ({ url: c.url })),
   );
 
   await client.end();

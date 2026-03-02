@@ -23,7 +23,6 @@ import { defaultHook } from "stoker/openapi";
 import type { AppEnv, AppOpenAPIHono } from "../@types/open-api-hono";
 
 import { env } from "../environment/env";
-import { redirectHost } from "../middleware/redirect-host";
 
 /**
  * Create a base Hono application with OpenAPI support
@@ -77,7 +76,6 @@ export function initApp() {
   /**
    * Configure Cross-Origin Resource Sharing (CORS)
    *
-   * Since redirect middleware now skips API calls, we can use simple CORS configuration.
    * CORS_ORIGINS should include all domains that need access to the API.
    */
   const getCorsOrigins = () => {
@@ -133,18 +131,12 @@ export function initApp() {
   );
 
   /**
-   * Additional middleware for SEO, security, and performance
+   * Additional middleware for security and performance
    *
    * These middleware are applied after the base middleware stack:
-   * 1. redirectHost - SEO critical: redirects Railway domain to canonical domain
-   * 2. secureHeaders - Security: adds security headers (CSP, HSTS, etc.)
-   * 3. timing - Performance: adds Server-Timing headers for debugging
+   * 1. secureHeaders - Security: adds security headers (CSP, HSTS, etc.)
+   * 2. timing - Performance: adds Server-Timing headers for debugging
    */
-
-  // SEO Critical: Redirect Railway hosting domain to canonical domain
-  // This ensures www.isaiariva.com appears in search results, not Railway subdomain
-  // Uses env.RAILWAY_HOST_SNIPPET and env.CANONICAL_HOST from environment config
-  app.use("*", redirectHost);
 
   // Security: Add security headers to all responses
   app.use("*", secureHeaders());
