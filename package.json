@@ -1,5 +1,6 @@
 {
   "name": "monorepoonfire",
+  "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@9.1.1",
   "engines": {
