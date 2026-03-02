@@ -1,18 +1,13 @@
 import { z } from "@hono/zod-openapi";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const curriculum = sqliteTable("curriculum", {
-  id: integer("id", { mode: "number" })
-    .primaryKey({ autoIncrement: true }),
+export const curriculum = pgTable("curriculum", {
+  id: serial("id").primaryKey(),
 
-  url: text("url", { length: 500 }).notNull(),
+  url: varchar("url", { length: 500 }).notNull(),
 
-  createdAt: text("createdAt", {
-    length: 50,
-  }).notNull(),
-  updatedAt: text("updatedAt", {
-    length: 50,
-  }).notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
 
 const curriculumTableSchema = z.object({
@@ -28,12 +23,12 @@ const curriculumTableSchema = z.object({
 
   createdAt: z.string({
     description: "The timestamp when the curriculum entry was created",
-  }).nonempty().max(50).openapi({
-    example: Date.now().toString(),
+  }).openapi({
+    example: "2024-01-01T00:00:00.000Z",
   }),
 
-  updatedAt: z.string({ description: "The timestamp when the curriculum entry was last updated" }).nonempty().max(50).openapi({
-    example: Date.now().toString(),
+  updatedAt: z.string({ description: "The timestamp when the curriculum entry was last updated" }).openapi({
+    example: "2024-01-01T00:00:00.000Z",
   }),
 });
 

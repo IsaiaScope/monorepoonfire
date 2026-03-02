@@ -1,8 +1,8 @@
-# Database — Drizzle ORM + Turso
+# Database — Drizzle ORM + PostgreSQL
 
 ## Stack
 
-Drizzle ORM + Turso (LibSQL/SQLite). Connection configured in `index.ts` using `@libsql/client`.
+Drizzle ORM + PostgreSQL (postgres.js driver). Connection configured in `index.ts` using `postgres`.
 
 ## Structure
 
@@ -29,9 +29,11 @@ Each schema file defines **both** Drizzle table and Zod validation schemas:
 
 ```typescript
 // Drizzle table
-export const projects = sqliteTable("projects", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  title: text("title", { length: 100 }).notNull(),
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
+  tags: jsonb("tags").notNull().$type<{ id: number; name: string }[]>(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
   // ... more columns
 });
 
@@ -45,7 +47,7 @@ export const selectProjectsSchema = projectsTableSchema;
 export const insertProjectsSchema = projectsTableSchema.omit({ id: true, createdAt: true, updatedAt: true });
 ```
 
-**Important:** Complex data (arrays, objects) are stored as JSON strings in SQLite text columns. Handlers parse/stringify as needed.
+**Key types:** `serial` (auto-increment PK), `varchar` (bounded text), `jsonb` (native JSON — no manual parse/stringify), `timestamp` (with timezone, defaultNow)
 
 ## Commands
 

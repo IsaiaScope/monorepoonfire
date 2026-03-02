@@ -78,7 +78,7 @@ src/routes/{entity}/
 └── {entity}.handlers.ts   # Business logic, typed as AppRouterHandler<typeof route>
 ```
 
-**Stack:** Hono + OpenAPIHono (`@hono/zod-openapi`) + Drizzle ORM + Turso (LibSQL/SQLite)
+**Stack:** Hono + OpenAPIHono (`@hono/zod-openapi`) + Drizzle ORM + PostgreSQL (postgres.js driver)
 - Schemas in `src/database/schema/` define both Drizzle tables and Zod validation schemas
 - Routes use `stoker` helpers (`jsonContent`, `jsonContentRequired`, `IdParamsSchema`, `createErrorSchema`)
 - OpenAPI docs at `/doc` (JSON) and `/scalar` (interactive UI)
@@ -122,4 +122,4 @@ src/feature/{name}/
 | `production` | ci-production.yaml | `.env.production` | `db:migrate:production` | No | No (Dokploy) |
 | `production` | ci-docker.yaml | — | No | No | `docker build` (verify only) |
 
-All CI workflows create env files from GitHub secrets/vars. Dev uses an ephemeral local SQLite file (validates migration SQL + sets up schema for tests). Test and production target persistent Turso databases. Docker build verification runs independently — no secrets needed since TypeScript compilation doesn't execute app code.
+All CI workflows create env files from GitHub secrets/vars. Dev uses a PostgreSQL service container in GitHub Actions (validates migration SQL + sets up schema for tests). Test and production target persistent PostgreSQL databases on Hetzner. Docker build verification runs independently — no secrets needed since TypeScript compilation doesn't execute app code.

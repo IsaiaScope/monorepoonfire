@@ -2,7 +2,29 @@ networks:
   monorepo-net:
     driver: bridge
 
+volumes:
+  pg-data:
+
 services:
+  db:
+    container_name: mof-postgres
+    image: postgres:16-alpine
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: mof
+      POSTGRES_PASSWORD: mof
+      POSTGRES_DB: monorepoonfire
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - monorepo-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mof"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   hono:
     container_name: monorepoonfire
     build:
@@ -12,10 +34,15 @@ services:
         VITE_BASE_URL: "http://localhost:${DOCKER_HOST_PORT:-3076}"
     ports:
       - "${DOCKER_HOST_PORT:-3076}:3075"
-    env_file:
-      - ./app/hono/src/environment/.env.production
     environment:
       - NODE_ENV=production
+      - PORT=3075
+      - ENV=production
+      - LOG_LEVEL=info
+      - DATABASE_URL=postgresql://mof:mof@db:5432/monorepoonfire
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - monorepo-net
     restart: unless-stopped

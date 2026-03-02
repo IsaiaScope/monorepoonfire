@@ -19,8 +19,8 @@ export const mockProjectsData = [
       { id: 2, name: "TypeScript" },
       { id: 3, name: "Test MSW" },
     ],
-    createdAt: "1672531200000",
-    updatedAt: "1672531200000",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: 2,
@@ -42,8 +42,8 @@ export const mockProjectsData = [
       { id: 3, name: "Hono" },
       { id: 4, name: "Test MSW" },
     ],
-    createdAt: "1672531200000",
-    updatedAt: "1672531200000",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: 3,
@@ -64,8 +64,8 @@ export const mockProjectsData = [
       { id: 2, name: "SQLite" },
       { id: 3, name: "Test MSW" },
     ],
-    createdAt: "1672531200000",
-    updatedAt: "1672531200000",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: 4,
@@ -87,7 +87,7 @@ export const mockProjectsData = [
       { id: 3, name: "Test MSW" },
       { id: 4, name: "Markdown" },
     ],
-    createdAt: "1672531200000",
-    updatedAt: "1672531200000",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
 ];

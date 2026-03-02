@@ -15,12 +15,7 @@ export const getCurriculumHandler: AppRouterHandler<typeof getCurriculumRoute> =
 
 export const postCurriculumHandler: AppRouterHandler<typeof postCurriculumRoute> = async (c) => {
   const entry = c.req.valid("json");
-  const entryWithTimestamp = {
-    ...entry,
-    createdAt: Date.now().toString(),
-    updatedAt: Date.now().toString(),
-  };
-  const [created] = await database.insert(curriculum).values(entryWithTimestamp).returning();
+  const [created] = await database.insert(curriculum).values(entry).returning();
   return c.json(created, HttpStatusCodes.OK);
 };
 
@@ -61,13 +56,7 @@ export const patchCurriculumHandler: AppRouterHandler<typeof patchCurriculumRout
     );
   }
 
-  const updatedEntry = {
-    ...entry,
-    ...updates,
-    updatedAt: Date.now().toString(),
-  };
-
-  const [updated] = await database.update(curriculum).set(updatedEntry).where(eq(curriculum.id, id)).returning();
+  const [updated] = await database.update(curriculum).set(updates).where(eq(curriculum.id, id)).returning();
 
   if (!updated) {
     return c.json(
@@ -83,9 +72,14 @@ export const patchCurriculumHandler: AppRouterHandler<typeof patchCurriculumRout
 
 export const deleteCurriculumHandler: AppRouterHandler<typeof deleteCurriculumRoute> = async (c) => {
   const { id } = c.req.valid("param");
-  const result = await database.delete(curriculum)
-    .where(eq(curriculum.id, id));
-  if (!result.rowsAffected) {
+
+  const entry = await database.query.curriculum.findFirst({
+    where: (fields, operators) => {
+      return operators.eq(fields.id, id);
+    },
+  });
+
+  if (!entry) {
     return c.json(
       {
         message: HttpStatusPhases.NOT_FOUND,
@@ -94,5 +88,6 @@ export const deleteCurriculumHandler: AppRouterHandler<typeof deleteCurriculumRo
     );
   }
 
+  await database.delete(curriculum).where(eq(curriculum.id, id));
   return c.body(null, HttpStatusCodes.NO_CONTENT);
 };

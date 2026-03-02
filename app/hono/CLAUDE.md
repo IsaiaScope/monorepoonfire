@@ -22,7 +22,7 @@ pnpm --filter @app/hono exec vitest run src/routes/projects/projects.test.ts
 
 ## Stack
 
-Hono + OpenAPIHono (`@hono/zod-openapi`) + Drizzle ORM + Turso (LibSQL/SQLite) + Pino logger
+Hono + OpenAPIHono (`@hono/zod-openapi`) + Drizzle ORM + PostgreSQL (postgres.js driver) + Pino logger
 
 ## Architecture
 
@@ -57,7 +57,7 @@ export type Routes = typeof _routes;
 
 **Environment files** live at `src/environment/` (.env, .env.test, .env.production)
 
-**Tests run sequentially** (fileParallelism: false, maxConcurrency: 1) to avoid database lock conflicts
+**Tests run sequentially** (fileParallelism: false, maxConcurrency: 1) to avoid database conflicts
 
 ## API Endpoints
 

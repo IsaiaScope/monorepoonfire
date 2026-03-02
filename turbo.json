@@ -7,21 +7,12 @@
       "dependsOn": ["^test"],
       "inputs": [".env*"]
     },
-    "test:test": {
-      "dependsOn": ["^test:test"],
-      "inputs": [".env*"]
-    },
     "test:watch": {
       "dependsOn": ["^test:watch"],
       "inputs": [".env*"]
     },
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [".env*"]
-
-    },
-    "build:test": {
-      "dependsOn": ["^build:test"],
       "inputs": [".env*"]
 
     },
