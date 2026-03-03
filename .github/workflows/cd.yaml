@@ -23,5 +23,5 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
-      - run: pnpm build:docker
+      - run: pnpm build:production
       - run: docker build -t monorepoonfire:cd-check .
