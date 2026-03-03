@@ -86,23 +86,29 @@ export default function Globe({
     window.addEventListener("resize", onResize);
     onResize();
 
-    const globe = createGlobe(canvasRef.current!, {
-      ...config,
-      width,
-      height: width,
-      onRender: (state) => {
-        if (!pointerInteracting.current) {
-          phi += 0.001; // Reduced from 0.003 - 70% slower rotation
-        }
-        state.phi = phi + rs.get();
-        state.width = width;
-        state.height = width;
-      },
-    });
+    let globe: ReturnType<typeof createGlobe> | null = null;
+    try {
+      globe = createGlobe(canvasRef.current!, {
+        ...config,
+        width,
+        height: width,
+        onRender: (state) => {
+          if (!pointerInteracting.current) {
+            phi += 0.001; // Reduced from 0.003 - 70% slower rotation
+          }
+          state.phi = phi + rs.get();
+          state.width = width;
+          state.height = width;
+        },
+      });
 
-    setTimeout(() => (canvasRef.current!.style.opacity = "1"), 0);
+      setTimeout(() => (canvasRef.current!.style.opacity = "1"), 0);
+    }
+    catch {
+      // WebGL not available — globe won't render (e.g., headless browsers)
+    }
     return () => {
-      globe.destroy();
+      globe?.destroy();
       window.removeEventListener("resize", onResize);
     };
   }, [rs, config]);

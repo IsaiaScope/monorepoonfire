@@ -12,20 +12,20 @@ Create `app/hono/src/database/schema/blog-schema.ts`:
 
 ```typescript
 import { z } from "@hono/zod-openapi";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const blog = sqliteTable("blog", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  title: text("title", { length: 200 }).notNull(),
-  createdAt: text("createdAt", { length: 50 }).notNull(),
-  updatedAt: text("updatedAt", { length: 50 }).notNull(),
+export const blog = pgTable("blog", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 200 }).notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
 
 const blogTableSchema = z.object({
   id: z.number().int().positive().openapi({ example: 1 }),
   title: z.string().nonempty().max(200).openapi({ example: "My Post" }),
-  createdAt: z.string().nonempty().max(50),
-  updatedAt: z.string().nonempty().max(50),
+  createdAt: z.string().openapi({ example: "2024-01-01T00:00:00.000Z" }),
+  updatedAt: z.string().openapi({ example: "2024-01-01T00:00:00.000Z" }),
 });
 
 export const selectBlogSchema = blogTableSchema;
@@ -153,7 +153,7 @@ Add keys to `public/locales/en-GB/common.json` and `public/locales/it-IT/common.
 ## Add a New Database Table
 
 1. Create schema file: `app/hono/src/database/schema/{entity}-schema.ts`
-2. Define Drizzle table + Zod schemas (select + insert)
+2. Define Drizzle `pgTable` + Zod schemas (select + insert)
 3. Import and spread in `database/index.ts`
 4. Generate migration: `pnpm db:generate`
 5. Review generated SQL in `migrations/`
@@ -184,9 +184,8 @@ Add keys to `public/locales/en-GB/common.json` and `public/locales/it-IT/common.
 
 1. Add the variable to `src/environment/env.ts` Zod schema under `server`
 2. Add to `.env`, `.env.test`, `.env.production` as needed
-3. Add to `.env.example`
-4. If used in CI: add to GitHub repository secrets/variables
-5. Update `script/create-env.mjs` if the variable needs CI generation
+3. If used in CI: add to GitHub repository secrets/variables
+4. Update `script/create-env.mjs` if the variable needs CI generation
 
 ### Frontend (`app/portfolio`)
 
@@ -198,8 +197,16 @@ Add keys to `public/locales/en-GB/common.json` and `public/locales/it-IT/common.
 
 ### CI Secrets
 
-Environment files are created from GitHub secrets/variables by `script/create-env.mjs` (invoked via `deploy:test` or `deploy:production` scripts). Add new variables to:
+Environment files are created from GitHub secrets using `script/create-env.mjs`:
 
-1. GitHub repository settings (Secrets or Variables)
-2. `script/create-env.mjs` — so it writes the variable to the generated `.env` file
-3. The appropriate CI workflow YAML
+```bash
+# In CI workflow:
+pnpm deploy:test        # Creates .env.test from secrets
+pnpm deploy:production  # Creates .env.production from secrets
+```
+
+The script reads from `process.env` (populated by GitHub Actions secrets) and writes the appropriate `.env` file. To add a new variable:
+
+1. Add to GitHub repository settings (Secrets or Variables)
+2. Update `script/create-env.mjs` to include the new variable
+3. Update the CI workflow YAML if the variable needs to be mapped

@@ -2,74 +2,44 @@
 
 ## What is MonorepoOnFire?
 
-MonorepoOnFire is a modern web application that combines a **React frontend** (portfolio website) with a **Hono backend** (API server) in a single codebase. Think of it like a well-organized house where different rooms (applications) share common utilities like electricity and plumbing (shared packages), but each room has its specific purpose.
-
-The project follows a **monorepo architecture**, meaning multiple related applications live together in one repository, sharing code and tools while maintaining clear boundaries.
+A modern web application that combines a **React frontend** (portfolio website) with a **Hono backend** (API server) in a single codebase. Both apps share code and tools through a **Turborepo monorepo**, while maintaining clear boundaries between each layer.
 
 ## System Architecture
 
 ```mermaid
-graph TB
-    subgraph "User Interface"
-        U[User Browser]
-    end
+graph TD
+    U[Browser] --> Hono[Hono API Server]
+    Hono --> DB[(PostgreSQL)]
+    Hono --> SPA[Portfolio SPA]
+    SPA -.->|type-safe RPC| Hono
 
-    subgraph "Frontend Layer"
-        F[Portfolio App<br/>React + Vite]
-    end
-
-    subgraph "Backend Layer"
-        B[Hono API Server<br/>Node.js + TypeScript]
-        DB[(Turso SQLite<br/>with Drizzle ORM)]
-    end
-
-    subgraph "Shared Infrastructure"
-        UI[UI Components]
-        UTIL[Utilities]
-        CONFIG[Configuration]
-        SHADCN[Shadcn Primitives]
-    end
-
-    U --> F
-    F --> B
-    B --> DB
-    F -.-> UI
-    F -.-> SHADCN
-    F -.-> UTIL
-    F -.-> CONFIG
-    B -.-> UTIL
-    B -.-> CONFIG
+    SPA --> UI["@package/ui"]
+    SPA --> SHADCN["@package/shadcn"]
+    SPA --> UTIL["@package/utility"]
+    Hono --> UTIL
+    Hono --> CONFIG["@package/config"]
+    SPA --> CONFIG
 ```
 
-## Core Components Explained
+## Core Components
 
 ### Portfolio Frontend (`app/portfolio/`)
 
-The user-facing website built with React. It's like the storefront of a shop — what visitors see and interact with.
+The user-facing website built with React. Responsive across phones, tablets, and desktops with dark/light mode and multi-language support (English and Italian).
 
-**Key Features:**
+| ![Hero](screenshots/hero/desktop.png) | ![About](screenshots/about/desktop.png) |
+|:---:|:---:|
+| Hero section with 3D alien model | About section with skills grid |
 
-- Responsive design that works on phones, tablets, and computers
-- Dark/light mode switching
-- Multiple language support (English and Italian)
-- Smooth animations and modern UI components
+**Provider stack** (outer to inner):
 
-```typescript
-// Provider stack (outer to inner) in main.tsx
+```
 StrictMode > ErrorBoundary > DarkModeProvider > Suspense > TanstackQueryProvider > TanstackRouterProvider
 ```
 
 ### Hono Backend (`app/hono/`)
 
-The server that handles data and business logic. Think of it as the engine room that powers everything behind the scenes.
-
-**Key Features:**
-
-- RESTful API with automatic OpenAPI documentation at `/scalar`
-- Four data entities: curriculum, skills, work-experience, projects
-- Database operations with full type safety via Drizzle ORM
-- Static file serving (serves the built frontend to users)
-- Fast performance with minimal overhead
+REST API with auto-generated OpenAPI documentation. Serves four data entities and delivers the built React SPA as static files.
 
 ```typescript
 // Route assembly in app.ts
@@ -82,122 +52,118 @@ const _routes = app
 export type Routes = typeof _routes; // Consumed by frontend RPC client
 ```
 
-### Shared Packages (`package/`)
+Interactive API docs are available at `/scalar`.
 
-Common code that both frontend and backend can use, like shared tools in a workshop.
+### Shared Packages (`package/`)
 
 | Package | Purpose |
 |---------|---------|
-| `@package/shadcn` | Low-level Radix UI primitives with Tailwind CSS |
-| `@package/ui` | Higher-level app components (all prefixed `UI*`) |
-| `@package/utility` | Providers, types, helpers (subpath exports) |
+| `@package/shadcn` | Radix UI primitives with Tailwind CSS |
+| `@package/ui` | App-level components (all prefixed `UI*`) |
+| `@package/utility` | Providers, types, helpers (subpath exports: `/provider`, `/tailwind`, `/constant`, `/@types`, `/javascript`) |
 | `@package/config` | Shared ESLint and TypeScript configurations |
 
 ## Data Flow
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant B as Backend
-    participant D as Database
+    participant U as Browser
+    participant F as React SPA
+    participant B as Hono API
+    participant D as PostgreSQL
 
     U->>F: Visits website
-    F->>B: Requests data (API call)
-    B->>D: Queries database
-    D-->>B: Returns data
-    B-->>F: Sends JSON response
-    F-->>U: Displays updated interface
-
-    Note over F,B: Type-safe communication<br/>via Hono RPC client
+    F->>B: API call (type-safe RPC)
+    B->>D: Drizzle ORM query
+    D-->>B: Rows
+    B-->>F: JSON response
+    F-->>U: Rendered UI
 ```
 
-## Type-Safe Data Flow
+## Type-Safe Pipeline
 
-One of the monorepo's key strengths is end-to-end type safety. A schema change in the backend automatically surfaces type errors in the frontend at compile time:
+One of the monorepo's key strengths is end-to-end type safety. A schema change in the database automatically surfaces type errors in the frontend at compile time:
 
 ```mermaid
-flowchart TB
-    DB[(Turso DB)] --> Drizzle[Drizzle ORM]
-    Drizzle --> Handler[Route Handler]
-    Handler --> RPC[Routes Type Export]
-    RPC --> Client[honoClient]
-    Client --> Query[TanStack Query]
-    Query --> Component[React Component]
+graph TD
+    DB[(PostgreSQL)] --> Drizzle[Drizzle ORM schema]
+    Drizzle --> Handler[Route handler]
+    Handler --> RPC[Routes type export]
+    RPC --> Client[hc client]
+    Client --> Query[TanStack Query hook]
+    Query --> Component[React component]
 ```
 
 **How it works:**
 
-1. **Drizzle schema** (`database/schema/`) defines the table structure and generates Zod validation schemas
+1. **Drizzle schema** (`database/schema/`) defines table structure with `pgTable` and generates Zod validation schemas
 2. **Route handlers** are typed with `AppRouterHandler<typeof route>`, ensuring request/response match the OpenAPI spec
 3. **`app.ts`** exports the `Routes` type capturing all registered routes
-4. **Frontend** imports `hc<Routes>` via `@app/hono/rpc`, getting full autocomplete and type checking on API calls
-5. **TanStack Query** hooks wrap the typed fetch calls, providing cached, reactive data to components
+4. **Frontend** imports `hc<Routes>` via `@app/hono/rpc` for full autocomplete and type checking
+5. **TanStack Query** hooks wrap the typed fetch calls, providing cached reactive data to components
 
 ## Docker Deployment
 
-Both applications are containerized into a single Docker image using a 3-stage build:
+Both apps are containerized into a single Docker image using a 3-stage build:
 
 ```mermaid
-flowchart TB
-    subgraph deps["Stage 1: deps"]
-        D1[pnpm install]
-    end
+graph TD
+    D[Stage 1: deps]
+    B[Stage 2: builder]
+    R[Stage 3: runner]
 
-    subgraph builder["Stage 2: builder"]
-        B1[Build portfolio SPA]
-        B2[Build Hono API]
-        B3[pnpm deploy --prod]
-    end
+    D -->|cached install| B
+    B -->|minimal copy| R
 
-    subgraph runner["Stage 3: runner"]
-        R1[Minimal image]
-        R2[Non-root user]
-    end
-
-    deps --> builder --> runner
+    D -.- D1[pnpm install --frozen-lockfile]
+    B -.- B1[Build SPA + API]
+    B -.- B2[pnpm deploy --prod]
+    R -.- R1[Non-root user, port 3075]
 ```
 
-**Key design decisions:**
+- **Stage 1** caches `pnpm install` — only re-runs when `package.json` or `pnpm-lock.yaml` changes
+- **Stage 2** builds both apps, then extracts production-only `node_modules` via `pnpm deploy`
+- **Stage 3** runs as non-root user `hono` (UID 1001) with only compiled JS and production dependencies
 
-- **Stage 1** copies only `package.json` files first, so `pnpm install` is cached unless dependencies change (Docker layer caching)
-- **Stage 2** builds the portfolio SPA into `app/hono/portfolio/`, then uses `pnpm deploy` to extract only production `node_modules`
-- **Stage 3** runs as a non-root user (`hono`) for security, exposing only port 3075
-
-The portfolio React SPA is served as static files by the Hono backend — there is no separate frontend container.
+The React SPA is served as static files by the Hono backend — no separate frontend container.
 
 ```bash
-# Quick start with Docker
-pnpm docker:up      # Build and start container
-pnpm docker:down    # Stop and remove container + image
-pnpm docker:logs    # Follow container logs
+pnpm docker:up      # Build and start
+pnpm docker:down    # Stop and remove
+pnpm docker:logs    # Follow logs
 ```
 
 ## Development Workflow
 
-The project uses **Turborepo** to orchestrate builds and development across all applications:
+Turborepo orchestrates builds and development across all applications:
 
-1. **Development**: `pnpm dev` starts both frontend and backend simultaneously
-2. **Testing**: Automated tests ensure code quality (`pnpm test`)
-3. **Building**: Optimized builds for each environment (`pnpm build`, `build:test`, `build:production`)
-4. **Type Safety**: TypeScript ensures code correctness across the entire stack (`pnpm check-types`)
-5. **Linting**: ESLint with shared config enforces consistent style (`pnpm lint`)
+1. **`pnpm dev`** — starts both frontend (Vite HMR) and backend (tsx watch) simultaneously
+2. **`pnpm test`** — runs Vitest across all workspaces
+3. **`pnpm build`** / `build:production` — optimized builds per environment
+4. **`pnpm check-types`** — TypeScript validation across the entire stack
+5. **`pnpm lint`** — ESLint with shared `@antfu/eslint-config`
 
 ## CI/CD Pipeline
 
-| Branch | Workflow | Env | Tests | Build |
-|--------|----------|-----|-------|-------|
-| `dev` | ci-dev.yaml | `.env` (ephemeral SQLite) | Yes | `pnpm build` |
-| `test` | ci-test.yaml | `.env.test` (Turso) | Yes | `pnpm build:test` |
-| `production` | ci-production.yaml | `.env.production` (Turso) | No | No (Dokploy) |
-| `production` | ci-docker.yaml | — | No | `docker build` (verify) |
+```mermaid
+graph TD
+    Dev[dev branch] -->|push/PR| CI[CI workflow]
+    CI --> Lint[Lint]
+    CI --> Test[Test + PostgreSQL]
+    CI --> Build[Build]
 
-## Why This Architecture?
+    Prod[production branch] -->|push| CD[CD workflow]
+    CD --> Verify[Lint + Build + Docker verify]
 
-- **Shared Code**: Common utilities and types reduce duplication
-- **Type Safety**: Changes in backend automatically update frontend types
-- **Developer Experience**: Single command starts entire development environment
-- **Scalability**: Easy to add new applications or packages
-- **Performance**: Optimized builds and caching through Turborepo
-- **Maintainability**: Clear boundaries between different parts of the system
-- **Production-Ready**: Docker containerization with security best practices
+    Prod -->|push| SS[Screenshot workflow]
+    SS --> E2E[Playwright E2E]
+    E2E --> Commit[Commit screenshots]
+```
+
+| Branch | Workflow | What runs |
+|--------|----------|-----------|
+| `dev` | ci.yaml | Lint, test (PostgreSQL service container), build |
+| `production` | cd.yaml | Lint, build, Docker build verification |
+| `production` | screenshots.yaml | Playwright E2E, commit updated screenshots |
+
+Production deployment is handled manually via Dokploy (self-hosted on Hetzner) — the CD workflow only verifies the build compiles and the Docker image builds successfully.

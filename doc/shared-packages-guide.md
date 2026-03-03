@@ -1,219 +1,159 @@
-# 📦 Shared Packages Guide
+# Shared Packages Guide
 
 ## Overview
 
-The shared packages system is the foundation that allows code reuse across the monorepo. Think of it as a shared toolbox that both the frontend and backend applications can access. This approach eliminates code duplication and ensures consistency across the entire project.
+The shared packages system enables code reuse across the monorepo. Both the frontend and backend apps import from these packages instead of duplicating logic — shared types, UI components, configuration, and utilities all live here.
 
 ## Package Architecture
 
 ```mermaid
-graph TB
-    subgraph "📦 Shared Packages"
-        UI[🎭 UI Package<br/>@package/ui]
-        UTIL[🛠️ Utilities<br/>@package/utility]
-        CONFIG[⚙️ Configuration<br/>@package/config]
-        SHADCN[🎨 shadcn/ui<br/>@package/shadcn]
-    end
+graph TD
+    UI["@package/ui"] --> Portfolio
+    SHADCN["@package/shadcn"] --> Portfolio
+    UTIL["@package/utility"] --> Portfolio
+    UTIL --> Hono
+    CONFIG["@package/config"] --> Portfolio
+    CONFIG --> Hono
 
-    subgraph "📱 Applications"
-        FRONTEND[🎨 Portfolio Frontend]
-        BACKEND[🔥 Hono Backend]
-    end
-
-    UI --> FRONTEND
-    UTIL --> FRONTEND
-    UTIL --> BACKEND
-    CONFIG --> FRONTEND
-    CONFIG --> BACKEND
-    SHADCN --> FRONTEND
+    Portfolio[Portfolio Frontend]
+    Hono[Hono Backend]
 ```
 
 ## Package Breakdown
 
-### 🎭 UI Package (`@package/ui`)
+### UI Package (`@package/ui`)
 
-**Purpose:** Reusable UI components that maintain design consistency across applications.
+Higher-level app components that compose shadcn primitives. All exports are prefixed with `UI*` for easy identification.
 
-**Key Components:**
+**Components:**
 
-- **Dark Mode Switch**: Theme toggle functionality
-- **Error Boundaries**: Graceful error handling UI
-- **Image Component**: Optimized image rendering
-- **Language Selector**: Internationalization UI
-- **Link Component**: Enhanced navigation links
-- **Loaders**: Loading state indicators
-- **Wrapper Components**: Layout and container elements
+| Component | Purpose |
+|-----------|---------|
+| `UIDarkModeSwitch` | Theme toggle |
+| `UILanguageSelector` | i18n language picker |
+| `UIErrorBoundary` | Error boundary wrapper |
+| `UIBoundaryError` | Error fallback UI |
+| `UIFullPageDotsLoaderOnFire` | Full-page loading indicator |
+| `UIWrapper` | Section layout wrapper with variants |
+| `UIImage` | Optimized image component |
+| `UILink` | Enhanced navigation links |
 
 ```typescript
-// Example usage
-import {
-  UIDarkModeSwitch,
-  UIBoundaryError,
-  UIFullPageDotsLoaderOnFire
-} from '@package/ui';
+import { UIDarkModeSwitch, UIWrapper } from "@package/ui";
 
-// In your component
-<UIDarkModeSwitch
-  theme={theme}
-  onThemeChange={setTheme}
-/>
+<UIWrapper tag="section" variant="primary">
+  <UIDarkModeSwitch theme={theme} onThemeChange={setTheme} />
+</UIWrapper>
 ```
 
-### 🛠️ Utilities Package (`@package/utility`)
+### Utilities Package (`@package/utility`)
 
-**Purpose:** Common functionality and providers used across applications.
-
-**Key Features:**
-
-- **Providers**: React context providers for global state
-- **Type Definitions**: Shared TypeScript types
-- **Helper Functions**: Common utility functions
-- **Constants**: Shared application constants
-- **Tailwind Utilities**: CSS utility classes
+Common functionality shared across apps. Uses **subpath exports** for tree-shaking:
 
 ```typescript
-// Provider usage
-import {
-  DarkModeProvider,
-  TanstackQueryProvider
-} from '@package/utility/provider';
-
-// Wrap your app
-<DarkModeProvider defaultTheme="dark">
-  <TanstackQueryProvider>
-    <App />
-  </TanstackQueryProvider>
-</DarkModeProvider>
+import { DarkModeProvider, TanstackQueryProvider } from "@package/utility/provider";
+import { cn } from "@package/utility/tailwind";
+import { PACKAGE_UTILITY } from "@package/utility/constant";
+import type { Nullable, Maybe } from "@package/utility/@types";
 ```
 
-**Type System:**
+| Subpath | Contents |
+|---------|----------|
+| `/provider` | DarkModeProvider, TanstackQueryProvider, TanstackRouterProvider |
+| `/tailwind` | `cn()` class merging utility |
+| `/constant` | Media query breakpoints, shared constants |
+| `/@types` | Shared type utilities (`Nullable<T>`, `Maybe<T>`, `ObjectKeys<T>`) |
+| `/javascript` | General-purpose helper functions |
+
+### Configuration Package (`@package/config`)
+
+Shared ESLint and TypeScript configurations consumed by all workspaces.
+
+**TypeScript configs:**
+
+| Config | Used by |
+|--------|---------|
+| `typescript/base` | All packages |
+| `typescript/hono` | Backend app |
+| `typescript/react` | Frontend app, UI packages |
+| `typescript/react-vite` | Frontend app (includes Vite types) |
+
+**ESLint config:**
 
 ```typescript
-// Shared types for better type safety
-export type Nullable<T> = T | null;
-export type Maybe<T> = T | undefined;
-export type ObjectKeys<T> = keyof T;
-export type ObjectValues<T> = T[keyof T];
+import { createEslintConfig } from "@package/config/eslint/create-config";
+
+export default createEslintConfig({
+  // Extends @antfu/eslint-config with project rules:
+  // double quotes, semicolons, 2-space indent
+  // type keyword only (no interface)
+  // kebab-case filenames
+});
 ```
 
-### ⚙️ Configuration Package (`@package/config`)
+### shadcn Package (`@package/shadcn`)
 
-**Purpose:** Shared configuration files for development tools and build processes.
-
-**Configurations Included:**
-
-- **ESLint**: Code linting rules and standards
-- **TypeScript**: Shared tsconfig files for different environments
-  - `base.json`: Common TypeScript settings
-  - `hono.json`: Backend-specific configuration
-  - `react.json`: Frontend-specific configuration
-
-### 🎨 shadcn/ui Package (`@package/shadcn`)
-
-**Purpose:** Pre-built, customizable UI components based on Radix UI primitives.
-
-**Features:**
-
-- Accessible components by default
-- Customizable with CSS variables
-- Full TypeScript support
-- Copy-paste friendly
-- Consistent design system
+Radix UI primitives styled with Tailwind CSS. These are the low-level building blocks that `@package/ui` composes into app-level components.
 
 ```typescript
-// Component examples
-import { Button, Card, Dialog } from '@package/shadcn';
+import { Button, Card, Dialog, Select } from "@package/shadcn";
 
-// Usage in your components
 <Card>
-  <Card.Header>
-    <Card.Title>Project Title</Card.Title>
-  </Card.Header>
-  <Card.Content>
+  <CardHeader>
+    <CardTitle>Project Title</CardTitle>
+  </CardHeader>
+  <CardContent>
     <p>Project description</p>
-  </Card.Content>
+  </CardContent>
 </Card>
 ```
-### 🔄 Using Packages in Applications
 
-```typescript
-import { baseConfig } from "@package/config";
-// Import from packages using workspace aliases
-import { UIButton } from "@package/ui";
-import { formatDate } from "@package/utility";
-```
+Key dependencies: `@radix-ui/*`, `class-variance-authority`, `lucide-react`, `sonner`
 
 ## File Structure
 
 ```
 package/
-├── 🎭 ui/                      # UI Components
+├── ui/                      # App-level UI components (UI* prefix)
 │   ├── package.json
-│   ├── tsconfig.json
 │   └── src/
-│       ├── index.ts            # Main exports
-│       ├── dark-mode-switch/   # Theme switching
-│       ├── error/              # Error boundaries
-│       ├── image/              # Image component
-│       ├── language-selector/  # i18n selector
-│       ├── link/               # Enhanced links
-│       ├── loader/             # Loading indicators
-│       └── wrapper/            # Layout components
-├── 🛠️ utility/                 # Utilities & Providers
+│       ├── index.ts         # Re-exports all components
+│       ├── dark-mode-switch/
+│       ├── error/
+│       ├── image/
+│       ├── language-selector/
+│       ├── link/
+│       ├── loader/
+│       └── wrapper/
+├── utility/                 # Shared utilities & providers
 │   ├── package.json
-│   ├── tsconfig.json
-│   ├── @types/                 # Type definitions
-│   ├── constant/               # Shared constants
-│   ├── javascript/             # JS utilities
-│   ├── provider/               # React providers
-│   └── tailwind/               # CSS utilities
-├── ⚙️ config/                  # Configuration Files
+│   ├── @types/
+│   ├── constant/
+│   ├── javascript/
+│   ├── provider/
+│   └── tailwind/
+├── config/                  # ESLint & TypeScript configs
 │   ├── package.json
-│   ├── eslint/                 # ESLint configurations
-│   └── typescript/             # TypeScript configs
-└── 🎨 shadcn/                  # UI Component Library
+│   ├── eslint/
+│   └── typescript/
+└── shadcn/                  # Radix UI primitives
     ├── package.json
-    ├── tsconfig.json
     └── src/
         ├── index.ts
-        ├── shadcn.css          # Component styles
-        └── component/          # UI components
+        ├── shadcn.css
+        └── component/
 ```
 
-## Benefits of Shared Packages
+## Adding New Components
 
-### ✅ Code Reusability
+### To shadcn (low-level primitive)
 
-- Components written once, used everywhere
-- Consistent behavior across applications
-- Reduced development time
+1. Create `package/shadcn/src/component/{name}.tsx`
+2. Follow Radix UI + CVA pattern, use `cn()` from `@package/utility/tailwind`
+3. Export from `package/shadcn/src/index.ts`
 
-### ✅ Maintainability
+### To ui (app-level composition)
 
-- Single source of truth for common functionality
-- Easy to update shared logic
-- Centralized bug fixes
-
-### ✅ Type Safety
-
-- Shared TypeScript types ensure consistency
-- Compile-time error checking across packages
-- Better IDE support and autocomplete
-
-### ✅ Development Experience
-
-- Hot module replacement during development
-- Integrated testing across packages
-- Unified build and deployment process
-
-## Best Practices
-
-### 🎯 Package Design Principles
-
-1. **Single Responsibility**: Each package has a clear, focused purpose
-2. **Minimal Dependencies**: Keep external dependencies to a minimum
-3. **Type Safety**: Full TypeScript coverage for all exports
-4. **Documentation**: Clear examples and usage instructions
-5. **Testing**: Comprehensive test coverage for shared functionality
-
-This shared package system creates a robust foundation for the monorepo, enabling efficient development while maintaining code quality and consistency across all applications.
+1. Create `package/ui/src/{component-name}/{component-name}.tsx` — prefix with `UI`
+2. Create `package/ui/src/{component-name}/{component-name}.test.tsx`
+3. Export from `package/ui/src/index.ts`

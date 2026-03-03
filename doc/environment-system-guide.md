@@ -9,12 +9,12 @@ The ESLint rule `node/no-process-env: error` enforces that all code accesses env
 ## Environment Resolution Flow
 
 ```mermaid
-flowchart TB
-    NODE_ENV[NODE_ENV] --> Select[Select .env file]
+graph TD
+    NODE_ENV[NODE_ENV value] --> Select[Select .env file]
     Select --> Load[dotenv + expand]
     Load --> Validate[createEnv + Zod]
     Validate -->|valid| Env[Typed env object]
-    Validate -->|invalid| Crash[Crash with error]
+    Validate -->|invalid| Crash[Crash with error details]
 ```
 
 ### File Selection (Backend)
@@ -38,11 +38,10 @@ Vite handles file selection automatically based on `--mode`. The `env.ts` uses `
 | `PORT` | number | `3075` | No | Server port |
 | `ENV` | enum | `development` | No | `development`, `test`, `production` |
 | `LOG_LEVEL` | enum | `warn` | No | Pino log level: `trace`, `debug`, `info`, `warn`, `error`, `fatal`, `silent` |
-| `DATABASE_URL` | string (url) | — | Yes | Turso/LibSQL database URL |
-| `DATABASE_AUTH_TOKEN` | string | — | In test/prod | Auth token (optional in development for local `file:` databases) |
+| `DATABASE_URL` | string (url) | — | Yes | PostgreSQL connection URL |
+| `DATABASE_AUTH_TOKEN` | string | — | In test/prod | Auth token (optional in dev for local databases) |
 | `CORS_ORIGINS` | string | `*` | No | Comma-separated allowed origins. Use `*` for dev |
 | `CANONICAL_HOST` | string | `www.isaiariva.com` | No | SEO: primary domain for host redirect |
-| `RAILWAY_HOST_SNIPPET` | string | `up.railway.app` | No | SEO: Railway domain pattern to detect and redirect |
 
 **Example `.env`:**
 
@@ -50,7 +49,7 @@ Vite handles file selection automatically based on `--mode`. The `env.ts` uses `
 PORT=3075
 ENV=development
 LOG_LEVEL=info
-DATABASE_URL=file:local.db
+DATABASE_URL=postgresql://mof:mof@localhost:5432/monorepoonfire
 DATABASE_AUTH_TOKEN=
 CORS_ORIGINS=*
 ```
@@ -73,13 +72,13 @@ All frontend variables must have the `VITE_` prefix. This is enforced by `@t3-os
 Docker introduces a split between **build-time** and **runtime** variables:
 
 ```mermaid
-flowchart TB
-    subgraph build["Build Time (ARG)"]
-        V[VITE_* vars] --> VB[Baked into JS]
+graph TD
+    subgraph build["Build Time"]
+        V[VITE_* vars] --> VB[Baked into JS bundle]
     end
 
-    subgraph runtime["Runtime (env_file)"]
-        S[Server vars] --> RT[Read at startup]
+    subgraph runtime["Runtime"]
+        S[Server vars] --> RT[Read at container start]
     end
 ```
 
@@ -97,9 +96,9 @@ pnpm deploy:test        # Creates .env.test from secrets
 pnpm deploy:production  # Creates .env.production from secrets
 ```
 
-The script reads from `process.env` (populated by GitHub Actions secrets) and writes the appropriate `.env` file. This means:
+The script reads from `process.env` (populated by GitHub Actions secrets) and writes the appropriate `.env` file. To add new variables:
 
-1. Add new variables to GitHub repository settings (Secrets or Variables)
+1. Add to GitHub repository settings (Secrets or Variables)
 2. Update `script/create-env.mjs` to include the new variable
 3. Update the CI workflow YAML if the variable needs to be mapped
 
@@ -132,10 +131,10 @@ Key features:
 ## Troubleshooting
 
 **"Environment variable X is required"**
-Check the correct `.env` file exists in `src/environment/` and contains the variable. Use `.env.example` as a reference.
+Check the correct `.env` file exists in `src/environment/` and contains the variable.
 
 **"DATABASE_AUTH_TOKEN is required in test or production"**
-This token is optional for `file:` databases in development but required for Turso cloud databases in test/production.
+This token is optional for local PostgreSQL in development but required for production databases.
 
 **Empty string not using default**
 Ensure `emptyStringAsUndefined: true` is set in `createEnv()`. Without it, `PORT=` would be treated as an empty string instead of triggering the default.

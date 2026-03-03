@@ -1,89 +1,39 @@
-# 🎨 Frontend Application Guide
+# Frontend Application Guide
 
 ## Overview
 
-The Portfolio frontend is a modern React application that showcases projects, skills, and work experience. Built for performance and user experience, it provides a responsive interface that works seamlessly across all devices.
+The Portfolio frontend is a React application that showcases projects, skills, and work experience. It features responsive design, dark/light mode, internationalization (English and Italian), and interactive 3D elements powered by Three.js.
+
+| ![Hero](screenshots/hero/desktop.png) | ![About](screenshots/about/desktop.png) |
+|:---:|:---:|
+| Hero — 3D alien model with spring animation | About — skills grid and orbiting frameworks |
+
+| ![Projects](screenshots/projects/desktop.png) | ![Contact](screenshots/contact/desktop.png) |
+|:---:|:---:|
+| Projects — showcase cards | Contact — form with EmailJS |
 
 ## Application Structure
 
 ```mermaid
 graph TD
-    subgraph "📱 Portfolio Frontend"
-        A[🚀 main.tsx<br/>Application Entry Point]
-        B[🎛️ Providers<br/>Global State & Configuration]
-        C[🛣️ Router<br/>Navigation & Pages]
-        D[🎨 Components<br/>UI Building Blocks]
-        E[📡 API Layer<br/>Data Fetching]
-    end
-
-    subgraph "📦 External Packages"
-        F[🎭 UI Components<br/>Reusable Elements]
-        G[🛠️ Utilities<br/>Helper Functions]
-    end
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    D --> F
-    C --> G
+    Entry[main.tsx] --> Providers
+    Providers --> Router[TanStack Router]
+    Router --> Features[Feature modules]
+    Features --> API[API layer — TanStack Query]
+    Features --> UI["@package/ui + @package/shadcn"]
+    API -.->|type-safe RPC| Hono[Hono backend]
 ```
 
-## Key Features
+## Provider Stack
 
-### 🌓 Dark/Light Mode
+The app wraps all content in a layered provider stack (outer to inner):
 
-Automatic theme switching with user preference persistence.
-
-```typescript
-// Usage in components
-const { theme, setTheme } = useDarkMode();
-
-// Toggle between themes
-<UIDarkModeSwitch
-  theme={theme}
-  onThemeChange={setTheme}
-/>
+```
+StrictMode > ErrorBoundary > DarkModeProvider > Suspense > TanstackQueryProvider > TanstackRouterProvider
 ```
 
-### 🌍 Internationalization (i18n)
-
-Multi-language support with dynamic content translation.
-
 ```typescript
-// Language switching
-const { t, i18n } = useTranslation();
-
-// Display translated content
-<h1>{t('portfolio.title')}</h1>
-
-// Change language
-<UILanguageSelector
-  language={i18n.language}
-  onLanguageChange={(lng) => i18n.changeLanguage(lng)}
-/>
-```
-
-### 📱 Responsive Design
-
-Mobile-first approach with Tailwind CSS for consistent styling across devices.
-
-### ⚡ Performance Optimization
-
-- Code splitting with lazy loading
-- Image optimization
-- Bundle size optimization with Vite
-- Efficient re-rendering with React optimization patterns
-
-## Core Technologies
-
-### 🚀 Application Foundation
-
-```typescript
-// main.tsx - Application bootstrap
-const rootElement = document.getElementById("app");
-const root = ReactDOM.createRoot(rootElement);
-
+// main.tsx
 root.render(
   <StrictMode>
     <ErrorBoundary FallbackComponent={UIBoundaryError}>
@@ -99,93 +49,145 @@ root.render(
 );
 ```
 
-### 📡 Data Fetching with TanStack Query
+## Features
 
-Efficient server state management with caching, background updates, and offline support.
+### Dark/Light Mode
+
+Theme switching with persistence via `DarkModeProvider` from `@package/utility`:
 
 ```typescript
-// Example API call
-const { data: projects, isLoading } = useQuery({
-  queryKey: ["projects"],
-  queryFn: () => api.projects.$get(),
-  staleTime: 5 * 60 * 1000, // 5 minutes
-});
+const { theme, setTheme } = useDarkMode();
+<UIDarkModeSwitch theme={theme} onThemeChange={setTheme} />
 ```
 
-### 🛣️ Routing with TanStack Router
+### Internationalization (i18n)
 
-Type-safe routing with code splitting and nested layouts.
+Multi-language support with i18next. Translations live in `public/locales/{lang}/common.json`.
 
-### 🎨 UI Components
-
-Built with **shadcn/ui** components and custom UI package components for consistency.
-
-## Development Workflow
-
-### 🔧 Local Development
-
-```bash
-# Start development server
-pnpm --filter @app/portfolio dev
-
-# Run tests in watch mode
-pnpm --filter @app/portfolio test:watch
+```typescript
+const { t, i18n } = useTranslation();
+<h1>{t("portfolio.title")}</h1>
+<UILanguageSelector
+  language={i18n.language}
+  onLanguageChange={(lng) => i18n.changeLanguage(lng)}
+/>
 ```
 
-### 🧪 Testing Strategy
+### 3D Graphics
 
-- **Unit Tests**: Component logic and utilities
-- **Integration Tests**: User interactions and data flow
-- **Visual Tests**: Component rendering and styling
+The hero section renders a 3D alien model using React Three Fiber with spring opacity animation:
 
-### 📦 Build Process
-
-```bash
-# Development build
-pnpm --filter @app/portfolio build
-
-# Production build with optimizations
-pnpm --filter @app/portfolio build:production
+```typescript
+<Canvas>
+  <ambientLight intensity={1.5} />
+  <Suspense fallback={null}>
+    <Float>
+      <Alien scale={[2, 2, 2]} position={[1.9, -0.1, 0.3]} />
+    </Float>
+  </Suspense>
+</Canvas>
 ```
+
+The About section includes a rotating globe (cobe) and orbiting framework icons.
+
+### Data Fetching
+
+Two-file pattern for every API resource — a raw fetch function plus a TanStack Query hook:
+
+```typescript
+// api/skills.ts — raw fetch
+export async function getSkills() {
+  const res = await honoClient.api.skills.$get();
+  return res.json();
+}
+
+// api/use-skills.ts — query hook
+export function useSkills() {
+  return useQuery({
+    queryKey: QUERY_KEYS.SKILLS,
+    queryFn: getSkills,
+  });
+}
+```
+
+### Responsive Design
+
+Mobile-first approach with Tailwind CSS. Three viewport targets are tested with Playwright:
+
+| Desktop (1280x720) | Tablet (768x1024) | Mobile (393x851) |
+|:---:|:---:|:---:|
+| ![Desktop](screenshots/hero/desktop.png) | ![Tablet](screenshots/hero/tablet.png) | ![Mobile](screenshots/hero/mobile.png) |
 
 ## File Structure
 
 ```
 src/
-├── 📄 main.tsx             # Application entry point
-├── 🎨 global.css           # Global styles
-├── 🛠️ reportWebVitals.ts   # Performance monitoring
-├── 🎛️ provider/            # Application providers
-├── 🛣️ routes/              # Page components and routing
-├── 🧩 component/           # Reusable components
-├── 📡 api/                 # API client and queries
-├── 🎨 feature/             # Feature-specific components
-├── 🔧 utility/             # Helper functions
-├── 📋 constant/            # Application constants
-├── 🌍 environment/         # Environment configuration
-└── 🧪 test/                # Test utilities
+├── main.tsx             # Entry point
+├── global.css           # Global styles + Tailwind
+├── font.css             # Font definitions
+├── provider/            # App providers (router, query)
+├── routes/              # TanStack Router file-based routes
+├── component/           # Shared components (navbar, footer)
+├── feature/             # Feature modules (see below)
+├── api/                 # RPC client setup
+├── constant/            # Query keys, app constants
+├── environment/         # VITE_* env validation
+├── utility/             # Helper functions
+├── library/             # i18next config
+├── @types/              # TypeScript definitions + i18n resources
+└── test/                # Testing utilities
+    ├── set-up-test.tsx  # Custom render with providers
+    └── mocks/           # MSW handlers + mock data
 ```
 
-## Key Concepts
+## Feature Module Pattern
 
-### 🔄 State Management Strategy
+Each feature is self-contained:
 
-- **Server State**: TanStack Query for API data
-- **Client State**: React hooks and context for UI state
-- **Global State**: Providers for theme, language, and configuration
+```
+src/feature/{name}/
+├── {name}.tsx           # Main component
+├── {name}.test.tsx      # Tests
+├── api/
+│   ├── {resource}.ts    # Raw API call via honoClient
+│   └── use-{resource}.ts  # TanStack Query hook
+├── component/           # Sub-components
+└── hooks/               # Feature-specific hooks
+```
 
-### 🎯 Performance Best Practices
+Current features: `hero`, `about`, `work`, `projects`, `contact`
 
-- Lazy loading for route components
-- Image optimization and lazy loading
-- Memoization for expensive calculations
-- Efficient re-rendering patterns
+## State Management
 
-### 🔒 Type Safety
+| State type | Solution |
+|-----------|----------|
+| Server state | TanStack Query (API data with caching + background updates) |
+| Client state | React hooks and context (UI toggles, form state) |
+| Global state | Providers for theme, language, configuration |
 
-Full TypeScript integration with:
+## Testing
 
-- API response types from backend
-- Component prop validation
-- Route parameter typing
-- Environment variable validation
+Custom render in `src/test/set-up-test.tsx` wraps components with all necessary providers:
+
+```typescript
+renderWithProviders(<WorkSection />, {
+  viewport: "mobile",      // sets media query context
+  location: "/",           // sets router location
+  language: "en-GB",       // sets i18n language
+});
+```
+
+- **MSW** mocks API responses in `src/test/mocks/handlers.ts`
+- **Mock data** lives in `src/test/mocks/data/` as JSON files
+- Query keys are centralized in `src/constant/` to avoid duplication
+
+## Development
+
+```bash
+pnpm --filter @app/portfolio dev         # Vite dev server with HMR
+pnpm --filter @app/portfolio test:watch  # Tests in watch mode
+pnpm --filter @app/portfolio build       # Development build
+pnpm --filter @app/portfolio build:production  # Production build
+```
+
+Build output goes to `app/hono/portfolio/` — the Hono backend serves it as static files.

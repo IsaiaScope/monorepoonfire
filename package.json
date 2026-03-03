@@ -24,7 +24,9 @@
     "predocker:up": "find . -name '._*' -delete 2>/dev/null || true",
     "docker:up": "docker compose up --build --force-recreate -d",
     "docker:down": "docker compose down --rmi local",
-    "docker:logs": "docker compose logs -f"
+    "docker:logs": "docker compose logs -f",
+    "e2e": "playwright test --config=e2e/playwright.config.ts",
+    "e2e:ui": "playwright test --config=e2e/playwright.config.ts --ui"
   },
   "dependencies": {
     "cross-env": "^7.0.3"
@@ -35,6 +37,7 @@
     "eslint": "^9.26.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.0.0",
+    "@playwright/test": "^1.52.0",
     "turbo": "^2.5.3",
     "typescript": "5.8.2"
   },

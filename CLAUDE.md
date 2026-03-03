@@ -115,11 +115,10 @@ src/feature/{name}/
 
 ## CI/CD
 
-| Branch | Workflow | Env File | Migrations | Tests | Build |
-|--------|----------|----------|------------|-------|-------|
-| `dev` | ci-dev.yaml | `.env` | `db:migrate` | Yes | `pnpm build` |
-| `test` | ci-test.yaml | `.env.test` | `db:migrate:test` | Yes | `pnpm build:test` |
-| `production` | ci-production.yaml | `.env.production` | `db:migrate:production` | No | No (Dokploy) |
-| `production` | ci-docker.yaml | — | No | No | `docker build` (verify only) |
+| Branch | Workflow | What runs |
+|--------|----------|-----------|
+| `dev` | ci.yaml | Lint, test (PostgreSQL service container), build |
+| `production` | cd.yaml | Lint, build, Docker build verification |
+| `production` | screenshots.yaml | Playwright E2E, commit updated screenshots |
 
-All CI workflows create env files from GitHub secrets/vars. Dev uses a PostgreSQL service container in GitHub Actions (validates migration SQL + sets up schema for tests). Test and production target persistent PostgreSQL databases on Hetzner. Docker build verification runs independently — no secrets needed since TypeScript compilation doesn't execute app code.
+Dev CI uses a PostgreSQL 17 service container in GitHub Actions for migrations + tests. The CD workflow verifies the Docker image builds but does not deploy — deployment is manual via Dokploy on Hetzner.

@@ -2,33 +2,18 @@
 
 ## Overview
 
-The Hono backend is a high-performance API server built with TypeScript that provides data to the portfolio frontend. It features automatic OpenAPI documentation, type-safe database operations with Drizzle ORM, and serves the frontend application as static files in production.
+The Hono backend is a high-performance API server built with TypeScript. It provides data to the portfolio frontend through a REST API with auto-generated OpenAPI documentation, type-safe database operations via Drizzle ORM and PostgreSQL, and serves the frontend SPA as static files in production.
 
 ## Architecture
 
 ```mermaid
-graph TB
-    subgraph "Hono Backend"
-        A[index.ts<br/>Server Entry Point]
-        B[app.ts<br/>Route Assembly + Type Export]
-        C[Routes<br/>4 API Modules]
-        D[Database<br/>Turso SQLite + Drizzle]
-        E[OpenAPI<br/>Docs at /doc and /scalar]
-        MW[Middleware<br/>create-app.ts]
-    end
-
-    subgraph "External"
-        F[Portfolio SPA]
-        G[Turso Cloud DB]
-    end
-
-    A --> B
-    B --> MW
-    MW --> C
-    B --> E
-    C --> D
-    D --> G
-    B --> F
+graph TD
+    Entry[index.ts — Server entry] --> App[app.ts — Route assembly]
+    App --> MW[create-app.ts — Middleware stack]
+    MW --> Routes[4 API route modules]
+    Routes --> DB[(PostgreSQL via Drizzle)]
+    App --> OpenAPI[/doc + /scalar]
+    App --> Static[Portfolio SPA static files]
 ```
 
 ## Middleware Stack
@@ -36,10 +21,11 @@ graph TB
 Middleware is applied in `create-app.ts` via `initApp()`. Order matters — each layer processes the request before passing it to the next:
 
 ```mermaid
-flowchart TB
-    R[Request] --> compress --> favicon --> CORS
-    CORS --> requestId --> pinoLogger
-    pinoLogger --> redirectHost --> secureHeaders --> timing
+graph TD
+    R[Request] --> compress --> favicon
+    favicon --> CORS --> requestId
+    requestId --> pinoLogger --> redirectHost
+    redirectHost --> secureHeaders --> timing
     timing --> Handler --> Response
 ```
 
@@ -50,7 +36,7 @@ flowchart TB
 | `cors` | `hono/cors` | CORS with env-driven origin list |
 | `requestId` | `hono/request-id` | Unique ID per request for tracing |
 | `pinoLogger` | `hono-pino` | Structured logging (JSON in prod, pretty in dev) |
-| `redirectHost` | Custom | Redirects Railway domain to canonical domain for SEO |
+| `redirectHost` | Custom | Redirects non-canonical domain for SEO |
 | `secureHeaders` | `hono/secure-headers` | CSP, HSTS, and other security headers |
 | `timing` | `hono/timing` | Server-Timing headers for performance debugging |
 
@@ -134,58 +120,63 @@ Manages portfolio projects and case studies.
 
 ## Database Schema
 
+All tables use PostgreSQL with `pgTable` from `drizzle-orm/pg-core`:
+
 ```mermaid
 erDiagram
     CURRICULUM {
-        integer id PK
-        text url
-        text createdAt
-        text updatedAt
+        serial id PK
+        varchar url
+        timestamp createdAt
+        timestamp updatedAt
     }
 
     SKILLS {
-        integer id PK
-        text name
+        serial id PK
+        varchar name
         integer level
         integer category_id
-        text createdAt
-        text updatedAt
+        timestamp createdAt
+        timestamp updatedAt
     }
 
     PROJECTS {
-        integer id PK
-        text title
+        serial id PK
+        varchar title
         text description
-        text image_url
-        text demo_url
-        text github_url
-        integer published
-        text createdAt
-        text updatedAt
+        varchar image_url
+        varchar demo_url
+        varchar github_url
+        boolean published
+        timestamp createdAt
+        timestamp updatedAt
     }
 
     WORK_EXPERIENCE {
-        integer id PK
-        text company
-        text position
+        serial id PK
+        varchar company
+        varchar position
         text description
-        text start_date
-        text end_date
-        text location
-        text createdAt
-        text updatedAt
+        varchar start_date
+        varchar end_date
+        varchar location
+        timestamp createdAt
+        timestamp updatedAt
     }
 ```
 
 Each schema file in `src/database/schema/` defines **both** the Drizzle table and Zod validation schemas:
 
 ```typescript
-// Drizzle table definition
-export const curriculum = sqliteTable("curriculum", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  url: text("url", { length: 500 }).notNull(),
-  createdAt: text("createdAt", { length: 50 }).notNull(),
-  updatedAt: text("updatedAt", { length: 50 }).notNull(),
+import { z } from "@hono/zod-openapi";
+import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+
+// Drizzle table definition (PostgreSQL)
+export const curriculum = pgTable("curriculum", {
+  id: serial("id").primaryKey(),
+  url: varchar("url", { length: 500 }).notNull(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
 
 // Zod schemas for OpenAPI + runtime validation
@@ -205,7 +196,7 @@ src/
 ├── constant/             # APP_HONO config (BASE_PATH, PORT, ROUTES)
 │   └── schema.ts         # Shared Zod schemas (notFoundSchema)
 ├── database/
-│   ├── index.ts          # Database client + drizzle instance
+│   ├── index.ts          # PostgreSQL client + drizzle instance
 │   ├── schema/           # Per-entity Drizzle + Zod schemas
 │   │   ├── curriculum-schema.ts
 │   │   ├── projects-schema.ts
@@ -219,7 +210,7 @@ src/
 │   ├── configure-open-api.ts  # OpenAPI documentation setup
 │   └── rpc.ts            # RPC client type export
 ├── middleware/
-│   └── redirect-host.ts  # Railway → canonical domain redirect
+│   └── redirect-host.ts  # Non-canonical → canonical domain redirect
 └── routes/               # API route modules (3-file pattern)
     ├── curriculum/
     │   ├── curriculum.index.ts
@@ -280,11 +271,17 @@ export default router;
 
 ## Static File Serving
 
-The portfolio SPA builds into `app/hono/portfolio/`. Hono serves it as a catch-all with SPA fallback:
+The portfolio SPA builds into `app/hono/portfolio/`. Hono serves it with cache headers and SPA fallback:
 
 ```typescript
-app.get("*", serveStatic({ root: "./portfolio" }));     // Static assets
-app.get("*", serveStatic({ path: "./portfolio/index.html" })); // SPA fallback
+// Content-hashed Vite assets — immutable cache
+app.get("/assets/*", serveStatic({ root: "./portfolio" }));
+
+// Other static files (models, images) — 1-day cache
+app.get("*", serveStatic({ root: "./portfolio" }));
+
+// SPA fallback — no-cache for fresh security headers
+app.get("*", serveStatic({ path: "./portfolio/index.html" }));
 ```
 
 ## Security Features
@@ -292,21 +289,21 @@ app.get("*", serveStatic({ path: "./portfolio/index.html" })); // SPA fallback
 - Input validation with Zod schemas (enforced by OpenAPI middleware)
 - CORS with environment-driven origin allowlist (`CORS_ORIGINS`)
 - Secure headers via `hono/secure-headers` (CSP, HSTS, X-Frame-Options)
-- Host redirect for SEO (Railway domain → canonical domain)
+- Host redirect for SEO (non-canonical domain → canonical domain)
 - Environment variable validation at startup (`@t3-oss/env-core`)
 - SQL injection prevention via Drizzle ORM parameterized queries
 - Non-root user in Docker production image
 
 ## Troubleshooting
 
-**Database lock errors in tests**
-Tests run sequentially (`fileParallelism: false`, `maxConcurrency: 1`) to avoid SQLite lock conflicts. If you still see lock errors, ensure no other process (Drizzle Studio, another test run) has the database open.
+**Database connection errors**
+Check that PostgreSQL is running (`pnpm db` starts the Docker container) and that `DATABASE_URL` in your `.env` file is correct. Default for local development: `postgresql://mof:mof@localhost:5432/monorepoonfire`.
 
 **Migration conflicts**
 Run `pnpm db:generate` after schema changes. Review the generated SQL in `migrations/` before committing. If a migration fails, check the `migrations/meta/journal.json` for applied state.
 
 **Environment variable errors at startup**
-The app validates all env vars at import time via `@t3-oss/env-core`. If you see a Zod validation error, check your `.env` file in `src/environment/` matches the schema in `env.ts`. Copy from `.env.example` as a starting point.
+The app validates all env vars at import time via `@t3-oss/env-core`. If you see a Zod validation error, check your `.env` file in `src/environment/` matches the schema in `env.ts`.
 
 **CORS errors in development**
 Set `CORS_ORIGINS=*` in your `.env` file for local development. In production, use a comma-separated list of allowed domains.
