@@ -23,13 +23,6 @@ import { fireEvent, render, screen, waitFor } from "../../test/set-up-test";
 import * as useProjectsModule from "./api/use-projects";
 import Projects from "./projects";
 
-/**
- * API endpoint URL constants
- *
- * These constants are constructed from environment variables and app configuration
- * to ensure consistency with the actual API endpoints used by the application.
- * This approach eliminates hard-coded URLs and makes tests more maintainable.
- */
 const API_BASE_URL = `${env.VITE_BASE_URL}${APP_HONO.BASE_PATH}`;
 const PROJECTS_ENDPOINT = `${API_BASE_URL}${APP_HONO.ROUTES.PROJECTS}`;
 

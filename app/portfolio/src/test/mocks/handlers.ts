@@ -19,8 +19,6 @@ import { mockProjectsData } from "./data/projects";
 import { mockSkillsData } from "./data/skills";
 import { mockWorkExperiencesData } from "./data/work-experiences";
 
-// API endpoint URL - matches the test environment API endpoint
-// The API is served on the test environment with /api base path
 const BASE_URL = `${env.VITE_BASE_URL}${APP_HONO.BASE_PATH}`;
 
 /**

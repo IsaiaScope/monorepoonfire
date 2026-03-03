@@ -8,6 +8,7 @@
  */
 
 import { serveStatic } from "@hono/node-server/serve-static";
+import { etag } from "hono/etag";
 
 import { APP_HONO } from "./constant";
 import { configureOpenApi } from "./library/configure-open-api";
@@ -46,16 +47,47 @@ const _routes = app.route(
 );
 
 /**
- * Static file serving for the portfolio frontend
- *
- * These routes handle serving the built React portfolio application:
- * 1. First route serves static assets (CSS, JS, images, etc.)
- * 2. Second route provides SPA fallback - serves index.html for any unmatched routes
- *
- * This enables client-side routing to work properly in the React application
+ * ETag middleware — generates content-based ETags and returns 304 Not Modified
+ * when the browser sends a matching If-None-Match header.
  */
-app.get("*", serveStatic({ root: `.${APP_HONO.PORTFOLIO}` })); // Serve static files
-app.get("*", serveStatic({ path: `.${APP_HONO.PORTFOLIO}/index.html` })); // SPA fallback
+app.use("*", etag());
+
+/**
+ * Static file serving for the portfolio frontend (three-tier caching)
+ *
+ * 1. /assets/* — Vite content-hashed filenames → immutable, cache forever
+ * 2. * (static files) — un-hashed files (.glb, .png, fonts) → cache 1 day
+ * 3. * (SPA fallback) — index.html → always revalidate for fresh CSP/security headers
+ */
+app.get(
+  "/assets/*",
+  serveStatic({
+    root: `.${APP_HONO.PORTFOLIO}`,
+    onFound: (_path, c) => {
+      c.header("Cache-Control", "public, max-age=31536000, immutable");
+    },
+  }),
+);
+
+app.get(
+  "*",
+  serveStatic({
+    root: `.${APP_HONO.PORTFOLIO}`,
+    onFound: (_path, c) => {
+      c.header("Cache-Control", "public, max-age=86400");
+    },
+  }),
+);
+
+app.get(
+  "*",
+  serveStatic({
+    path: `.${APP_HONO.PORTFOLIO}/index.html`,
+    onFound: (_path, c) => {
+      c.header("Cache-Control", "no-cache");
+    },
+  }),
+);
 
 // Export the configured application
 export default app;

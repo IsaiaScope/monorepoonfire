@@ -19,11 +19,6 @@
     "build:production": {
       "dependsOn": ["^build:production"],
       "inputs": [".env*"]
-
-    },
-    "build:docker": {
-      "dependsOn": ["^build:docker"],
-      "inputs": [".env*"]
     },
     "lint": {
       "dependsOn": ["^lint"]

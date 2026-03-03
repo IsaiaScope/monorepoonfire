@@ -27,17 +27,9 @@ WORKDIR /app
 COPY --from=deps /app/ ./
 COPY . .
 
-# Portfolio env is now copied directly (only VITE_* client vars, no secrets).
-# For local Docker testing, override VITE_BASE_URL via build arg.
-ARG VITE_BASE_URL
-RUN if [ -n "$VITE_BASE_URL" ]; then \
-      sed -i "s|^VITE_BASE_URL=.*|VITE_BASE_URL=$VITE_BASE_URL|" \
-        app/portfolio/src/environment/.env.production; \
-    fi
-
 # Portfolio builds into app/hono/portfolio/ (Hono serves it as static files)
-RUN pnpm --filter @app/portfolio build:docker
-RUN pnpm --filter @app/hono build:docker
+RUN pnpm --filter @app/portfolio build:production
+RUN pnpm --filter @app/hono build:production
 # `pnpm deploy` extracts only production deps for @app/hono into /deploy
 RUN pnpm --filter @app/hono deploy /deploy --prod
 # Copy the built SPA into the deploy bundle

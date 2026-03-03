@@ -6,7 +6,6 @@
     "dev": "vite",
     "dev:production": "vite --mode production",
     "build": "tsc -b && vite build --mode development",
-    "build:docker": "tsc -b && vite build --mode production",
     "build:production": "tsc -b && vite build --mode production",
     "preview": "pnpm build && vite preview",
     "preview:production": "pnpm build:production && vite preview",
