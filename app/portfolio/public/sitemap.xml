@@ -1,121 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-=============================================================================
-XML SITEMAP - Search Engine Site Structure Map for Isaia Riva Portfolio
-=============================================================================
-
-This sitemap tells search engines about all the important pages on the website,
-when they were last updated, how often they change, and their relative importance.
-It helps Google, Bing, and other search engines efficiently crawl and index the site.
-
-Sitemap Protocol: https://www.sitemaps.org/protocol.html
-Google's Guide: https://developers.google.com/search/docs/crawling-indexing/sitemaps
-
-Site Details:
-- Owner: Isaia Riva (Senior Front End Developer)  
-- Canonical Domain: https://www.isaiariva.com
-- Hosting: Railway (monorepoonfire.up.railway.app)
-- Target Keywords: "Isaia Riva", "Riva Isaia", "Senior Front End Developer"
-- Last Updated: 2025-10-22
-
-XML Elements Explained:
-- <loc>: The URL of the page (must be canonical domain for SEO)
-- <lastmod>: When the page was last modified (YYYY-MM-DD format)
-- <changefreq>: How often the page content typically changes
-- <priority>: Relative importance compared to other pages (0.0 to 1.0)
-
-Priority Guidelines:
-- 1.0 = Homepage (most important)
-- 0.8-0.9 = Main sections (about, contact, portfolio)
-- 0.5-0.7 = Individual projects/articles
-- 0.1-0.4 = Less important pages (legal, archives)
-
-Change Frequency Options:
-- always, hourly, daily, weekly, monthly, yearly, never
--->
-
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!--
-  ============================================================================= 
-  HOMEPAGE - Primary Landing Page for Isaia Riva Portfolio
-  =============================================================================
-  This is the most important page for SEO and user discovery.
-  Contains main introduction, skills overview, and featured projects.
-  
-  SEO Importance: Maximum (1.0) - This is what people see first when searching
-  Update Frequency: Weekly - Content may be updated with new projects/info
-  Target Keywords: "Isaia Riva", "Riva Isaia", "Senior Front End Developer Portfolio"
-  -->
   <url>
     <loc>https://www.isaiariva.com/</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!--
-  ============================================================================= 
-  CONTACT PAGE - Professional Contact Information
-  =============================================================================
-  Essential for potential employers and clients to reach Isaia Riva.
-  Contains contact form, email, social media links, and professional info.
-  
-  SEO Importance: High (0.8) - Important for business inquiries and networking
-  Update Frequency: Monthly - Contact info changes less frequently than portfolio
-  Target Keywords: "Contact Isaia Riva", "Hire Senior Front End Developer"
-  
-  Business Value: Critical for converting visitors to leads/opportunities
-  -->
   <url>
     <loc>https://www.isaiariva.com/contact</loc>
-    <lastmod>2025-10-22</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
 </urlset>
-
-<!--
-=============================================================================
-HOW THIS SITEMAP HELPS WITH SEO AND DISCOVERABILITY
-=============================================================================
-
-1. SEARCH ENGINE EFFICIENCY
-   - Tells Google exactly which pages exist and their importance
-   - Prevents wasted crawl budget on unimportant or duplicate URLs
-   - Ensures both main pages get indexed quickly and thoroughly
-
-2. CONTENT FRESHNESS SIGNALS
-   - <lastmod> dates help search engines know when to re-crawl
-   - <changefreq> gives hints about how often to check for updates
-   - Helps maintain fresh search result snippets
-
-3. PRIORITY GUIDANCE
-   - priority="1.0" for homepage ensures it gets maximum attention
-   - priority="0.8" for contact page shows it's important but secondary
-   - Helps search engines allocate crawling resources effectively
-
-4. CANONICAL URL ENFORCEMENT
-   - All URLs use https://www.isaiariva.com (not Railway subdomain)
-   - Reinforces canonical domain preference set in robots.txt and HTML
-   - Ensures consistent branding in search results
-
-5. STRUCTURED DISCOVERY
-   - Simple XML structure makes it easy for bots to parse
-   - Clear navigation path for search engine crawlers
-   - Reduces chance of important pages being missed
-
-EXPECTED SEO OUTCOMES:
-- Homepage appears for "Isaia Riva" and "Riva Isaia" searches
-- Contact page appears for "Contact Isaia Riva" searches  
-- Both pages indexed within 1-2 weeks of sitemap submission
-- Consistent www.isaiariva.com domain shown in all search results
-- Higher ranking for personal name searches due to clear site structure
-
-MAINTENANCE NOTES:
-- Update <lastmod> dates when making significant content changes
-- Keep <changefreq> accurate to maintain search engine trust
-- Add new pages here when site expands beyond current 2 pages
-- Monitor Google Search Console for indexing status and errors
--->
