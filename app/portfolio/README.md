@@ -48,7 +48,7 @@ Key variables:
 
 - **About** — Skills display with animated globe and orbiting circles
 - **Contact** — Contact form with EmailJS integration
-- **Hero** — Landing section with animated text and background effects
+- **Hero** — Landing section with 3D alien model (Three.js) and animated text
 - **Projects** — Project showcase with details modal
 - **Work** — Work experience timeline
 

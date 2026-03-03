@@ -4,7 +4,7 @@ Backend API server for the MonorepoOnFire portfolio application.
 
 ## Overview
 
-A Hono-based REST API with OpenAPI documentation, serving portfolio data (skills, projects, work experience) from a Turso SQLite database. Also serves the portfolio frontend as static files.
+A Hono-based REST API with OpenAPI documentation, serving portfolio data (skills, projects, work experience) from a PostgreSQL database. Also serves the portfolio frontend as static files.
 
 ## Getting Started
 
@@ -24,8 +24,7 @@ pnpm --filter @app/hono dev
 
 Create `.env` in `src/environment/`:
 ```env
-DATABASE_URL=file:local.db
-# DATABASE_AUTH_TOKEN= (optional in dev)
+DATABASE_URL=postgresql://mof:mof@localhost:5432/monorepoonfire
 ```
 
 Or copy from the example: `src/environment/.env.example`
@@ -44,7 +43,7 @@ Or copy from the example: `src/environment/.env.example`
 
 ## Database
 
-Uses Drizzle ORM with Turso (LibSQL/SQLite).
+Uses Drizzle ORM with PostgreSQL.
 
 ```bash
 # Generate migration SQL from schema changes
