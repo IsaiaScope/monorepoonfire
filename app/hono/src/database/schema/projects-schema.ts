@@ -8,7 +8,7 @@ export const projects = pgTable("projects", {
 
   subDescription: jsonb("subDescription").notNull().$type<string[]>(),
 
-  description: varchar("description", { length: 200 }).notNull(),
+  description: varchar("description", { length: 500 }).notNull(),
 
   href: varchar("href", { length: 200 }).notNull(),
 
@@ -43,7 +43,7 @@ const projectsTableSchema = z.object({
 
   description: z.string({
     description: "A brief description of the project",
-  }).nonempty().max(200).openapi({
+  }).nonempty().max(500).openapi({
     example: "This is a brief description of the project.",
   }),
 

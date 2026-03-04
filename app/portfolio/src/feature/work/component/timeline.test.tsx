@@ -24,24 +24,24 @@ describe("timeline component", () => {
       render(<Timeline data={englishData} />);
 
       // Verify all job roles are rendered (2 instances each: mobile + desktop)
-      expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Full Stack Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Junior Software Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
+      expect(screen.getAllByText("Bachelor's degree in Computer Software Engineering")).toHaveLength(2);
 
       // Verify company names are rendered
-      expect(screen.getAllByText("Tech Innovation Corp")).toHaveLength(2);
-      expect(screen.getAllByText("Digital Solutions Ltd")).toHaveLength(2);
-      expect(screen.getAllByText("StartupFlow Inc")).toHaveLength(2);
+      expect(screen.getAllByText("N-and Group Ltd")).toHaveLength(2);
+      expect(screen.getAllByText("Fincons Group")).toHaveLength(2);
+      expect(screen.getAllByText("eCampus University")).toHaveLength(2);
 
       // Verify date ranges are rendered
-      expect(screen.getAllByText("2023-01-01/2024-12-31")).toHaveLength(2);
-      expect(screen.getAllByText("2021-06-01/2022-12-31")).toHaveLength(2);
-      expect(screen.getAllByText("2020-03-01/2021-05-31")).toHaveLength(2);
+      expect(screen.getAllByText("2025-10/Today")).toHaveLength(2);
+      expect(screen.getAllByText("2021-02/2025-10")).toHaveLength(2);
+      expect(screen.getAllByText("2016-09/2019-09")).toHaveLength(2);
 
       // Verify locations are rendered
-      expect(screen.getAllByText("London, UK")).toHaveLength(2);
-      expect(screen.getAllByText("Manchester, UK")).toHaveLength(2);
-      expect(screen.getAllByText("Remote")).toHaveLength(2);
+      expect(screen.getAllByText("Pognano (BG), Italy")).toHaveLength(2);
+      expect(screen.getAllByText("Vimercate (MB), Italy")).toHaveLength(2);
+      expect(screen.getAllByText("Novedrate (CO) Italy")).toHaveLength(2);
     });
 
     /**
@@ -53,14 +53,14 @@ describe("timeline component", () => {
       render(<Timeline data={englishData} />);
 
       // Verify short descriptions (mobile) are present
-      expect(screen.getByText(/Led frontend development for e-commerce platform/i)).toBeInTheDocument();
-      expect(screen.getByText(/Built web applications using Node.js, React/i)).toBeInTheDocument();
-      expect(screen.getByText(/Developed client projects using JavaScript/i)).toBeInTheDocument();
+      expect(screen.getByText(/Designing and implementing high-performing UIs for vending machine/i)).toBeInTheDocument();
+      expect(screen.getByText(/Worked on media and streaming projects for Mediaset/i)).toBeInTheDocument();
+      expect(screen.getByText(/Learned solid knowledge in Java, Python and C\+\+/i)).toBeInTheDocument();
 
       // Verify long descriptions (desktop) are present
-      expect(screen.getByText(/Led the development of a comprehensive e-commerce platform serving over 100,000 users/i)).toBeInTheDocument();
-      expect(screen.getByText(/Developed and maintained multiple web applications using modern technologies/i)).toBeInTheDocument();
-      expect(screen.getByText(/Started my professional journey by working on various client projects/i)).toBeInTheDocument();
+      expect(screen.getByText(/Designing and implementing high-performing user interfaces for vending machine applications/i)).toBeInTheDocument();
+      expect(screen.getByText(/Worked on media and streaming projects for major clients including Mediaset/i)).toBeInTheDocument();
+      expect(screen.getByText(/Learned solid knowledge regarding Java, Python and C\+\+/i)).toBeInTheDocument();
     });
   });
 
@@ -74,14 +74,14 @@ describe("timeline component", () => {
       render(<Timeline data={italianData} />);
 
       // Verify Italian content is rendered
-      expect(screen.getAllByText("Sviluppatore Frontend Senior")).toHaveLength(2);
-      expect(screen.getAllByText("Sviluppatore Full Stack")).toHaveLength(2);
-      expect(screen.getAllByText("Sviluppatore Software Junior")).toHaveLength(2);
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+      expect(screen.getAllByText("Ingegnere Software - Analista")).toHaveLength(2);
+      expect(screen.getAllByText("Laurea triennale in Ingegneria Informatica e dell'Automazione")).toHaveLength(2);
 
       // Verify English content is not present
-      expect(screen.queryByText("Senior Frontend Developer")).not.toBeInTheDocument();
-      expect(screen.queryByText("Full Stack Developer")).not.toBeInTheDocument();
-      expect(screen.queryByText("Junior Software Developer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Software Engineer - Analyst")).not.toBeInTheDocument();
+      expect(screen.queryByText("Bachelor's degree in Computer Software Engineering")).not.toBeInTheDocument();
     });
 
     /**
@@ -94,15 +94,15 @@ describe("timeline component", () => {
       const { rerender } = render(<Timeline data={englishData} />);
 
       // Verify English content is initially rendered
-      expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
-      expect(screen.queryByText("Sviluppatore Frontend Senior")).not.toBeInTheDocument();
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.queryByText("Sviluppatore Front-End Senior")).not.toBeInTheDocument();
 
       // Update to Italian data
       rerender(<Timeline data={italianData} />);
 
       // Verify Italian content is now rendered
-      expect(screen.getAllByText("Sviluppatore Frontend Senior")).toHaveLength(2);
-      expect(screen.queryByText("Senior Frontend Developer")).not.toBeInTheDocument();
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+      expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
     });
   });
 

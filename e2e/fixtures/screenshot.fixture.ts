@@ -1,17 +1,17 @@
-import { mkdirSync } from "node:fs";
-import path from "node:path";
+import type { Locator, Page } from "@playwright/test";
 
 import { test as base } from "@playwright/test";
+import { mkdirSync } from "node:fs";
+import path from "node:path";
 
 import { screenshotPath } from "../helpers/screenshot-paths";
 import { getViewportName } from "../helpers/viewports";
 
-import type { Locator, Page } from "@playwright/test";
-
 /** Injects CSS to hide devtools and pause all animations for clean screenshots. */
 async function preparePageForScreenshot(page: Page): Promise<void> {
   await page.evaluate(() => {
-    if (document.getElementById("e2e-screenshot-cleanup")) return;
+    if (document.getElementById("e2e-screenshot-cleanup"))
+      return;
     const style = document.createElement("style");
     style.id = "e2e-screenshot-cleanup";
     style.textContent = `
@@ -76,7 +76,8 @@ export const test = base.extend<ScreenshotFixture>({
 
         if (captureMode === "element") {
           await target.screenshot({ path: outputPath, fullPage: fullPage ?? false });
-        } else {
+        }
+        else {
           // Scroll target into view — scrollIntoView respects scroll-margin-top (navbar offset)
           await (target as Locator).evaluate((el) => {
             el.scrollIntoView({ block: "start", behavior: "instant" });

@@ -39,19 +39,19 @@ describe("project details component", () => {
     renderProjectDetails();
 
     // Title display
-    expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+    expect(screen.getByText("Portfolio")).toBeInTheDocument();
 
     // Image display
     const image = screen.getByRole("presentation");
     expect(image).toHaveAttribute("src", mockProjectData.image);
 
     // Sub-descriptions
-    expect(screen.getByText(/Built a scalable Test MSW application/)).toBeInTheDocument();
-    expect(screen.getByText(/Implemented secure authentication/)).toBeInTheDocument();
-    expect(screen.getByText(/Designed a responsive frontend/)).toBeInTheDocument();
+    expect(screen.getByText(/A modern full-stack web application built with React/)).toBeInTheDocument();
+    expect(screen.getByText(/PostgreSQL database with Docker containerization/)).toBeInTheDocument();
+    expect(screen.getByText(/GitHub Actions CI\/CD pipeline/)).toBeInTheDocument();
 
     // Screen reader description
-    expect(screen.getByText(/A comprehensive Test MSW e-commerce platform/)).toBeInTheDocument();
+    expect(screen.getByText(/A modern full-stack portfolio built with React and Hono/)).toBeInTheDocument();
   });
 
   // =============================================================================
@@ -84,10 +84,10 @@ describe("project details component", () => {
     const propsWithEmptySubDesc = { ...mockProjectData, subDescription: [] };
     const { container, unmount } = renderProjectDetails(propsWithEmptySubDesc);
 
-    expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+    expect(screen.getByText("Portfolio")).toBeInTheDocument();
     const paragraphs = container.querySelectorAll("p");
     const subDescParagraphs = Array.from(paragraphs).filter(p =>
-      p.textContent && !p.textContent.includes("A comprehensive Test MSW e-commerce platform"),
+      p.textContent && !p.textContent.includes("A modern full-stack portfolio built with React and Hono"),
     );
     expect(subDescParagraphs).toHaveLength(0);
 
@@ -136,7 +136,7 @@ describe("project details component", () => {
     renderProjectDetails();
 
     // Semantic structure
-    expect(screen.getByRole("heading", { name: "Test MSW E-commerce Platform" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Portfolio" })).toBeInTheDocument();
     expect(screen.getByRole("presentation")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Close" })).toBeInTheDocument();
 

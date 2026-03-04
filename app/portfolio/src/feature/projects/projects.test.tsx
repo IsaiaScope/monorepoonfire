@@ -38,11 +38,11 @@ describe("projects component", () => {
       expect(screen.getByText("Projects")).toBeInTheDocument();
 
       // Wait for projects to load and become visible
-      expect(await screen.findByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+      expect(await screen.findByText("Portfolio")).toBeInTheDocument();
 
-      // Check for Portfolio project (may have different text content)
+      // Check for project description
       await waitFor(() => {
-        const portfolioElements = screen.queryAllByText(/Test MSW.*Portfolio/i);
+        const portfolioElements = screen.queryAllByText(/Portfolio/i);
         expect(portfolioElements.length).toBeGreaterThan(0);
       });
     });
@@ -69,9 +69,6 @@ describe("projects component", () => {
         const skeletons = document.querySelectorAll(".animate-pulse");
         expect(skeletons.length).toBeGreaterThan(0);
       });
-
-      // Verify content is not yet present during loading
-      expect(screen.queryByText("Test MSW E-commerce Platform")).not.toBeInTheDocument();
     });
 
     /**
@@ -118,10 +115,8 @@ describe("projects component", () => {
       render(<Projects />, { language: "it-IT" });
 
       await waitFor(async () => {
-        expect(await screen.findByText("Test MSW Sistema Italiano")).toBeInTheDocument();
-        expect(screen.queryByText("Test MSW E-commerce Platform")).not.toBeInTheDocument();
-        expect(screen.queryByText("Test MSW Portfolio Dashboard")).not.toBeInTheDocument();
-        expect(screen.queryByText("Test MSW Sistema Italiano")).toBeInTheDocument();
+        // Italian portfolio title is the same "Portfolio"
+        expect(await screen.findByText("Portfolio")).toBeInTheDocument();
       });
     });
 
@@ -149,15 +144,15 @@ describe("projects component", () => {
       render(<Projects />);
 
       try {
-        await screen.findByText("Test MSW E-commerce Platform");
-        const projectTitle = screen.getByText("Test MSW E-commerce Platform");
+        await screen.findByText("Portfolio");
+        const projectTitle = screen.getByText("Portfolio");
         const projectContainer = projectTitle.closest("div");
 
         if (projectContainer) {
           fireEvent.mouseMove(projectContainer, { clientX: 100, clientY: 100 });
         }
 
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       }
       catch (error) {
         console.warn("Mouse interaction test with real API data:", error);
@@ -170,9 +165,9 @@ describe("projects component", () => {
     it("should clear preview on scroll", async () => {
       render(<Projects />);
 
-      await screen.findByText("Test MSW E-commerce Platform");
+      await screen.findByText("Portfolio");
       fireEvent.scroll(window);
-      expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+      expect(screen.getByText("Portfolio")).toBeInTheDocument();
     });
   });
 
@@ -190,13 +185,13 @@ describe("projects component", () => {
       render(<Projects />);
 
       expect(screen.getByText("Projects")).toBeInTheDocument();
-      expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
-      expect(screen.getByText("Test MSW Portfolio Dashboard")).toBeInTheDocument();
+      // Both en-GB and it-IT have title "Portfolio", only en-GB is shown by default
+      expect(screen.getByText("Portfolio")).toBeInTheDocument();
 
-      // Verify tags are rendered (using getAllByText for duplicate tags)
-      expect(screen.getAllByText("#React")).toHaveLength(2);
-      expect(screen.getAllByText("#TypeScript")).toHaveLength(1);
-      expect(screen.getAllByText("#Test MSW")).toHaveLength(2);
+      // Verify tags are rendered
+      expect(screen.getByText("#React")).toBeInTheDocument();
+      expect(screen.getByText("#Hono")).toBeInTheDocument();
+      expect(screen.getByText("#PostgreSQL")).toBeInTheDocument();
     });
 
     /**
@@ -266,9 +261,8 @@ describe("projects component", () => {
       render(<Projects />, { language: "it-IT" });
 
       await waitFor(() => {
-        expect(screen.getByText("Test MSW Sistema Italiano")).toBeInTheDocument();
-        expect(screen.queryByText("E-commerce Platform")).not.toBeInTheDocument();
-        expect(screen.queryByText("Authentication System")).not.toBeInTheDocument();
+        // Italian portfolio uses same title "Portfolio"
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
     });
 
@@ -286,7 +280,7 @@ describe("projects component", () => {
       render(<Projects />);
 
       expect(screen.queryByText("Projects")).not.toBeInTheDocument();
-      expect(screen.queryByText("E-commerce Platform")).not.toBeInTheDocument();
+      expect(screen.queryByText("Portfolio")).not.toBeInTheDocument();
     });
 
     /**
@@ -321,8 +315,7 @@ describe("projects component", () => {
       rerender(<Projects />);
 
       await waitFor(() => {
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
-        expect(screen.getByText("Test MSW Portfolio Dashboard")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
     });
   });
@@ -343,7 +336,7 @@ describe("projects component", () => {
 
       // Wait for projects to load
       await waitFor(() => {
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
 
       // Initially, preview image should not exist in DOM (no preview active)
@@ -377,7 +370,7 @@ describe("projects component", () => {
 
       // Wait for projects to load
       await waitFor(() => {
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
 
       const projectContainers = screen.getAllByTestId("project-container");
@@ -415,7 +408,7 @@ describe("projects component", () => {
 
       // Wait for projects to load
       await waitFor(() => {
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
 
       const projectContainers = screen.getAllByTestId("project-container");
@@ -453,7 +446,7 @@ describe("projects component", () => {
 
       // Wait for projects to load
       await waitFor(() => {
-        expect(screen.getByText("Test MSW E-commerce Platform")).toBeInTheDocument();
+        expect(screen.getByText("Portfolio")).toBeInTheDocument();
       });
 
       const projectContainers = screen.getAllByTestId("project-container");

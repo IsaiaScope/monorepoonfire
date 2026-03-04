@@ -11,34 +11,34 @@ Audit and fix all documentation files so they match the current codebase state.
 
 ### READMEs (7 files)
 
-| File | Covers |
-|------|--------|
-| `README.md` | Root — monorepo overview, tech stack, screenshots |
-| `app/hono/README.md` | Backend API — routes, database, environment |
-| `app/portfolio/README.md` | Frontend SPA — features, components, testing |
-| `package/config/README.md` | Shared config — ESLint, TypeScript, Tailwind |
-| `package/shadcn/README.md` | shadcn/ui wrapper package |
-| `package/ui/README.md` | Shared UI components |
-| `package/utility/README.md` | Shared utilities — Zod schemas, helpers |
+| File                        | Covers                                            |
+| --------------------------- | ------------------------------------------------- |
+| `README.md`                 | Root — monorepo overview, tech stack, screenshots |
+| `app/hono/README.md`        | Backend API — routes, database, environment       |
+| `app/portfolio/README.md`   | Frontend SPA — features, components, testing      |
+| `package/config/README.md`  | Shared config — ESLint, TypeScript, Tailwind      |
+| `package/shadcn/README.md`  | shadcn/ui wrapper package                         |
+| `package/ui/README.md`      | Shared UI components                              |
+| `package/utility/README.md` | Shared utilities — Zod schemas, helpers           |
 
 ### Doc Guides (7 files)
 
-| File | Covers |
-|------|--------|
-| `doc/architecture-overview.md` | System architecture, Mermaid diagrams |
-| `doc/backend-guide.md` | Hono API details, middleware, database |
-| `doc/frontend-guide.md` | React SPA, routing, state management |
-| `doc/development-workflows-guide.md` | Dev setup, scripts, CI |
-| `doc/shared-packages-guide.md` | Package internals and exports |
-| `doc/docker-deployment-guide.md` | Docker build, deployment, env |
-| `doc/environment-system-guide.md` | Env validation, .env files |
+| File                                 | Covers                                 |
+| ------------------------------------ | -------------------------------------- |
+| `doc/architecture-overview.md`       | System architecture, Mermaid diagrams  |
+| `doc/backend-guide.md`               | Hono API details, middleware, database |
+| `doc/frontend-guide.md`              | React SPA, routing, state management   |
+| `doc/development-workflows-guide.md` | Dev setup, scripts, CI                 |
+| `doc/shared-packages-guide.md`       | Package internals and exports          |
+| `doc/docker-deployment-guide.md`     | Docker build, deployment, env          |
+| `doc/environment-system-guide.md`    | Env validation, .env files             |
 
 ### Other
 
-| File | Covers |
-|------|--------|
-| `CLAUDE.md` | AI assistant context — commands, conventions |
-| `doc/screenshots.md` | Screenshot gallery reference |
+| File                 | Covers                                       |
+| -------------------- | -------------------------------------------- |
+| `CLAUDE.md`          | AI assistant context — commands, conventions |
+| `doc/screenshots.md` | Screenshot gallery reference                 |
 
 ## Verification Checks
 
@@ -89,35 +89,42 @@ Verify screenshot references in `doc/screenshots.md` and `README.md` point to fi
 Follow these rules when writing or fixing documentation:
 
 ### Headers
+
 - No emoji in headers — use plain text
 - Use `##` for major sections, `###` for subsections
 - Keep headers short and scannable
 
 ### Code Blocks
+
 - Always use language tags: ` ```bash `, ` ```typescript `, ` ```env `
 - Show realistic examples, not placeholders
 
 ### Tables
+
 - Use tables for structured data (directory listings, env vars, features)
 - Align columns with pipes
 
 ### Mermaid Diagrams
+
 - Vertical layout only: `graph TD` or `flowchart TB`
 - Never use `graph LR` or horizontal layouts
 - Keep node labels concise
 
 ### Database References
+
 - Always say **PostgreSQL** — never SQLite, Turso, LibSQL, or "the database" ambiguously
 - Connection strings use `postgresql://` URI format
 - ORM is always "Drizzle ORM with PostgreSQL"
 
 ### Tone
+
 - Professional, concise, visual
 - Primary audience: recruiters and portfolio visitors
 - Secondary audience: developers evaluating the codebase
 - Show don't tell — prefer tables, diagrams, and code over paragraphs
 
 ### Badges
+
 - Use shields.io badges in root README only
 - Keep badge row clean — no redundant or broken badges
 
@@ -130,8 +137,8 @@ When running this skill:
 3. **Report findings** as a discrepancy table:
 
 | File | Line | Issue | Current | Fix |
-|------|------|-------|---------|-----|
-| ... | ... | ... | ... | ... |
+| ---- | ---- | ----- | ------- | --- |
+| ...  | ...  | ...   | ...     | ... |
 
 4. **Apply fixes** to all discrepancies found
 5. **Verify** — re-run the grep checks:
@@ -143,15 +150,15 @@ When running this skill:
 
 After modifying code, check which docs need updates:
 
-| Change Type | Files to Check |
-|-------------|---------------|
-| New/removed API route | `app/hono/README.md`, `doc/backend-guide.md` |
-| Schema change | `doc/backend-guide.md`, `doc/architecture-overview.md` |
-| New env variable | Both app READMEs, `doc/environment-system-guide.md` |
-| New package export | `package/*/README.md`, `doc/shared-packages-guide.md` |
-| Middleware change | `doc/backend-guide.md`, `doc/architecture-overview.md` |
-| New dependency | Root `README.md` tech stack section |
-| CI workflow change | `CLAUDE.md`, `doc/development-workflows-guide.md` |
-| New feature/component | `app/portfolio/README.md`, `doc/frontend-guide.md` |
-| Docker/deploy change | `doc/docker-deployment-guide.md` |
-| New screenshot | `doc/screenshots.md`, root `README.md` |
+| Change Type           | Files to Check                                         |
+| --------------------- | ------------------------------------------------------ |
+| New/removed API route | `app/hono/README.md`, `doc/backend-guide.md`           |
+| Schema change         | `doc/backend-guide.md`, `doc/architecture-overview.md` |
+| New env variable      | Both app READMEs, `doc/environment-system-guide.md`    |
+| New package export    | `package/*/README.md`, `doc/shared-packages-guide.md`  |
+| Middleware change     | `doc/backend-guide.md`, `doc/architecture-overview.md` |
+| New dependency        | Root `README.md` tech stack section                    |
+| CI workflow change    | `CLAUDE.md`, `doc/development-workflows-guide.md`      |
+| New feature/component | `app/portfolio/README.md`, `doc/frontend-guide.md`     |
+| Docker/deploy change  | `doc/docker-deployment-guide.md`                       |
+| New screenshot        | `doc/screenshots.md`, root `README.md`                 |

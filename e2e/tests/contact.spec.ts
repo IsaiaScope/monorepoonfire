@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures/screenshot.fixture";
+import { expect, test } from "../fixtures/screenshot.fixture";
 import { settleAnimations } from "../helpers/wait-for-content";
 
 test.describe("Contact page", () => {

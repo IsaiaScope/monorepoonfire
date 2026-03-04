@@ -39,10 +39,10 @@ describe("project component", () => {
   it("should render project title and tags", () => {
     renderProject(mockProjectData, { viewport: "desktop" });
 
-    expect(screen.getAllByText("Test MSW E-commerce Platform")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Portfolio")[0]).toBeInTheDocument();
     expect(screen.getByText("#React")).toBeInTheDocument();
-    expect(screen.getByText("#TypeScript")).toBeInTheDocument();
-    expect(screen.getByText("#Test MSW")).toBeInTheDocument();
+    expect(screen.getByText("#Hono")).toBeInTheDocument();
+    expect(screen.getByText("#PostgreSQL")).toBeInTheDocument();
   });
 
   it("should call setPreview with image on hover for devices that support hover", () => {
@@ -139,7 +139,7 @@ describe("project component", () => {
     const propsWithoutTags = { ...mockProjectData, tags: [] };
     renderProject(propsWithoutTags, { viewport: "desktop" });
 
-    expect(screen.getAllByText("Test MSW E-commerce Platform")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("Portfolio")[0]).toBeInTheDocument();
     expect(screen.queryByText("#React")).not.toBeInTheDocument();
   });
 

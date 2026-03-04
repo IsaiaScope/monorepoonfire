@@ -7,20 +7,20 @@ const Icon = ({ src }: { src: string }) => (
 
 export default function Frameworks() {
   const skills = [
-    "css3",
-    "git",
-    "github",
-    "html5",
     "react",
-    "javascript",
-    "tailwindcss",
-    "vitejs",
-    "threejs",
     "typescript",
-    "nodejs",
     "nextjs-original",
     "angular",
-    "ngrx",
+    "nodejs",
+    "tailwindcss",
+    "aws",
+    "vitejs",
+    "git",
+    "github",
+    "claude-code",
+    "copilot-orbit",
+    "redux-orbit",
+    "javascript",
   ];
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center">

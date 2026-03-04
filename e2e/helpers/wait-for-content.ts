@@ -12,7 +12,7 @@ export async function waitForSectionData(
   await section.waitFor({ state: "visible", timeout: 15_000 });
 
   // Wait for any skeleton/loading indicators inside the section to disappear
-  const skeletons = section.locator('[class*="skeleton"], [class*="animate-pulse"]');
+  const skeletons = section.locator("[class*=\"skeleton\"], [class*=\"animate-pulse\"]");
   if (await skeletons.count() > 0) {
     await skeletons.first().waitFor({ state: "hidden", timeout: 15_000 });
   }
@@ -43,11 +43,13 @@ export async function settleAnimations(page: Page): Promise<void> {
       // Skip infinite animations — they can't be finished
       if (effect && "getComputedTiming" in effect) {
         const timing = effect.getComputedTiming();
-        if (timing.duration === Infinity || timing.endTime === Infinity) continue;
+        if (timing.duration === Infinity || timing.endTime === Infinity)
+          continue;
       }
       try {
         animation.finish();
-      } catch {
+      }
+      catch {
         // Ignore animations that can't be finished (infinite, etc.)
       }
     }

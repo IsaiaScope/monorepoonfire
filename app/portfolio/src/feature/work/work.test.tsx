@@ -38,16 +38,16 @@ describe("work component", () => {
       expect(screen.getByText("Work Experience")).toBeInTheDocument();
 
       // Wait for work experiences to load and become visible (2 instances: mobile + desktop)
-      expect(await screen.findAllByText("Senior Frontend Developer")).toHaveLength(2);
+      expect(await screen.findAllByText("Senior Front-End Developer")).toHaveLength(2);
 
       // Check for specific company name
       await waitFor(() => {
-        const companyElements = screen.queryAllByText(/Tech Innovation Corp/i);
+        const companyElements = screen.queryAllByText(/N-and Group Ltd/i);
         expect(companyElements.length).toBeGreaterThan(0);
       });
 
       // Check for role description
-      expect(screen.getByText(/Led the development of a comprehensive e-commerce platform/i)).toBeInTheDocument();
+      expect(screen.getByText(/Designing and implementing high-performing user interfaces for vending machine/i)).toBeInTheDocument();
     });
 
     /**
@@ -74,7 +74,7 @@ describe("work component", () => {
       });
 
       // Verify content is not yet present during loading
-      expect(screen.queryByText("Senior Frontend Developer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
     });
 
     /**
@@ -121,10 +121,10 @@ describe("work component", () => {
       render(<Work />, { language: "it-IT" });
 
       await waitFor(async () => {
-        expect(await screen.findAllByText("Sviluppatore Frontend Senior")).toHaveLength(2);
+        expect(await screen.findAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
       });
 
-      expect(screen.queryByText("Senior Frontend Developer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
     });
 
     /**
@@ -177,14 +177,14 @@ describe("work component", () => {
       render(<Work />);
 
       expect(screen.getByText("Work Experience")).toBeInTheDocument();
-      expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Tech Innovation Corp")).toHaveLength(2);
-      expect(screen.getAllByText("Full Stack Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Digital Solutions Ltd")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("N-and Group Ltd")).toHaveLength(2);
+      expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
+      expect(screen.getAllByText("Fincons Group")).toHaveLength(2);
 
       // Verify company locations are rendered
-      expect(screen.getAllByText("London, UK")).toHaveLength(2);
-      expect(screen.getAllByText("Manchester, UK")).toHaveLength(2);
+      expect(screen.getAllByText("Pognano (BG), Italy")).toHaveLength(2);
+      expect(screen.getAllByText("Vimercate (MB), Italy")).toHaveLength(2);
     });
 
     /**
@@ -274,10 +274,10 @@ describe("work component", () => {
 
       // Should show Italian content
       expect(screen.getByText(/Esperienze Lavorative/i)).toBeInTheDocument();
-      expect(screen.getAllByText("Sviluppatore Frontend Senior")).toHaveLength(2);
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
 
       // Should not show English content
-      expect(screen.queryByText("Senior Frontend Developer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
     });
 
     /**
@@ -311,7 +311,7 @@ describe("work component", () => {
 
       // Verify content is now shown
       await waitFor(() => {
-        expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
+        expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
       });
     });
 
@@ -329,9 +329,9 @@ describe("work component", () => {
       render(<Work />);
 
       // Verify Timeline is rendered with English content
-      expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Full Stack Developer")).toHaveLength(2);
-      expect(screen.getAllByText("Junior Software Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
+      expect(screen.getAllByText("Bachelor's degree in Computer Software Engineering")).toHaveLength(2);
     });
   });
 
@@ -355,8 +355,8 @@ describe("work component", () => {
       render(<Work />, { language: "en-GB" });
 
       // Should only show English content
-      expect(screen.getAllByText("Senior Frontend Developer")).toHaveLength(2);
-      expect(screen.queryByText("Sviluppatore Frontend Senior")).not.toBeInTheDocument();
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.queryByText("Sviluppatore Front-End Senior")).not.toBeInTheDocument();
     });
 
     /**

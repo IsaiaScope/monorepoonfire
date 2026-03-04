@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures/screenshot.fixture";
+import { expect, test } from "../fixtures/screenshot.fixture";
 
 test.describe("Responsive design", () => {
   test("no horizontal overflow on homepage", async ({ page }) => {

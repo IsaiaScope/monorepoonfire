@@ -36,6 +36,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 
@@ -52,6 +53,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 
@@ -73,6 +75,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 
@@ -96,6 +99,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={mockOnValueChange}
+        ariaLabel="Select language"
       />,
     );
 
@@ -128,6 +132,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="es-ES"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 
@@ -148,6 +153,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 
@@ -174,6 +180,7 @@ describe("testing UILanguageSelector", () => {
         languages={testLanguages}
         value="en-US"
         onValueChange={() => {}}
+        ariaLabel="Select language"
       />,
     );
 

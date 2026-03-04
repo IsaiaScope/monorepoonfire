@@ -34,26 +34,22 @@ export default defineConfig({
     {
       name: "Desktop",
       use: {
-        viewport: VIEWPORTS.Desktop,
         ...devices["Desktop Chrome"],
-        /* Override device viewport with our exact dimensions */
-        ...{ viewport: VIEWPORTS.Desktop },
+        viewport: VIEWPORTS.Desktop,
       },
     },
     {
       name: "Tablet",
       use: {
-        viewport: VIEWPORTS.Tablet,
         ...devices["Desktop Chrome"],
-        ...{ viewport: VIEWPORTS.Tablet },
+        viewport: VIEWPORTS.Tablet,
       },
     },
     {
       name: "Mobile",
       use: {
-        viewport: VIEWPORTS.Mobile,
         ...devices["Pixel 7"],
-        ...{ viewport: VIEWPORTS.Mobile },
+        viewport: VIEWPORTS.Mobile,
       },
     },
   ],
@@ -62,6 +58,7 @@ export default defineConfig({
   webServer: {
     command: "pnpm --filter @app/hono start",
     port: 3075,
+    // eslint-disable-next-line node/no-process-env
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
   },

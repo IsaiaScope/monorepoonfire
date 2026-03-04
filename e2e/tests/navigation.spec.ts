@@ -1,4 +1,4 @@
-import { test, expect } from "../fixtures/screenshot.fixture";
+import { expect, test } from "../fixtures/screenshot.fixture";
 import { settleAnimations } from "../helpers/wait-for-content";
 
 test.describe("Navigation", () => {
@@ -67,7 +67,8 @@ test.describe("Navigation", () => {
     if (viewportSize && viewportSize.width >= 1024) {
       // Desktop: click Contact in navbar
       await page.locator("header nav").getByText("Contact").click();
-    } else {
+    }
+    else {
       // Mobile: open menu then click Contact
       await page.getByRole("button", { name: "Navigation Menu" }).click();
       const sheet = page.locator("[data-state='open']");
