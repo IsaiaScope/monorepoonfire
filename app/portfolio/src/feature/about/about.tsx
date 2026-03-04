@@ -26,7 +26,7 @@ function About() {
   }, []);
 
   return (
-    <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-screen-xl mx-auto p-6">
+    <UIWrapper tag="section" id={createSectionId(t("About"))} className="scroll-mt-16 max-w-7xl mx-auto p-6">
       <h2 className="my-10 font-bold text-4xl font-LibreFranklin animate-in fade-in zoom-in duration-500">
         {t("About me")}
       </h2>

@@ -1,11 +1,3 @@
-/**
- * Hono application factory functions
- *
- * This module provides factory functions for creating Hono application instances
- * with different configurations. It sets up the core middleware stack including
- * logging, CORS, error handling, and request tracking.
- */
-
 import type { Schema } from "hono";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
@@ -24,170 +16,82 @@ import type { AppEnv, AppOpenAPIHono } from "../@types/open-api-hono";
 
 import { env } from "../environment/env";
 
-/**
- * Create a base Hono application with OpenAPI support
- *
- * This function creates a new OpenAPIHono instance with minimal configuration.
- * It's used as the foundation for both development and test applications.
- *
- * @template S - The schema type for route definitions
- * @returns A new OpenAPIHono instance with basic configuration
- */
 // eslint-disable-next-line ts/no-empty-object-type
 export function createApp<S extends Schema = {}>() {
   return new OpenAPIHono<AppEnv, S>({
-    /**
-     * strict: false allows the app to serve routes with or without trailing slashes
-     * For example, both /api/v1/ and /api/v1 will be served the same way
-     * This provides more flexible routing for API consumers
-     */
+    // allows routes with or without trailing slashes
     strict: false,
-
-    /**
-     * defaultHook provides automatic validation and error handling for OpenAPI routes
-     * It ensures request/response validation happens automatically based on schemas
-     */
+    // auto-validates requests against OpenAPI schemas
     defaultHook,
   });
 }
 
-/**
- * Initialize a fully configured Hono application with middleware stack
- *
- * This function creates a production-ready Hono application with all necessary
- * middleware configured. It sets up logging, CORS, error handling, and other
- * essential features for a robust API server.
- *
- * @returns A fully configured Hono application ready for route registration
- */
 export function initApp() {
-  // Create the base application
   const app = createApp();
 
-  app.use(
-    compress(), // Enable response compression for better performance
-  );
-  /**
-   * Serve a fire emoji (🔥) as favicon
-   * Provides a simple favicon without needing a static file
-   */
+  app.use(compress());
   app.use(serveEmojiFavicon("🔥"));
 
-  /**
-   * Configure Cross-Origin Resource Sharing (CORS)
-   *
-   * CORS_ORIGINS should include all domains that need access to the API.
-   */
   const getCorsOrigins = () => {
     const corsOrigins = env.CORS_ORIGINS;
-
-    // If CORS_ORIGINS is "*", allow all origins (development)
     if (corsOrigins === "*") {
       return "*";
     }
-
-    // Return array of allowed origins
     return corsOrigins.split(",").map(origin => origin.trim()).filter(origin => origin);
   };
 
   app.use(
     cors({
-      origin: getCorsOrigins(), // Environment-specific origins
-      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], // HTTP methods to allow
-      allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"], // Headers that can be sent
-      credentials: true, // Allow cookies/auth headers
-      maxAge: 86400, // Cache preflight for 24 hours
+      origin: getCorsOrigins(),
+      allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+      allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+      credentials: true,
+      maxAge: 86400,
     }),
   );
 
-  /**
-   * Add request tracking and logging middleware
-   *
-   * This chain of middleware provides:
-   * 1. Unique request IDs for tracing requests through logs
-   * 2. Structured logging with Pino for better observability
-   */
-  app.use(
-    // Add unique request ID to each request for tracing
-    // Documentation: https://hono.dev/docs/middleware/builtin/request-id
-    requestId(),
-  ).use(
-    // Structured logging with Pino
-    // Documentation: https://www.npmjs.com/package/hono-pino?activeTab=code
+  // https://hono.dev/docs/middleware/builtin/request-id
+  app.use(requestId()).use(
+    // https://www.npmjs.com/package/hono-pino
     pinoLogger({
-      /**
-       * Configure Pino logger
-       * - Uses LOG_LEVEL from environment variables (defaults to "info")
-       * - In production: Uses JSON logging for machine parsing
-       * - In development: Uses pretty printing for human readability
-       *
-       * Pino docs: https://www.npmjs.com/package/pino
-       * Pretty printer: https://github.com/pinojs/pino-pretty
-       */
       pino: pino({
-        level: env.LOG_LEVEL || "info", // Log level from environment
-      }, env.ENV === "production" ? undefined : pretty()), // Pretty print in development
+        level: env.LOG_LEVEL || "info",
+      }, env.ENV === "production" ? undefined : pretty()),
     }),
   );
 
-  /**
-   * Additional middleware for security and performance
-   *
-   * These middleware are applied after the base middleware stack:
-   * 1. secureHeaders - Security: adds security headers (CSP, HSTS, etc.)
-   * 2. timing - Performance: adds Server-Timing headers for debugging
-   */
+  // Traefik base middleware handles HSTS, X-Frame-Options, etc.
+  // CSP only in production — dev needs permissive headers for Scalar CDN scripts
+  if (env.ENV === "production") {
+    app.use("*", secureHeaders({
+      contentSecurityPolicy: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
+        workerSrc: ["'self'", "blob:"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        fontSrc: ["'self'"],
+        connectSrc: ["'self'", "wss:", "blob:", "https://api.emailjs.com"],
+        objectSrc: ["'none'"],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+      },
+      strictTransportSecurity: false,
+      xContentTypeOptions: false,
+      xFrameOptions: false,
+      xXssProtection: false,
+    }));
+  }
 
-  // Security: Add CSP via Hono (Traefik base middleware handles HSTS, X-Frame-Options, etc.)
-  app.use("*", secureHeaders({
-    contentSecurityPolicy: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
-      workerSrc: ["'self'", "blob:"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      fontSrc: ["'self'"],
-      connectSrc: ["'self'", "wss:", "https://api.emailjs.com"],
-      objectSrc: ["'none'"],
-      frameAncestors: ["'none'"],
-      baseUri: ["'self'"],
-      formAction: ["'self'"],
-    },
-    // Traefik base middleware already handles these:
-    strictTransportSecurity: false,
-    xContentTypeOptions: false,
-    xFrameOptions: false,
-    xXssProtection: false,
-  }));
-
-  // Performance: Add timing information for debugging
-  // Helps identify slow API endpoints and middleware
   app.use("*", timing());
 
-  /**
-   * Configure global error handlers
-   *
-   * These handlers provide consistent error responses across all routes:
-   * - notFound: Handles 404 errors with standard format
-   * - onError: Handles unhandled exceptions with proper logging and response format
-   */
-  app.notFound(notFound); // Standard 404 handler from stoker
-  app.onError(onError); // Standard error handler from stoker
+  app.notFound(notFound);
+  app.onError(onError);
 
   return app;
 }
 
-/**
- * Create a test application instance
- *
- * This function creates a test-specific Hono application by combining the
- * full middleware stack with a specific router. It's used in unit tests
- * to create isolated application instances for testing individual routes.
- *
- * @template S - The schema type for the router
- * @param router - The router to mount on the test application
- * @returns A test application with the router mounted at the root path
- */
 export function createTestApp<S extends Schema>(router: AppOpenAPIHono<S>) {
   return initApp().route("/", router);
 }

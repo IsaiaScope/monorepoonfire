@@ -29,7 +29,6 @@ async function seed() {
   const workExperienceData = readJSON<WorkExperienceRow[]>("work-experience.json");
   const curriculumData = readJSON<CurriculumRow[]>("curriculum.json");
 
-  // Clear tables
   // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(projects);
   // eslint-disable-next-line drizzle/enforce-delete-with-where
@@ -39,12 +38,10 @@ async function seed() {
   // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(curriculum);
 
-  // Insert skills
   await db.insert(skills).values(
     skillsData.map(s => ({ name: s.name })),
   );
 
-  // Insert projects (parse JSON strings → native objects for JSONB)
   await db.insert(projects).values(
     projectsData.map(p => ({
       language: p.language,
@@ -58,7 +55,6 @@ async function seed() {
     })),
   );
 
-  // Insert work experience
   await db.insert(workExperiences).values(
     workExperienceData.map(w => ({
       language: w.language,
@@ -72,7 +68,6 @@ async function seed() {
     })),
   );
 
-  // Insert curriculum
   await db.insert(curriculum).values(
     curriculumData.map(c => ({ url: c.url })),
   );

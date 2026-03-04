@@ -22,12 +22,20 @@ pnpm --filter @app/hono dev
 
 ## Environment
 
-Create `.env` in `src/environment/`:
+Create `.env` in `src/environment/` (or copy from `.env.example`):
+
+| Variable | Default | Required | Description |
+|----------|---------|----------|-------------|
+| `PORT` | `3075` | No | Server port |
+| `ENV` | `development` | No | `development` or `production` |
+| `LOG_LEVEL` | `warn` | No | Pino log level |
+| `DATABASE_URL` | — | Yes | PostgreSQL connection URL |
+| `CORS_ORIGINS` | `*` | No | Comma-separated allowed origins |
+| `API_KEY` | — | No | When set, write endpoints require `Authorization: Bearer <API_KEY>` |
+
 ```env
 DATABASE_URL=postgresql://mof:mof@localhost:5432/monorepoonfire
 ```
-
-Or copy from the example: `src/environment/.env.example`
 
 ## Project Structure
 
@@ -37,7 +45,6 @@ Or copy from the example: `src/environment/.env.example`
 | `src/database/` | Drizzle ORM schemas, migrations, seed data |
 | `src/environment/` | Environment validation and .env files |
 | `src/library/` | App factory, OpenAPI config, RPC client export |
-| `src/middleware/` | Custom Hono middleware |
 | `src/@types/` | TypeScript type definitions |
 | `src/constant/` | Application constants |
 

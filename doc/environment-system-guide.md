@@ -38,10 +38,9 @@ Vite handles file selection automatically based on `--mode`. The `env.ts` uses `
 | `PORT` | number | `3075` | No | Server port |
 | `ENV` | enum | `development` | No | `development`, `test`, `production` |
 | `LOG_LEVEL` | enum | `warn` | No | Pino log level: `trace`, `debug`, `info`, `warn`, `error`, `fatal`, `silent` |
-| `DATABASE_URL` | string (url) | — | Yes | PostgreSQL connection URL |
-| `DATABASE_AUTH_TOKEN` | string | — | In test/prod | Auth token (optional in dev for local databases) |
+| `DATABASE_URL` | string | — | Yes | PostgreSQL connection URL |
 | `CORS_ORIGINS` | string | `*` | No | Comma-separated allowed origins. Use `*` for dev |
-| `CANONICAL_HOST` | string | `www.isaiariva.com` | No | SEO: primary domain for host redirect |
+| `API_KEY` | string | — | No | When set, write endpoints require `Authorization: Bearer <API_KEY>` |
 
 **Example `.env`:**
 
@@ -50,7 +49,6 @@ PORT=3075
 ENV=development
 LOG_LEVEL=info
 DATABASE_URL=postgresql://mof:mof@localhost:5432/monorepoonfire
-DATABASE_AUTH_TOKEN=
 CORS_ORIGINS=*
 ```
 
@@ -125,16 +123,12 @@ Key features:
 
 - **`emptyStringAsUndefined: true`** — Empty strings (`PORT=`) are treated as missing, so defaults apply correctly
 - **`z.coerce.number()`** — Automatically converts string env vars to numbers
-- **Conditional validation** — `DATABASE_AUTH_TOKEN` uses `.refine()` to be required only in test/production
 - **Fail-fast** — Invalid env crashes the app at import time, not when the variable is first used
 
 ## Troubleshooting
 
 **"Environment variable X is required"**
 Check the correct `.env` file exists in `src/environment/` and contains the variable.
-
-**"DATABASE_AUTH_TOKEN is required in test or production"**
-This token is optional for local PostgreSQL in development but required for production databases.
 
 **Empty string not using default**
 Ensure `emptyStringAsUndefined: true` is set in `createEnv()`. Without it, `PORT=` would be treated as an empty string instead of triggering the default.

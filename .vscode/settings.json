@@ -56,5 +56,6 @@
   },
   "search.exclude": {
     "**/routeTree.gen.ts": true
-  }
+  },
+  "vitest.disableWorkspaceWarning": true
 }

@@ -65,7 +65,6 @@ export default function UIImage({
     onError?.();
   };
 
-  // If no sources provided, render simple img element
   if (sources.length === 0) {
     return (
       <img
@@ -82,11 +81,9 @@ export default function UIImage({
     );
   }
 
-  // Render picture element with sources
   return (
     <picture>
       {sources.map((source, index) => {
-        // Create a unique key based on source properties
         const key = `${source.srcset}-${index}`;
         return (
           <source

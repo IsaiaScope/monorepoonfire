@@ -14,11 +14,11 @@ Low-level styled components built on Radix UI primitives + Tailwind CSS + CVA va
 | Component | Based On | Notes |
 |-----------|----------|-------|
 | Badge | — | Simple badge |
-| Button | — | + `buttonVariants` export |
+| Button | — | Button with variants |
 | Card | — | Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle |
 | Dialog | @radix-ui/dialog | Full dialog with overlay, portal, close |
 | DropdownMenu | @radix-ui/dropdown-menu | 13 subcomponents |
-| Form | react-hook-form | Form, FormField, FormItem, FormLabel, FormControl, FormMessage |
+| Form | react-hook-form | Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, useFormField |
 | Input | — | Styled input |
 | Label | @radix-ui/label | Styled label |
 | Select | @radix-ui/select | 9 subcomponents with scroll buttons |

@@ -24,8 +24,8 @@ Middleware is applied in `create-app.ts` via `initApp()`. Order matters — each
 graph TD
     R[Request] --> compress --> favicon
     favicon --> CORS --> requestId
-    requestId --> pinoLogger --> redirectHost
-    redirectHost --> secureHeaders --> timing
+    requestId --> pinoLogger --> secureHeaders
+    secureHeaders --> timing
     timing --> Handler --> Response
 ```
 
@@ -36,7 +36,6 @@ graph TD
 | `cors` | `hono/cors` | CORS with env-driven origin list |
 | `requestId` | `hono/request-id` | Unique ID per request for tracing |
 | `pinoLogger` | `hono-pino` | Structured logging (JSON in prod, pretty in dev) |
-| `redirectHost` | Custom | Redirects non-canonical domain for SEO |
 | `secureHeaders` | `hono/secure-headers` | CSP, HSTS, and other security headers |
 | `timing` | `hono/timing` | Server-Timing headers for performance debugging |
 
@@ -209,8 +208,6 @@ src/
 │   ├── create-app.ts     # App factory (OpenAPIHono + middleware stack)
 │   ├── configure-open-api.ts  # OpenAPI documentation setup
 │   └── rpc.ts            # RPC client type export
-├── middleware/
-│   └── redirect-host.ts  # Non-canonical → canonical domain redirect
 └── routes/               # API route modules (3-file pattern)
     ├── curriculum/
     │   ├── curriculum.index.ts
@@ -289,7 +286,7 @@ app.get("*", serveStatic({ path: "./portfolio/index.html" }));
 - Input validation with Zod schemas (enforced by OpenAPI middleware)
 - CORS with environment-driven origin allowlist (`CORS_ORIGINS`)
 - Secure headers via `hono/secure-headers` (CSP, HSTS, X-Frame-Options)
-- Host redirect for SEO (non-canonical domain → canonical domain)
+- API key authentication for write endpoints (optional, via `API_KEY` env var)
 - Environment variable validation at startup (`@t3-oss/env-core`)
 - SQL injection prevention via Drizzle ORM parameterized queries
 - Non-root user in Docker production image

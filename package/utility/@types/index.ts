@@ -11,4 +11,3 @@ export {
   type StringKeys,
   type StringValues,
 } from "./object-keys-or-values";
-export { type Prettify } from "./prettify";

@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-"use client";
 import { cn } from "@package/utility/tailwind";
 import { motion } from "motion/react";
 import React from "react";

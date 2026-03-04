@@ -6,7 +6,6 @@
 # Root-level (runs across all workspaces via Turborepo)
 pnpm dev                  # Start all apps in dev mode
 pnpm build                # Build all (development)
-pnpm build:test           # Build all (test env)
 pnpm build:production     # Build all (production env)
 pnpm test                 # Run all tests
 pnpm test:watch           # Watch mode
@@ -23,7 +22,6 @@ pnpm --filter @app/portfolio test:watch
 # Database (run from app/hono/)
 pnpm db:generate                  # Generate migration SQL from schema diffs
 pnpm db:migrate                   # Apply committed migrations (dev, uses .env)
-pnpm db:migrate:test              # Apply committed migrations (test)
 pnpm db:migrate:production        # Apply committed migrations (production)
 pnpm db:push                      # Push schema directly (local prototyping)
 pnpm db:studio                    # Open Drizzle Studio
@@ -45,7 +43,7 @@ monorepoonfire/
 │   ├── shadcn/        # @package/shadcn — Radix UI primitives with Tailwind
 │   ├── ui/            # @package/ui — Higher-level UI components (UI* prefix)
 │   └── utility/       # @package/utility — Providers, types, helpers
-└── script/            # Build/deploy scripts
+└── scripts/           # Build/deploy scripts
 ```
 
 **Key relationships:**
@@ -85,7 +83,7 @@ src/routes/{entity}/
 - Middleware: compress, CORS, pino logger, secure-headers, timing, request-id
 - Env validation: `src/environment/env.ts` using `@t3-oss/env-core` with Zod + dotenv-expand
 
-**Env files** live at `app/hono/src/environment/` (`.env`, `.env.test`, `.env.production`)
+**Env files** live at `app/hono/src/environment/` (`.env`, `.env.production`)
 
 ## Frontend Patterns (app/portfolio)
 
@@ -119,6 +117,5 @@ src/feature/{name}/
 |--------|----------|-----------|
 | `dev` | ci.yaml | Lint, test (PostgreSQL service container), build |
 | `production` | cd.yaml | Lint, build, Docker build verification |
-| `production` | screenshots.yaml | Playwright E2E, commit updated screenshots |
 
 Dev CI uses a PostgreSQL 17 service container in GitHub Actions for migrations + tests. The CD workflow verifies the Docker image builds but does not deploy — deployment is manual via Dokploy on Hetzner.

@@ -43,11 +43,6 @@ const HeroBackground = () => {
   // Less movement than mountain3Y to create depth layering
   const mountain2Y = useTransform(x, [0, 0.5], ["0%", "30%"]);
 
-  // Transform scroll progress for the closest mountain layer
-  // Maps scroll progress from 0-0.5 to vertical position "0%" to "0%"
-  // No movement creates the illusion that closest objects move least in parallax
-  const mountain1Y = useTransform(x, [0, 0.5], ["0%", "0%"]);
-
   return (
     // Main container section with absolute positioning to fill the hero area
     <section className="absolute inset-0">
@@ -125,20 +120,12 @@ const HeroBackground = () => {
           }}
         />
 
-        {/*
-          MOUNTAIN 1 LAYER (Closest Mountains)
-          - Z-index -10 places it closest to viewer (highest z-index of background layers)
-          - Animated with mountain1Y transform but with no actual movement (0% to 0%)
-          - This creates the realistic parallax effect where closest objects appear to move least
-          - Acts as the "anchor" layer that other layers move relative to
-        */}
-        <motion.div
+        <div
           className="absolute inset-0 -z-10"
           style={{
             backgroundImage: "url(/assets/mountain-1.webp)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
-            y: mountain1Y, // Framer Motion's y transform property (no movement)
           }}
         />
 

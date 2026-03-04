@@ -39,23 +39,12 @@ export const env = createEnv({
 
     LOG_LEVEL: z.enum(["debug", "info", "warn", "error", "fatal", "trace", "silent"]).default("warn"),
 
-    /**
-     * PostgreSQL connection URL
-     *
-     * Format: postgresql://user:password@host:port/database
-     * Using min(1) instead of url() because PostgreSQL connection strings
-     * may not pass strict URL validation with all drivers.
-     */
+    // min(1) instead of url() — some PostgreSQL drivers use non-standard URL formats
     DATABASE_URL: z.string().min(1),
 
     CORS_ORIGINS: z.string().default("*"),
 
-    /**
-     * API key for authenticating write operations (POST/PATCH/DELETE)
-     *
-     * When set, mutating API requests must include `Authorization: Bearer <API_KEY>`.
-     * When unset, write endpoints are open (convenient for local development).
-     */
+    // When set, write endpoints require `Authorization: Bearer <API_KEY>`; when unset, they're open
     API_KEY: z.string().min(1).optional(),
   },
   runtimeEnv: process.env,

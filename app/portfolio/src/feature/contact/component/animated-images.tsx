@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@package/shadcn";
 import { UIImage } from "@package/ui";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";

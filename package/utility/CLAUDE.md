@@ -26,11 +26,9 @@ This package uses **subpath exports** — import from specific paths, not the pa
 - `Undefined<T>` — `T | undefined`
 - `StringKeys<T>`, `NumericKeys<T>`, `AllKeys<T>` — Key extraction types
 - `StringValues<T>`, `NumericValues<T>`, `AllValues<T>` — Value extraction types
-- `Prettify<T>` — Type display helper
 
 ### `@package/utility/javascript`
 - `ObjectKeys<T>()` — Type-safe `Object.keys` wrapper
-- `createParamsArray()` — Object to query param array
 
 ## Usage Examples
 
@@ -38,7 +36,7 @@ This package uses **subpath exports** — import from specific paths, not the pa
 import { DarkModeProvider, useDarkMode } from "@package/utility/provider";
 import { cn } from "@package/utility/tailwind";
 import { PACKAGE_UTILITY } from "@package/utility/constant";
-import type { Maybe, Prettify } from "@package/utility/@types";
+import type { Maybe } from "@package/utility/@types";
 import { ObjectKeys } from "@package/utility/javascript";
 ```
 

@@ -116,13 +116,13 @@ export default function Globe({
   return (
     <div
       className={cn(
-        "absolute inset-0 mx-auto aspect-[1/1] w-[500px] translate-y-6 translate-x-1/12 lg:translate-x-3/12",
+        "absolute inset-0 mx-auto aspect-square w-125 translate-y-6 translate-x-1/12 lg:translate-x-3/12",
         className,
       )}
     >
       <canvas
         className={cn(
-          "size-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]",
+          "size-full opacity-0 transition-opacity duration-500 contain-[layout_paint_size]",
         )}
         ref={canvasRef}
         onPointerDown={(e) => {
