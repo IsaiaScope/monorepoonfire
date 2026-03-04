@@ -11,6 +11,8 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import { etag } from "hono/etag";
 
 import { APP_HONO } from "./constant";
+import { env } from "./environment/env";
+import { apiKeyAuth } from "./library/auth-middleware";
 import { configureOpenApi } from "./library/configure-open-api";
 import { initApp } from "./library/create-app";
 import curriculum from "./routes/curriculum/curriculum.index";
@@ -21,8 +23,13 @@ import workExperience from "./routes/work-experience/work-experience.index";
 // Initialize the Hono application with all middleware configured
 const app = initApp();
 
-// Configure OpenAPI documentation endpoints (/doc and /scalar)
-configureOpenApi(app);
+// Configure OpenAPI documentation endpoints (/doc and /scalar) — development only
+if (env.ENV !== "production") {
+  configureOpenApi(app);
+}
+
+// Require API key for mutating operations (POST/PATCH/DELETE) on API routes
+app.use(`${APP_HONO.BASE_PATH}/*`, apiKeyAuth);
 
 /**
  * Register all API routes under the base path defined in constants

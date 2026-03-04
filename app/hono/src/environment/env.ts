@@ -49,6 +49,14 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
 
     CORS_ORIGINS: z.string().default("*"),
+
+    /**
+     * API key for authenticating write operations (POST/PATCH/DELETE)
+     *
+     * When set, mutating API requests must include `Authorization: Bearer <API_KEY>`.
+     * When unset, write endpoints are open (convenient for local development).
+     */
+    API_KEY: z.string().min(1).optional(),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,

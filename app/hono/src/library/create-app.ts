@@ -138,8 +138,27 @@ export function initApp() {
    * 2. timing - Performance: adds Server-Timing headers for debugging
    */
 
-  // Security: Add security headers to all responses
-  app.use("*", secureHeaders());
+  // Security: Add CSP via Hono (Traefik base middleware handles HSTS, X-Frame-Options, etc.)
+  app.use("*", secureHeaders({
+    contentSecurityPolicy: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
+      workerSrc: ["'self'", "blob:"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      fontSrc: ["'self'"],
+      connectSrc: ["'self'", "wss:", "https://api.emailjs.com"],
+      objectSrc: ["'none'"],
+      frameAncestors: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
+    },
+    // Traefik base middleware already handles these:
+    strictTransportSecurity: false,
+    xContentTypeOptions: false,
+    xFrameOptions: false,
+    xXssProtection: false,
+  }));
 
   // Performance: Add timing information for debugging
   // Helps identify slow API endpoints and middleware
