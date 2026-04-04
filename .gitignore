@@ -44,3 +44,10 @@ yarn-error.log*
 
 # Worktrees
 .worktrees
+
+# Playwright MCP
+.playwright-mcp/
+
+# Superpowers
+.superpowers/
+docs/superpowers/
