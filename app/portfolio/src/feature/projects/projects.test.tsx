@@ -188,8 +188,9 @@ describe("projects component", () => {
       // Both en-GB and it-IT have title "Portfolio", only en-GB is shown by default
       expect(screen.getByText("Portfolio")).toBeInTheDocument();
 
-      // Verify tags are rendered
-      expect(screen.getByText("#React")).toBeInTheDocument();
+      // #React is shared across several project cards, so it can match more than once.
+      // #Hono and #PostgreSQL are unique to the Portfolio card.
+      expect(screen.getAllByText("#React").length).toBeGreaterThan(0);
       expect(screen.getByText("#Hono")).toBeInTheDocument();
       expect(screen.getByText("#PostgreSQL")).toBeInTheDocument();
     });
