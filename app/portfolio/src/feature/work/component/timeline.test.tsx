@@ -23,22 +23,26 @@ describe("timeline component", () => {
 
       render(<Timeline data={englishData} />);
 
-      // Verify all job roles are rendered (2 instances each: mobile + desktop)
-      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      // Verify all job roles are rendered (2 instances each: mobile + desktop).
+      // "Senior Front-End Developer" is held by two roles, so it appears 4 times.
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
       expect(screen.getAllByText("Bachelor's degree in Computer Software Engineering")).toHaveLength(2);
 
       // Verify company names are rendered
+      expect(screen.getAllByText("Moltiply Tech")).toHaveLength(2);
       expect(screen.getAllByText("N-and Group Ltd")).toHaveLength(2);
       expect(screen.getAllByText("Fincons Group")).toHaveLength(2);
       expect(screen.getAllByText("eCampus University")).toHaveLength(2);
 
       // Verify date ranges are rendered
-      expect(screen.getAllByText("2025-10/Today")).toHaveLength(2);
+      expect(screen.getAllByText("2026-06/Today")).toHaveLength(2);
+      expect(screen.getAllByText("2025-10/2026-05")).toHaveLength(2);
       expect(screen.getAllByText("2021-02/2025-10")).toHaveLength(2);
       expect(screen.getAllByText("2016-09/2019-09")).toHaveLength(2);
 
       // Verify locations are rendered
+      expect(screen.getAllByText("Milano (MI), Italy")).toHaveLength(2);
       expect(screen.getAllByText("Pognano (BG), Italy")).toHaveLength(2);
       expect(screen.getAllByText("Vimercate (MB), Italy")).toHaveLength(2);
       expect(screen.getAllByText("Novedrate (CO) Italy")).toHaveLength(2);
@@ -74,7 +78,7 @@ describe("timeline component", () => {
       render(<Timeline data={italianData} />);
 
       // Verify Italian content is rendered
-      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(4);
       expect(screen.getAllByText("Ingegnere Software - Analista")).toHaveLength(2);
       expect(screen.getAllByText("Laurea triennale in Ingegneria Informatica e dell'Automazione")).toHaveLength(2);
 
@@ -94,14 +98,14 @@ describe("timeline component", () => {
       const { rerender } = render(<Timeline data={englishData} />);
 
       // Verify English content is initially rendered
-      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       expect(screen.queryByText("Sviluppatore Front-End Senior")).not.toBeInTheDocument();
 
       // Update to Italian data
       rerender(<Timeline data={italianData} />);
 
       // Verify Italian content is now rendered
-      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(4);
       expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
     });
   });
@@ -138,9 +142,12 @@ describe("timeline component", () => {
 
       render(<Timeline data={englishData} />);
 
-      // Verify all required fields are rendered for each item
+      // Verify all required fields are rendered for each item.
+      // Company, location and date range are unique per entry, so each renders
+      // exactly twice (mobile + desktop). Role titles can repeat across entries,
+      // so that one is only checked for at least one full pair.
       englishData.forEach((item) => {
-        expect(screen.getAllByText(item.role)).toHaveLength(2);
+        expect(screen.getAllByText(item.role).length).toBeGreaterThanOrEqual(2);
         expect(screen.getAllByText(item.company)).toHaveLength(2);
         expect(screen.getAllByText(item.location)).toHaveLength(2);
         expect(screen.getAllByText(`${item.startDate}/${item.endDate}`)).toHaveLength(2);

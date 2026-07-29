@@ -3,15 +3,37 @@
     "id": 1,
     "language": "en-GB",
     "name": "Senior Front-End Developer",
+    "company": "Moltiply Tech",
+    "location": "Milano (MI), Italy",
+    "description": "Working across the group's front-end repositories, from feature applications to the shared core library at the centre of a micro-frontend architecture consumed by 9 applications. Moltiply is a leading Italian provider of financial software for mortgages, lending and leasing. Core stack is React and TypeScript, with MobX for state management and MUI as the component foundation. Agentic-first workflow: Claude Code and Codex drive automated task pipelines and code review, GitHub Copilot handles smaller edits, and token and context usage are tuned to keep them fast and cost-effective. Delivery runs on Jira, Bitbucket and Confluence, hybrid with one day a week on site.",
+    "shortDescription": "Working across the group's front-end repositories, from feature applications to the shared core library behind a micro-frontend architecture consumed by 9 apps. React, TypeScript, MobX and MUI, with an agentic-first workflow built on Claude Code, Codex and GitHub Copilot.",
+    "startDate": "2026-06",
+    "endDate": "Today"
+  },
+  {
+    "id": 2,
+    "language": "it-IT",
+    "name": "Sviluppatore Front-End Senior",
+    "company": "Moltiply Tech",
+    "location": "Milano (MI), Italy",
+    "description": "Lavoro sui repository front-end del gruppo, dalle applicazioni di funzionalità alla core library condivisa al centro di un'architettura micro-frontend utilizzata da 9 applicazioni. Moltiply è tra i principali fornitori italiani di software finanziario per mutui, prestiti e leasing. Lo stack principale è React e TypeScript, con MobX per la gestione dello stato e MUI come base dei componenti. Flusso di lavoro agentic-first: Claude Code e Codex guidano pipeline di task automatizzate e code review, GitHub Copilot gestisce le modifiche più piccole, e l'uso di token e contesto è ottimizzato per mantenerli rapidi ed economici. La consegna passa da Jira, Bitbucket e Confluence, in modalità ibrida con un giorno a settimana in sede.",
+    "shortDescription": "Lavoro sui repository front-end del gruppo, dalle applicazioni di funzionalità alla core library condivisa alla base di un'architettura micro-frontend utilizzata da 9 app. React, TypeScript, MobX e MUI, con un flusso di lavoro agentic-first basato su Claude Code, Codex e GitHub Copilot.",
+    "startDate": "2026-06",
+    "endDate": "Today"
+  },
+  {
+    "id": 3,
+    "language": "en-GB",
+    "name": "Senior Front-End Developer",
     "company": "N-and Group Ltd",
     "location": "Pognano (BG), Italy",
     "description": "Designing and implementing high-performing user interfaces for vending machine applications using React, Next.js, TypeScript, and Electron, with back-end integration via Node.js and Fastify deployed on the AWS ecosystem. Leveraging an AI-augmented development workflow with Claude Code (Opus), GitHub Copilot, and Gemini to accelerate delivery and code quality. Daily tooling includes VS Code, NeoVim (LazyVim), Ghostty, Tmux, Aerospace, and LazyGit. State management with TanStack Query, Redux, and Zustand.",
     "shortDescription": "Designing and implementing high-performing UIs for vending machine applications using React, Next.js, TypeScript, and Electron, with Node.js/Fastify backends on AWS. AI-augmented workflow with Claude Code and GitHub Copilot.",
     "startDate": "2025-10",
-    "endDate": "Today"
+    "endDate": "2026-05"
   },
   {
-    "id": 2,
+    "id": 4,
     "language": "it-IT",
     "name": "Sviluppatore Front-End Senior",
     "company": "N-and Group Ltd",
@@ -19,10 +41,10 @@
     "description": "Progettazione e implementazione di interfacce utente ad alte prestazioni per applicazioni di distributori automatici utilizzando React, Next.js, TypeScript ed Electron, con integrazione back-end tramite Node.js e Fastify distribuiti sull'ecosistema AWS. Flusso di lavoro potenziato dall'AI con Claude Code (Opus), GitHub Copilot e Gemini per accelerare la consegna e la qualità del codice. Gli strumenti quotidiani includono VS Code, NeoVim (LazyVim), Ghostty, Tmux, Aerospace e LazyGit. Gestione dello stato con TanStack Query, Redux e Zustand.",
     "shortDescription": "Progettazione e implementazione di UI ad alte prestazioni per applicazioni di distributori automatici con React, Next.js, TypeScript ed Electron, e backend Node.js/Fastify su AWS. Flusso di lavoro potenziato dall'AI con Claude Code e GitHub Copilot.",
     "startDate": "2025-10",
-    "endDate": "Today"
+    "endDate": "2026-05"
   },
   {
-    "id": 3,
+    "id": 5,
     "language": "en-GB",
     "name": "Software Engineer - Analyst",
     "company": "Fincons Group",
@@ -33,7 +55,7 @@
     "endDate": "2025-10"
   },
   {
-    "id": 4,
+    "id": 6,
     "language": "it-IT",
     "name": "Ingegnere Software - Analista",
     "company": "Fincons Group",
@@ -44,7 +66,7 @@
     "endDate": "2025-10"
   },
   {
-    "id": 5,
+    "id": 7,
     "language": "en-GB",
     "name": "Bachelor's degree in Computer Software Engineering",
     "company": "eCampus University",
@@ -55,7 +77,7 @@
     "endDate": "2019-09"
   },
   {
-    "id": 6,
+    "id": 8,
     "language": "it-IT",
     "name": "Laurea triennale in Ingegneria Informatica e dell'Automazione",
     "company": "Università eCampus",
