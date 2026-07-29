@@ -16,8 +16,10 @@ import { render, screen } from "../../../test/set-up-test";
 import ProjectDetails from "./project-details";
 
 describe("project details component", () => {
-  // Use the first project from the centralized mock data
-  const mockProjectData = mockProjectsData[0];
+  // Select by title, not array position — the mock array order is not a contract
+  const mockProjectData = mockProjectsData.filter(
+    project => project.title === "Portfolio" && project.language === "en-GB",
+  )[0];
 
   const renderProjectDetails = (
     props = mockProjectData,

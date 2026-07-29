@@ -18,9 +18,13 @@ describe("project component", () => {
   // Use the centralized mock instead of creating a local one
   // const mockUseMediaQuery = vi.mocked(useMediaQuery); // Removed - using centralized mock
 
-  // Use the first project from the centralized mock data
+  // Select by title, not array position — the mock array order is not a contract
+  const portfolioProject = mockProjectsData.filter(
+    project => project.title === "Portfolio" && project.language === "en-GB",
+  )[0];
+
   const mockProjectData = {
-    ...mockProjectsData[0], // Get first project from centralized mock data
+    ...portfolioProject,
     setPreview: mockSetPreview,
     index: 0,
   };
