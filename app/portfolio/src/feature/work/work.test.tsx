@@ -37,8 +37,9 @@ describe("work component", () => {
       // Wait for the Work Experience heading to be visible
       expect(screen.getByText("Work Experience")).toBeInTheDocument();
 
-      // Wait for work experiences to load and become visible (2 instances: mobile + desktop)
-      expect(await screen.findAllByText("Senior Front-End Developer")).toHaveLength(2);
+      // Wait for work experiences to load (mobile + desktop). Two roles share this
+      // title, so it renders 4 times.
+      expect(await screen.findAllByText("Senior Front-End Developer")).toHaveLength(4);
 
       // Check for specific company name
       await waitFor(() => {
@@ -121,7 +122,7 @@ describe("work component", () => {
       render(<Work />, { language: "it-IT" });
 
       await waitFor(async () => {
-        expect(await screen.findAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+        expect(await screen.findAllByText("Sviluppatore Front-End Senior")).toHaveLength(4);
       });
 
       expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
@@ -177,7 +178,7 @@ describe("work component", () => {
       render(<Work />);
 
       expect(screen.getByText("Work Experience")).toBeInTheDocument();
-      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       expect(screen.getAllByText("N-and Group Ltd")).toHaveLength(2);
       expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
       expect(screen.getAllByText("Fincons Group")).toHaveLength(2);
@@ -274,7 +275,7 @@ describe("work component", () => {
 
       // Should show Italian content
       expect(screen.getByText(/Esperienze Lavorative/i)).toBeInTheDocument();
-      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(2);
+      expect(screen.getAllByText("Sviluppatore Front-End Senior")).toHaveLength(4);
 
       // Should not show English content
       expect(screen.queryByText("Senior Front-End Developer")).not.toBeInTheDocument();
@@ -311,7 +312,7 @@ describe("work component", () => {
 
       // Verify content is now shown
       await waitFor(() => {
-        expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+        expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       });
     });
 
@@ -329,7 +330,7 @@ describe("work component", () => {
       render(<Work />);
 
       // Verify Timeline is rendered with English content
-      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       expect(screen.getAllByText("Software Engineer - Analyst")).toHaveLength(2);
       expect(screen.getAllByText("Bachelor's degree in Computer Software Engineering")).toHaveLength(2);
     });
@@ -355,7 +356,7 @@ describe("work component", () => {
       render(<Work />, { language: "en-GB" });
 
       // Should only show English content
-      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(2);
+      expect(screen.getAllByText("Senior Front-End Developer")).toHaveLength(4);
       expect(screen.queryByText("Sviluppatore Front-End Senior")).not.toBeInTheDocument();
     });
 
